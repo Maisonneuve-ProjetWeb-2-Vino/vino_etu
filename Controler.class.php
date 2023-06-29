@@ -119,7 +119,6 @@ class Controler
 		private function modifierBouteilleCellier()
 		{
 			$body = json_decode(file_get_contents('php://input'));
-			//var_dump($body);
 			$bte = new Bouteille();
 			if(!empty($body)) {
 				
@@ -128,8 +127,6 @@ class Controler
 			}
 			else{
 				$bouteilleModifiee = $bte->getBouteilleCellier($_GET['bouteille_id']);
-				// echo "<pre>";
-				// var_dump($bouteilleModifiee);
 				include("vues/entete.php");
 				include("vues/modifier.php");
 				include("vues/pied.php");

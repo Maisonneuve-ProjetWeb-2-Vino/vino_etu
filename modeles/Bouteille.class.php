@@ -173,7 +173,8 @@ class Bouteille extends Modele {
 	 * Récupère les données d'une bouteille d'un cellier, à partir de son id.
 	 * 
 	 * @param int $id id de la bouteille
-	 * @return array les details de la bouteille trouvee dans le cellier
+	 * 
+	 * @return array Les détails de la bouteille trouvée dans le cellier
 	 */
 	public function getBouteilleCellier($id)
 	{
@@ -191,7 +192,7 @@ class Bouteille extends Modele {
 	/**
 	 * Change les informations d'une bouteille en particulier dans le cellier.
 	 * 
-	 * @param object $data object contenant les valeurs modifiées
+	 * @param object $data Objet contenant les valeurs modifiées de la bouteille
 	 * 
 	 * @return Boolean Succès ou échec de l'ajout.
 	 */

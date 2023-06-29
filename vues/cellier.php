@@ -20,7 +20,6 @@ foreach ($data as $cle => $bouteille) {
             <button class='btnModifier'>Modifier</button>
             <button class='btnAjouter'>Ajouter</button>
             <button class='btnBoire'>Boire</button>
-            
         </div>
     </div>
 <?php
