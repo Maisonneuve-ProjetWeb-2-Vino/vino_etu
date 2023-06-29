@@ -59,6 +59,15 @@ window.addEventListener('load', function() {
 
     });
    
+    document.querySelectorAll(".btnModifier").forEach(function(element){
+        console.log(element);
+        element.addEventListener("click", function(evt){
+            let id = evt.target.parentElement.dataset.id;
+            console.log(BaseURL+`index.php?requete=modifierBouteilleCellier&bouteille_id=${id}`);
+            window.location.assign(BaseURL+`index.php?requete=modifierBouteilleCellier&bouteille_id=${id}`);
+        });
+    });
+
     let inputNomBouteille = document.querySelector("[name='nom_bouteille']");
     console.log(inputNomBouteille);
     let liste = document.querySelector('.listeAutoComplete');
@@ -123,11 +132,12 @@ window.addEventListener('load', function() {
             "id_bouteille":bouteille.nom.dataset.id,
             "date_achat":bouteille.date_achat.value,
             "garde_jusqua":bouteille.garde_jusqua.value,
-            "notes":bouteille.date_achat.value,
+            "notes":bouteille.notes.value,
             "prix":bouteille.prix.value,
             "quantite":bouteille.quantite.value,
             "millesime":bouteille.millesime.value,
           };
+          console.log(param['id_bouteille']);
           let requete = new Request(BaseURL+"index.php?requete=ajouterNouvelleBouteilleCellier", {method: 'POST', body: JSON.stringify(param)});
             fetch(requete)
                 .then(response => {
@@ -143,6 +153,80 @@ window.addEventListener('load', function() {
                   }).catch(error => {
                     console.error(error);
                   });
+        
+        });
+      }
+
+      let btnModifier = document.querySelector("[name='modifierBouteilleCellier']");
+      if(btnModifier){
+        btnModifier.addEventListener("click", function(evt){
+
+          let validation = true;
+
+          // Validation de la quantité
+          if (bouteille.quantite.value){
+            if(isNaN(bouteille.quantite.value)) {
+              document.querySelector(".erreur_quantite").innerHTML = "La quantité doit être un nombre entier.";
+              validation = false;
+            }
+            else {
+               document.querySelector(".erreur_quantite").innerHTML = "";
+            }
+          }
+          
+          // Validation du prix
+          if (bouteille.prix.value){
+            if(isNaN(bouteille.prix.value)) {
+              document.querySelector(".erreur_prix").innerHTML = "Le prix doit être un nombre.";
+              validation = false;
+            }
+            else {
+              document.querySelector(".erreur_prix").innerHTML = "";
+            }
+          }
+
+          // Validation du millésime
+          if (bouteille.millesime.value) {
+            if(isNaN(bouteille.millesime.value) || bouteille.millesime.value > new Date().getFullYear()) {
+              document.querySelector(".erreur_millesime").innerHTML = "Le millésime doit être une année inférieure ou égale à l'année courante.";
+              validation = false;
+            }
+            else {
+              document.querySelector(".erreur_millesime").innerHTML = "";
+            }
+          }
+
+          if (validation) {
+            let param = {
+              "id_bouteille_cellier":document.querySelector("#bouteille_id").dataset.idCellier,
+			        "id_bouteille":bouteille.nom.dataset.id,
+              "date_achat":bouteille.date_achat.value,
+              "garde_jusqua":bouteille.garde_jusqua.value,
+              "notes":bouteille.notes.value,
+              "prix":bouteille.prix.value,
+              "quantite":parseInt(bouteille.quantite.value),
+              "millesime":bouteille.millesime.value,
+            };
+            console.log(param);
+            let requete = new Request(BaseURL+"index.php?requete=modifierBouteilleCellier", {method: 'POST', body: JSON.stringify(param)});
+              fetch(requete)
+                  .then(response => {
+                      if (response.status === 200) {
+                        return response.json();
+                      } else {
+                        throw new Error('Erreur');
+                      }
+                    })
+                    .then(response => {
+                      window.location.assign(BaseURL+"index.php?requete=accueil");
+                    
+                    }).catch(error => {
+                      console.error(error);
+                    });
+          
+
+          }
+
         
         });
       } 

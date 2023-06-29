@@ -168,9 +168,59 @@ class Bouteille extends Modele {
         
 		return $res;
 	}
+
+	/**
+	 * Récupère les données d'une bouteille d'un cellier, à partir de son id.
+	 * 
+	 * @param int $id id de la bouteille
+	 * 
+	 * @return array Les détails de la bouteille trouvée dans le cellier
+	 */
+	public function getBouteilleCellier($id)
+	{
+		$id = $this->_db->real_escape_string($id);
+
+		$requete = 
+			"SELECT vino__cellier.id, vino__cellier.id_bouteille, nom, date_achat, garde_jusqua, notes, prix, quantite, millesime FROM vino__cellier
+			JOIN vino__bouteille ON vino__cellier.id_bouteille = vino__bouteille.id
+			WHERE vino__cellier.id = $id";
+
+		$res = $this->_db->query($requete);
+		return $res->fetch_assoc();
+	}
+
+	/**
+	 * Change les informations d'une bouteille en particulier dans le cellier.
+	 * 
+	 * @param object $data Objet contenant les valeurs modifiées de la bouteille
+	 * 
+	 * @return Boolean Succès ou échec de l'ajout.
+	 */
+	public function modifierBouteilleCellier($data) {
+		$id_bouteille_cellier = $this->_db->real_escape_string($data->id_bouteille_cellier);
+		$id_bouteille = $this->_db->real_escape_string($data->id_bouteille);
+		$date_achat = empty($data->date_achat) ? 'NULL' : "'" .$this->_db->real_escape_string($data->date_achat) ."'";
+		$garde_jusqua = $this->_db->real_escape_string($data->garde_jusqua);
+		$notes = $this->_db->real_escape_string($data->notes);
+		$prix = $this->_db->real_escape_string($data->prix);
+		$quantite =  empty($data->quantite) ? 0 : $this->_db->real_escape_string($data->quantite);
+		$millesime = empty($data->millesime) ? 'NULL' : $this->_db->real_escape_string($data->millesime);
+
+		$requete = "UPDATE vino__cellier ".
+			"SET id_bouteille = $id_bouteille, ".
+			"date_achat = ".$date_achat.", ".
+			"garde_jusqua = '".$garde_jusqua."', ".
+			"notes = '".$notes."', ".
+			"prix = '".$prix."', ".
+			"quantite = ".$quantite.", ".
+			"millesime = ".$millesime." ".
+			"WHERE id = $id_bouteille_cellier";
+
+		$res = $this->_db->query($requete);
+        
+		return $res;
+	}
 }
-
-
 
 
 ?>
