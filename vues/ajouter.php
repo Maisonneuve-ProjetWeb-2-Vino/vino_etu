@@ -1,4 +1,4 @@
-<div class="ajouter">
+<div class="modifier">
 
     <div class="nouvelleBouteille" vertical layout>
         Recherche : <input type="text" name="nom_bouteille">
