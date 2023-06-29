@@ -29,6 +29,7 @@ window.addEventListener('load', function() {
               })
               .then(response => {
                 console.debug(response);
+                window.location.assign(BaseURL+"index.php?requete=accueil");
               }).catch(error => {
                 console.error(error);
               });
@@ -52,6 +53,7 @@ window.addEventListener('load', function() {
               })
               .then(response => {
                 console.debug(response);
+                window.location.assign(BaseURL+"index.php?requete=accueil");
               }).catch(error => {
                 console.error(error);
               });
