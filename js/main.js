@@ -124,10 +124,12 @@ window.addEventListener('load', function() {
             "date_achat":bouteille.date_achat.value,
             "garde_jusqua":bouteille.garde_jusqua.value,
             "notes":bouteille.date_achat.value,
-            "prix":bouteille.prix.value,
+            "prix": bouteille.prix.value.replace(",", "."),
             "quantite":bouteille.quantite.value,
             "millesime":bouteille.millesime.value,
+            
           };
+          
           let requete = new Request(BaseURL+"index.php?requete=ajouterNouvelleBouteilleCellier", {method: 'POST', body: JSON.stringify(param)});
             fetch(requete)
                 .then(response => {
