@@ -133,7 +133,7 @@ window.addEventListener('load', function() {
             "date_achat":bouteille.date_achat.value,
             "garde_jusqua":bouteille.garde_jusqua.value,
             "notes":bouteille.notes.value,
-            "prix":bouteille.prix.value,
+            "prix": bouteille.prix.value.replace(",", "."),
             "quantite":bouteille.quantite.value,
             "millesime":bouteille.millesime.value,
           };
