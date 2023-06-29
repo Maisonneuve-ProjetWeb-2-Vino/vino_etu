@@ -127,9 +127,7 @@ window.addEventListener('load', function() {
             "prix": bouteille.prix.value.replace(",", "."),
             "quantite":bouteille.quantite.value,
             "millesime":bouteille.millesime.value,
-            
           };
-          
           let requete = new Request(BaseURL+"index.php?requete=ajouterNouvelleBouteilleCellier", {method: 'POST', body: JSON.stringify(param)});
             fetch(requete)
                 .then(response => {
