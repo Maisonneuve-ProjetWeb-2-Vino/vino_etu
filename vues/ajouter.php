@@ -1,6 +1,6 @@
-<div class="modifier">
+<div class="ajouter">
 
-    <div class="modificationBouteille" vertical layout>
+    <div class="nouvelleBouteille" vertical layout>
         Recherche : <input type="text" name="nom_bouteille">
         <ul class="listeAutoComplete">
 
