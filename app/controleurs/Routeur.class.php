@@ -11,7 +11,7 @@ class Routeur {
   private $routes = [
     // uri, classe, méthode
     // --------------------
-    ['',              'Frontend', 'voirAccueil'],
+    ['',           'Frontend', 'voirAccueil'],
     ['accueil',    'Frontend', 'voirAccueil'],
     ['listeBouteille',     'Bouteille', 'listeBouteille'],
     ['autocompleteBouteille',   'Bouteille', 'autocompleteBouteille'],
