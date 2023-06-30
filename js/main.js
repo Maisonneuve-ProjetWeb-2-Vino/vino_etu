@@ -124,37 +124,48 @@ window.addEventListener('load', function() {
           liste.innerHTML = "";
           inputNomBouteille.value = "";
 
+          const erreur_nom = document.querySelector(".erreur_nom_bouteille");
+          erreur_nom.innerHTML = "";
         }
       });
 
       let btnAjouter = document.querySelector("[name='ajouterBouteilleCellier']");
       if(btnAjouter){
         btnAjouter.addEventListener("click", function(evt){
-          var param = {
-            "id_bouteille":bouteille.nom.dataset.id,
-            "date_achat":bouteille.date_achat.value,
-            "garde_jusqua":bouteille.garde_jusqua.value,
-            "notes":bouteille.notes.value,
-            "prix": bouteille.prix.value.replace(",", "."),
-            "quantite":bouteille.quantite.value,
-            "millesime":bouteille.millesime.value,
-          };
-          console.log(param['id_bouteille']);
-          let requete = new Request(BaseURL+"index.php?requete=ajouterNouvelleBouteilleCellier", {method: 'POST', body: JSON.stringify(param)});
-            fetch(requete)
-                .then(response => {
-                    if (response.status === 200) {
-                      return response.json();
-                    } else {
-                      throw new Error('Erreur');
-                    }
-                  })
+
+          if (!bouteille.nom.dataset.id) {
+            const erreur_nom = document.querySelector(".erreur_nom_bouteille");
+            erreur_nom.innerHTML = "Une bouteille doit être sélectionnée.";
+          }
+          else {
+            var param = {
+              "id_bouteille":bouteille.nom.dataset.id,
+              "date_achat":bouteille.date_achat.value,
+              "garde_jusqua":bouteille.garde_jusqua.value,
+              "notes":bouteille.notes.value,
+              "prix": bouteille.prix.value.replace(",", "."),
+              "quantite":bouteille.quantite.value,
+              "millesime":bouteille.millesime.value,
+            };
+            console.log(param['id_bouteille']);
+            let requete = new Request(BaseURL+"index.php?requete=ajouterNouvelleBouteilleCellier", {method: 'POST', body: JSON.stringify(param)});
+              fetch(requete)
                   .then(response => {
-                    console.log(response);
-                  
-                  }).catch(error => {
-                    console.error(error);
-                  });
+                      if (response.status === 200) {
+                        return response.json();
+                      } else {
+                        throw new Error('Erreur');
+                      }
+                    })
+                    .then(response => {
+                      console.log(response);
+                    
+                    }).catch(error => {
+                      console.error(error);
+                    });
+          }
+
+
         
         });
       }
@@ -164,6 +175,7 @@ window.addEventListener('load', function() {
         btnModifier.addEventListener("click", function(evt){
 
           let validation = true;
+          const prix_bouteille = bouteille.prix.value.replace(",", ".");
 
           // Validation de la quantité
           if (bouteille.quantite.value){
@@ -177,8 +189,8 @@ window.addEventListener('load', function() {
           }
           
           // Validation du prix
-          if (bouteille.prix.value){
-            if(isNaN(bouteille.prix.value)) {
+          if (prix_bouteille){
+            if(isNaN(prix_bouteille)) {
               document.querySelector(".erreur_prix").innerHTML = "Le prix doit être un nombre.";
               validation = false;
             }
@@ -205,7 +217,7 @@ window.addEventListener('load', function() {
               "date_achat":bouteille.date_achat.value,
               "garde_jusqua":bouteille.garde_jusqua.value,
               "notes":bouteille.notes.value,
-              "prix":bouteille.prix.value,
+              "prix":prix_bouteille,
               "quantite":parseInt(bouteille.quantite.value),
               "millesime":bouteille.millesime.value,
             };
