@@ -11,6 +11,49 @@
 //const BaseURL = "https://jmartel.webdev.cmaisonneuve.qc.ca/n61/vino/";
 const BaseURL = document.baseURI;
 console.log(BaseURL);
+
+// Valide les champs nécessaires à la création ou modification des champs du cellier
+function validerChampsBouteille(bouteille) {
+
+  let validation = true;
+  const prix_bouteille = bouteille.prix.value.replace(",", ".");
+
+  // Validation de la quantité
+  if (bouteille.quantite.value){
+    if(isNaN(bouteille.quantite.value)) {
+      document.querySelector(".erreur_quantite").innerHTML = "La quantité doit être un nombre entier.";
+      validation = false;
+    }
+    else {
+        document.querySelector(".erreur_quantite").innerHTML = "";
+    }
+  }
+  
+  // Validation du prix
+  if (prix_bouteille){
+    if(isNaN(prix_bouteille)) {
+      document.querySelector(".erreur_prix").innerHTML = "Le prix doit être un nombre.";
+      validation = false;
+    }
+    else {
+      document.querySelector(".erreur_prix").innerHTML = "";
+    }
+  }
+
+  // Validation du millésime
+  if (bouteille.millesime.value) {
+    if(isNaN(bouteille.millesime.value) || bouteille.millesime.value > new Date().getFullYear()) {
+      document.querySelector(".erreur_millesime").innerHTML = "Le millésime doit être une année inférieure ou égale à l'année courante.";
+      validation = false;
+    }
+    else {
+      document.querySelector(".erreur_millesime").innerHTML = "";
+    }
+  }
+
+  return validation;
+}
+
 window.addEventListener('load', function() {
     console.log("load");
     document.querySelectorAll(".btnBoire").forEach(function(element){
@@ -133,11 +176,16 @@ window.addEventListener('load', function() {
       if(btnAjouter){
         btnAjouter.addEventListener("click", function(evt){
 
+          let validation = validerChampsBouteille(bouteille);
+
+          // Validation supplémentaire dans le cas de l'ajout de bouteille
           if (!bouteille.nom.dataset.id) {
             const erreur_nom = document.querySelector(".erreur_nom_bouteille");
             erreur_nom.innerHTML = "Une bouteille doit être sélectionnée.";
+            validation = false;
           }
-          else {
+
+          if (validation) {
             var param = {
               "id_bouteille":bouteille.nom.dataset.id,
               "date_achat":bouteille.date_achat.value,
@@ -159,6 +207,7 @@ window.addEventListener('load', function() {
                     })
                     .then(response => {
                       console.log(response);
+                      window.location.assign(BaseURL+"index.php?requete=accueil");
                     
                     }).catch(error => {
                       console.error(error);
@@ -174,50 +223,14 @@ window.addEventListener('load', function() {
       if(btnModifier){
         btnModifier.addEventListener("click", function(evt){
 
-          let validation = true;
-          const prix_bouteille = bouteille.prix.value.replace(",", ".");
-
-          // Validation de la quantité
-          if (bouteille.quantite.value){
-            if(isNaN(bouteille.quantite.value)) {
-              document.querySelector(".erreur_quantite").innerHTML = "La quantité doit être un nombre entier.";
-              validation = false;
-            }
-            else {
-               document.querySelector(".erreur_quantite").innerHTML = "";
-            }
-          }
-          
-          // Validation du prix
-          if (prix_bouteille){
-            if(isNaN(prix_bouteille)) {
-              document.querySelector(".erreur_prix").innerHTML = "Le prix doit être un nombre.";
-              validation = false;
-            }
-            else {
-              document.querySelector(".erreur_prix").innerHTML = "";
-            }
-          }
-
-          // Validation du millésime
-          if (bouteille.millesime.value) {
-            if(isNaN(bouteille.millesime.value) || bouteille.millesime.value > new Date().getFullYear()) {
-              document.querySelector(".erreur_millesime").innerHTML = "Le millésime doit être une année inférieure ou égale à l'année courante.";
-              validation = false;
-            }
-            else {
-              document.querySelector(".erreur_millesime").innerHTML = "";
-            }
-          }
-
-          if (validation) {
+          if (validerChampsBouteille(bouteille)) {
             let param = {
               "id_bouteille_cellier":document.querySelector("#bouteille_id").dataset.idCellier,
 			        "id_bouteille":bouteille.nom.dataset.id,
               "date_achat":bouteille.date_achat.value,
               "garde_jusqua":bouteille.garde_jusqua.value,
               "notes":bouteille.notes.value,
-              "prix":prix_bouteille,
+              "prix":bouteille.prix.value.replace(",", "."),
               "quantite":parseInt(bouteille.quantite.value),
               "millesime":bouteille.millesime.value,
             };
