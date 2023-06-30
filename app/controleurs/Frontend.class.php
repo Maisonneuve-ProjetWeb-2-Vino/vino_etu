@@ -6,7 +6,7 @@
 
 class Frontend extends Routeur {
 
-  const BASEURL = "http://localhost:8080/vino_etu/";
+  const BASEURL = "http://localhost:8080/vino_refactor/";
   /**
    * Constructeur qui initialise la propriété oRequetesSQL déclarée dans la classe Routeur.
    * 
@@ -18,6 +18,7 @@ class Frontend extends Routeur {
 
   /**
    * Afficher la page d'accueil.
+   * @return void
    */  
   public function voirAccueil() {
 
