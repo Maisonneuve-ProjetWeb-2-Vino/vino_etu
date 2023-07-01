@@ -12,7 +12,7 @@ Thumbs.db
 Desktop.ini
 
 # ignore Composer downloads
-/vendor/*
+app/vues/vendor/*
 /bower_components/*
 
 # keep some hiddens
