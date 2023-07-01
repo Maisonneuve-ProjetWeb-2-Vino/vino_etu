@@ -98,4 +98,19 @@ class Cellier extends Routeur {
 
   }
 
+  /**
+   * Recherche le cellier par nom de bouteille. Renvoit la liste des bouteilles trouvées
+   * en format JSON.
+   * 
+   * @return void
+   */
+  public function autocompleteBouteille() {
+
+			$body = json_decode(file_get_contents('php://input'));
+            
+      $listeBouteilles = $this->oRequetesSQL->autocomplete($body->nom);
+            
+      echo json_encode($listeBouteilles);
+  }
+
 }
