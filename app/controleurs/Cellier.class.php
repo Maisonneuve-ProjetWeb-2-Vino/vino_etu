@@ -93,8 +93,7 @@ class Cellier extends Routeur {
     else{
       new Vue("/Cellier/vAjoutBouteille",
         array(
-          'titre'     => "Ajout de bouteille",
-          'BASEURL'     => BASEURL
+          'titre'     => "Ajout de bouteille"
         ),
       "/Frontend/gabarit-frontend");
     }
@@ -174,8 +173,7 @@ class Cellier extends Routeur {
       new Vue("/Cellier/vModificationBouteille",
         array(
           'titre'       => "Modification de bouteille",
-          'bouteille'   => $bouteilleAModifier,
-          'BASEURL'     => BASEURL
+          'bouteille'   => $bouteilleAModifier
         ),
       "/Frontend/gabarit-frontend");
     }

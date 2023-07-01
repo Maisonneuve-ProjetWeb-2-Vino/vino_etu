@@ -26,7 +26,6 @@ class Frontend extends Routeur {
     new Vue("/Frontend/vAccueil",
       array(
         'titre'     => "Un petit verre de vino",
-        'BASEURL'     => BASEURL,
         'bouteilles'  => $bouteilles
       ),
       "/Frontend/gabarit-frontend");
