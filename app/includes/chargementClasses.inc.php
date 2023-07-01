@@ -7,7 +7,7 @@
  */
 function chargerClasse($classe) {
 
-  $dossiers = array('modeles/sql/', 'modeles/entites/', 'vues/', 'controleurs/'); 
+  $dossiers = array('modeles/sql/', 'modeles/entites/', 'vues/', 'controleurs/', 'lib/'); 
 
   foreach ($dossiers as $dossier) {
     $fichier = './app/'.$dossier.$classe.'.class.php';

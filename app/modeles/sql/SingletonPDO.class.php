@@ -4,11 +4,12 @@ class SingletonPDO extends PDO
 {
     private static $instance = null;
 
-    const DB_SERVEUR  = 'localhost';
-    const DB_NOM      = 'vinotest';
+    // Paramètres de la base de données définis dans dataconf.php
+    const DB_SERVEUR  = HOST;
+    const DB_NOM      = DATABASE;
     const DB_DSN      = 'mysql:host='. self::DB_SERVEUR .';dbname='. self::DB_NOM.';charset=utf8'; 
-    const DB_LOGIN    = 'root';
-    const DB_PASSWORD = '';
+    const DB_LOGIN    = USER;
+    const DB_PASSWORD = PASSWORD;
 
     private function __construct() {
         
