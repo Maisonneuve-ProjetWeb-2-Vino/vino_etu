@@ -6,7 +6,6 @@
 
 class Cellier extends Routeur {
 
-  const BASEURL = "http://localhost:8080/vino_refactor/";
   private $action;
   private $bouteille_id;
 
@@ -95,7 +94,7 @@ class Cellier extends Routeur {
       new Vue("/Cellier/vAjoutBouteille",
         array(
           'titre'     => "Ajout de bouteille",
-          'BASEURL'     => self::BASEURL
+          'BASEURL'     => BASEURL
         ),
       "/Frontend/gabarit-frontend");
     }
@@ -176,7 +175,7 @@ class Cellier extends Routeur {
         array(
           'titre'       => "Modification de bouteille",
           'bouteille'   => $bouteilleAModifier,
-          'BASEURL'     => self::BASEURL
+          'BASEURL'     => BASEURL
         ),
       "/Frontend/gabarit-frontend");
     }

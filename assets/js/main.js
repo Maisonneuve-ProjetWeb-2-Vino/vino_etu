@@ -8,10 +8,6 @@
  *
  */
 
-//const BaseURL = "https://jmartel.webdev.cmaisonneuve.qc.ca/n61/vino/";
-const BaseURL = document.baseURI;
-console.log(BaseURL);
-
 // Valide les champs nécessaires à la création ou modification des champs du cellier
 function validerChampsBouteille(bouteille) {
 
@@ -60,7 +56,7 @@ window.addEventListener('load', function() {
         console.log(element);
         element.addEventListener("click", function(evt){
             let id = evt.target.parentElement.dataset.id;
-            let requete = new Request(BaseURL+"cellier?action=b", {method: 'POST', body: '{"id": '+id+'}'});
+            let requete = new Request("cellier?action=b", {method: 'POST', body: '{"id": '+id+'}'});
 
             fetch(requete)
             .then(response => {
@@ -72,7 +68,7 @@ window.addEventListener('load', function() {
               })
               .then(response => {
                 console.debug(response);
-                window.location.assign(BaseURL+"accueil");
+                window.location.assign("accueil");
               }).catch(error => {
                 console.error(error);
               });
@@ -84,7 +80,7 @@ window.addEventListener('load', function() {
         console.log(element);
         element.addEventListener("click", function(evt){
             let id = evt.target.parentElement.dataset.id;
-            let requete = new Request(BaseURL+"cellier?action=a", {method: 'POST', body: '{"id": '+id+'}'});
+            let requete = new Request("cellier?action=a", {method: 'POST', body: '{"id": '+id+'}'});
 
             fetch(requete)
             .then(response => {
@@ -96,7 +92,7 @@ window.addEventListener('load', function() {
               })
               .then(response => {
                 console.debug(response);
-                window.location.assign(BaseURL+"accueil");
+                window.location.assign("accueil");
               }).catch(error => {
                 console.error(error);
               });
@@ -108,8 +104,8 @@ window.addEventListener('load', function() {
         console.log(element);
         element.addEventListener("click", function(evt){
             let id = evt.target.parentElement.dataset.id;
-            console.log(BaseURL+`cellier?action=m&bouteille_id=${id}`);
-            window.location.assign(BaseURL+`cellier?action=m&bouteille_id=${id}`);
+            console.log(`cellier?action=m&bouteille_id=${id}`);
+            window.location.assign(`cellier?action=m&bouteille_id=${id}`);
         });
     });
 
@@ -123,7 +119,7 @@ window.addEventListener('load', function() {
         let nom = inputNomBouteille.value;
         liste.innerHTML = "";
         if(nom){
-          let requete = new Request(BaseURL+"cellier?action=c", {method: 'POST', body: '{"nom": "'+nom+'"}'});
+          let requete = new Request("cellier?action=c", {method: 'POST', body: '{"nom": "'+nom+'"}'});
           fetch(requete)
               .then(response => {
                   if (response.status === 200) {
@@ -196,7 +192,7 @@ window.addEventListener('load', function() {
               "millesime":bouteille.millesime.value,
             };
             console.log(param['id_bouteille']);
-            let requete = new Request(BaseURL+"cellier?action=n", {method: 'POST', body: JSON.stringify(param)});
+            let requete = new Request("cellier?action=n", {method: 'POST', body: JSON.stringify(param)});
               fetch(requete)
                   .then(response => {
                       if (response.status === 200) {
@@ -207,7 +203,7 @@ window.addEventListener('load', function() {
                     })
                     .then(response => {
                       console.log(response);
-                      window.location.assign(BaseURL+"accueil");
+                      window.location.assign("accueil");
                     
                     }).catch(error => {
                       console.error(error);
@@ -235,7 +231,7 @@ window.addEventListener('load', function() {
               "millesime":bouteille.millesime.value,
             };
             console.log(param);
-            let requete = new Request(BaseURL+"cellier?action=m", {method: 'POST', body: JSON.stringify(param)});
+            let requete = new Request("cellier?action=m", {method: 'POST', body: JSON.stringify(param)});
               fetch(requete)
                   .then(response => {
                       if (response.status === 200) {
@@ -246,7 +242,7 @@ window.addEventListener('load', function() {
                     })
                     .then(response => {
                       console.log(response);
-                      window.location.assign(BaseURL+"accueil");
+                      window.location.assign("accueil");
                     
                     }).catch(error => {
                       console.error(error);
