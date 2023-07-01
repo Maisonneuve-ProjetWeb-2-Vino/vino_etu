@@ -13,12 +13,7 @@ class Routeur {
     // --------------------
     ['',           'Frontend', 'voirAccueil'],
     ['accueil',    'Frontend', 'voirAccueil'],
-    ['listeBouteille',     'Cellier', 'listeBouteille'],
-    ['autocompleteBouteille',   'Cellier', 'autocompleteBouteille'],
-    ['ajouterNouvelleBouteilleCellier', 'Cellier', 'ajouterNouvelleBouteilleCellier'],
-    ['ajouterBouteilleCellier',   'Cellier', 'ajouterBouteilleCellier'],
-    ['boireBouteilleCellier',   'Cellier', 'boireBouteilleCellier'],
-    ['modifierBouteilleCellier',   'Cellier', 'modifierBouteilleCellier'],
+    ['cellier',     'Cellier', 'gererCellier']
   ];
 
   protected $oRequetesSQL; // objet RequetesSQL utilisé par tous les contrôleurs

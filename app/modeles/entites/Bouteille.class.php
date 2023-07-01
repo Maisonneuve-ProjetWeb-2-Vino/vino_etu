@@ -73,7 +73,7 @@ class Bouteille
 
     /**
      * Mutateur de la propriété date_achat
-     * @param int $date_achat
+     * @param string $date_achat
      * @return $this
      */    
     public function setDate_achat($date_achat) {
@@ -91,6 +91,76 @@ class Bouteille
             }
         }
         $this->date_achat = $date_achat;
+        return $this;
+    }
+
+    /**
+     * Mutateur de la propriété garde_jusqua
+     * @param string $garde_jusqua
+     * @return $this
+     */    
+    public function setGarde_jusqua($garde_jusqua) {
+        unset($this->erreurs['garde_jusqua']);
+        $this->garde_jusqua = $garde_jusqua;
+        return $this;
+    }
+
+    /**
+     * Mutateur de la propriété notes
+     * @param int $notes
+     * @return $this
+     */    
+    public function setNotes($notes) {
+        unset($this->erreurs['notes']);
+        $this->notes = $notes;
+        return $this;
+    }
+
+    /**
+     * Mutateur de la propriété prix
+     * @param int $prix
+     * @return $this
+     */  
+    public function setPrix($prix) {
+        unset($this->erreurs['prix']);
+        $regExp = '/^\d+(\.\d{1,2})?$/';
+        if (!empty($prix)) {
+            if (!preg_match($regExp, $prix)) {
+                $this->erreurs['prix'] = "Format de prix incorrect.";
+            }
+        }
+
+        $this->prix = $prix;
+        return $this;
+    }
+
+    /**
+     * Mutateur de la propriété quantite
+     * @param int $quantite
+     * @return $this
+     */    
+    public function setQuantite($quantite) {
+        unset($this->erreurs['quantite']);
+        $regExp = '/^[1-9]\d*$/';
+        if (!preg_match($regExp, $quantite)) {
+            $this->erreurs['quantite'] = "Quantité incorrecte";
+        }
+        $this->quantite = $quantite;
+        return $this;
+    }
+
+    /**
+     * Mutateur de la propriété millesime
+     * @param int $millesime
+     * @return $this
+     */    
+    public function setMillesime($millesime) {
+        unset($this->erreurs['millesime']);
+        $regExp = '/^[1-9]\d*$/';
+        if (!preg_match($regExp, $millesime)) {
+            $this->erreurs['millesime'] = "Format du millésime incorrect";
+        }
+        $this->millesime = $millesime;
         return $this;
     }
 }
