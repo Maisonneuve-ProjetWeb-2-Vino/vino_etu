@@ -78,7 +78,7 @@ class Bouteille
      */    
     public function setDate_achat($date_achat) {
         unset($this->erreurs['date_achat']);
-        $regExp = "/^\d{4}-\d{2}-\d{2}$/";
+        $regExp = "/^(\d{4}-\d{2}-\d{2})?$/";
         $currentDate = date("Y-m-d");
         if (!preg_match($regExp, $date_achat)) {
             $this->erreurs['date_achat'] = "Date d'achat invalide";
@@ -129,7 +129,6 @@ class Bouteille
                 $this->erreurs['prix'] = "Format de prix incorrect.";
             }
         }
-
         $this->prix = $prix;
         return $this;
     }
@@ -142,8 +141,10 @@ class Bouteille
     public function setQuantite($quantite) {
         unset($this->erreurs['quantite']);
         $regExp = '/^[1-9]\d*$/';
-        if (!preg_match($regExp, $quantite)) {
-            $this->erreurs['quantite'] = "Quantité incorrecte";
+        if (!empty($quantite)) {
+            if (!preg_match($regExp, $quantite)) {
+                $this->erreurs['quantite'] = "Quantité incorrecte";
+            }
         }
         $this->quantite = $quantite;
         return $this;
@@ -157,8 +158,10 @@ class Bouteille
     public function setMillesime($millesime) {
         unset($this->erreurs['millesime']);
         $regExp = '/^[1-9]\d*$/';
-        if (!preg_match($regExp, $millesime)) {
-            $this->erreurs['millesime'] = "Format du millésime incorrect";
+        if (!empty($millesime)) {
+            if (!preg_match($regExp, $millesime)) {
+                $this->erreurs['millesime'] = "Format du millésime incorrect";
+            }
         }
         $this->millesime = $millesime;
         return $this;
