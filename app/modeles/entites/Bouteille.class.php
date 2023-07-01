@@ -7,6 +7,7 @@
 class Bouteille
 {
     private $id_bouteille;
+    private $id_bouteille_cellier;
     private $date_achat;
     private $garde_jusqua;
     private $notes;
@@ -18,6 +19,7 @@ class Bouteille
 
     /**
      * Constructeur de la classe
+     * 
      * @param array $proprietes, tableau associatif des propriétés 
      *
      */ 
@@ -30,6 +32,7 @@ class Bouteille
 
     /**
      * Accesseur magique d'une propriété de l'objet
+     * 
      * @param string $prop, nom de la propriété
      * @return property value
      */     
@@ -39,6 +42,7 @@ class Bouteille
 
     // Getters explicites nécessaires au moteur de templates TWIG
     public function getId_bouteille()       { return $this->id_bouteille; }
+    public function getId_bouteille_cellier()       { return $this->id_bouteille_cellier; }
     public function getDate_achat()       { return $this->date_achat; }
     public function getGarde_jusqua()       { return $this->garde_jusqua; }
     public function getNotes()       { return $this->notes; }
@@ -48,6 +52,7 @@ class Bouteille
 
     /**
      * Mutateur magique qui exécute le mutateur de la propriété en paramètre 
+     * 
      * @param string $prop, nom de la propriété
      * @param $val, contenu de la propriété à mettre à jour    
      */   
@@ -57,8 +62,9 @@ class Bouteille
     }
 
     /**
-     * Mutateur de la propriété bouteille_id
-     * @param int $bouteille_id
+     * Mutateur de la propriété id_bouteille
+     * 
+     * @param int $id_bouteille
      * @return $this
      */    
     public function setId_bouteille($id_bouteille) {
@@ -72,7 +78,24 @@ class Bouteille
     }
 
     /**
+     * Mutateur de la propriété id_bouteille_cellier
+     * 
+     * @param int $id_bouteille_cellier
+     * @return $this
+     */    
+    public function setId_bouteille_cellier($id_bouteille_cellier) {
+        unset($this->erreurs['id_bouteille_cellier']);
+        $regExp = '/^[1-9]\d*$/';
+        if (!preg_match($regExp, $id_bouteille_cellier)) {
+            $this->erreurs['id_bouteille_cellier'] = "Numéro de bouteille de cellier incorrect.";
+        }
+        $this->id_bouteille_cellier = $id_bouteille_cellier;
+        return $this;
+    }
+    
+    /**
      * Mutateur de la propriété date_achat
+     * 
      * @param string $date_achat
      * @return $this
      */    
@@ -96,6 +119,7 @@ class Bouteille
 
     /**
      * Mutateur de la propriété garde_jusqua
+     * 
      * @param string $garde_jusqua
      * @return $this
      */    
@@ -107,6 +131,7 @@ class Bouteille
 
     /**
      * Mutateur de la propriété notes
+     * 
      * @param int $notes
      * @return $this
      */    
@@ -118,6 +143,7 @@ class Bouteille
 
     /**
      * Mutateur de la propriété prix
+     * 
      * @param int $prix
      * @return $this
      */  
@@ -135,6 +161,7 @@ class Bouteille
 
     /**
      * Mutateur de la propriété quantite
+     * 
      * @param int $quantite
      * @return $this
      */    
@@ -152,6 +179,7 @@ class Bouteille
 
     /**
      * Mutateur de la propriété millesime
+     * 
      * @param int $millesime
      * @return $this
      */    

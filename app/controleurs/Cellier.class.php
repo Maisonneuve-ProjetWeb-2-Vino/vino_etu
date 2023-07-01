@@ -8,6 +8,7 @@ class Cellier extends Routeur {
 
   const BASEURL = "http://localhost:8080/vino_refactor/";
   private $action;
+  private $bouteille_id;
 
   private $methodes = [
     'a' => 'ajouterBouteilleCellier',
@@ -24,11 +25,12 @@ class Cellier extends Routeur {
    */
   public function __construct() {
     $this->action = $_GET['action'] ?? 'l';
+    $this->bouteille_id = $_GET['bouteille_id'] ?? null;
     $this->oRequetesSQL = new RequetesSQL;
   }
 
   /**
-   * Gérer l'interface Cellier.
+   * Redirige les requêtes de l'interface Cellier vers les méthodes demandées.
    * 
    * @return void
    */  
@@ -83,7 +85,7 @@ class Cellier extends Routeur {
       }
       else {
         // Pas supposé étant donné la validation front-end
-        throw new Exception("Erreur: bouteille invalide, non insérée.");
+        throw new Exception("Erreur: bouteille invalide, non insérée:" . implode($oBouteille->erreurs));
       }
 
     }
@@ -113,4 +115,67 @@ class Cellier extends Routeur {
       echo json_encode($listeBouteilles);
   }
 
+  /**
+   * Modifier une bouteille du cellier.
+   * 
+   * @return void
+   */
+  public function modifierBouteilleCellier() {
+
+    $body = json_decode(file_get_contents('php://input'));
+
+    if(!empty($body)){
+
+      // Création d'un objet Bouteille pour contrôler la saisie
+      $oBouteille = new Bouteille([
+          'id_bouteille_cellier'=> $body->id_bouteille_cellier,
+          'id_bouteille'       => $body->id_bouteille,
+          'date_achat'         => $body->date_achat,
+          'garde_jusqua'       => $body->garde_jusqua,
+          'notes'              => $body->notes,
+          'prix'               => $body->prix,
+          'quantite'           => $body->quantite,
+          'millesime'          => $body->millesime
+      ]);
+      
+      $erreursBouteille = $oBouteille->erreurs;
+
+      if (count($erreursBouteille) === 0) {
+
+        $resultat = $this->oRequetesSQL->modifierBouteilleCellier([
+          'id_bouteille_cellier'=> $oBouteille->id_bouteille_cellier,
+          'id_bouteille'        => $oBouteille->id_bouteille,
+          'date_achat'          => $oBouteille->date_achat,
+          'garde_jusqua'        => $oBouteille->garde_jusqua,
+          'notes'               => $oBouteille->notes,
+          'prix'                => $oBouteille->prix,
+          'quantite'            => $oBouteille->quantite,
+          'millesime'           => $oBouteille->millesime
+        ]);
+
+        echo json_encode($resultat);
+      }
+      else {
+        // Pas supposé étant donné la validation front-end
+        throw new Exception("Erreur: bouteille invalide, non insérée:" . implode($oBouteille->erreurs));
+      }
+
+    }
+    else{
+      if (!$this->bouteille_id) {
+        throw new Exception(self::ERROR_BAD_REQUEST);
+      }
+
+      $bouteilleAModifier = $this->oRequetesSQL->getBouteilleCellier($this->bouteille_id);
+
+      new Vue("/Cellier/vModificationBouteille",
+        array(
+          'titre'       => "Modification de bouteille",
+          'bouteille'   => $bouteilleAModifier,
+          'BASEURL'     => self::BASEURL
+        ),
+      "/Frontend/gabarit-frontend");
+    }
+
+  }
 }

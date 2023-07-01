@@ -245,6 +245,7 @@ window.addEventListener('load', function() {
                       }
                     })
                     .then(response => {
+                      console.log(response);
                       window.location.assign(BaseURL+"accueil");
                     
                     }).catch(error => {
