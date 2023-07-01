@@ -178,4 +178,57 @@ class Cellier extends Routeur {
     }
 
   }
+
+  /**
+   * Incrémente la quantité pour une bouteille donnée.
+   * 
+   * @return void
+   */
+  private function ajouterBouteilleCellier()
+  {
+    $body = json_decode(file_get_contents('php://input'));
+    
+    // Création d'un objet Bouteille pour contrôler la saisie
+    $oBouteille = new Bouteille([
+      'id_bouteille_cellier'=> $body->id
+    ]);
+
+    if (count($oBouteille->erreurs) === 0) {
+      $resultat = $this->oRequetesSQL->modifierQuantiteBouteilleCellier($oBouteille->id_bouteille_cellier, 1);
+    }
+    else {
+      throw new Exception("Id invalide pour incrément de la quantité de bouteilles.");
+    }
+
+    if (!$resultat) {
+      throw new Exception("Incrément de la quantité de bouteilles non mis à jour dans la db.");
+    }
+
+    echo json_encode($resultat);
+  }
+
+  /**
+   * Décrémente la quantité pour une bouteille donnée.
+   * 
+   * @return void
+   */
+  private function boireBouteilleCellier()
+  {
+    $body = json_decode(file_get_contents('php://input'));
+    
+    // Création d'un objet Bouteille pour contrôler la saisie
+    $oBouteille = new Bouteille([
+      'id_bouteille_cellier'=> $body->id
+    ]);
+
+    if (count($oBouteille->erreurs) === 0) {
+      $resultat = $this->oRequetesSQL->modifierQuantiteBouteilleCellier($oBouteille->id_bouteille_cellier, -1);
+    }
+    else {
+      throw new Exception("Id invalide pour décrément de la quantité de bouteilles.");
+    }
+
+    echo json_encode($resultat);
+  }
+
 }
