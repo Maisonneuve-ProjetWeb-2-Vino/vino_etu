@@ -48,7 +48,6 @@ class RequetesSQL extends RequetesPDO {
 	 * Ajoute une ou des bouteilles au cellier
 	 * 
 	 * @param Array $data Tableau des données représentant la bouteille.
-   * 
    * @return string|boolean clé primaire de la ligne ajoutée, false sinon
 	 */
 	public function ajouterBouteilleCellier($champs)
@@ -71,7 +70,6 @@ class RequetesSQL extends RequetesPDO {
 	 * 
 	 * @param string $nom La chaine de caractère à rechercher
 	 * @param integer $nb_resultat Le nombre de résultats maximal à retourner.
-	 * 
 	 * @return array id et nom de la bouteille trouvée dans le catalogue
 	 */
   public function autocomplete($nom, $nb_resultat=10) {
@@ -92,7 +90,6 @@ class RequetesSQL extends RequetesPDO {
 	 * Modifie une bouteille au cellier
 	 * 
 	 * @param Array $data Tableau des données représentant la bouteille.
-   * 
    * @return string|boolean clé primaire de la ligne modifiée, false sinon
 	 */
 	public function modifierBouteilleCellier($champs)
@@ -115,7 +112,6 @@ class RequetesSQL extends RequetesPDO {
 	 * 
 	 * @param int $id id de la bouteille
 	 * @param int $nombre Nombre de bouteilles à ajouter ou retirer
-	 * 
    * @return string|boolean clé primaire de la ligne modifiée, false sinon
 	 */
 	public function modifierQuantiteBouteilleCellier($id, $nombre)
@@ -131,7 +127,6 @@ class RequetesSQL extends RequetesPDO {
 	 * Récupère les données d'une bouteille d'un cellier, à partir de son id.
 	 * 
 	 * @param int $bouteille_id id de la bouteille
-	 * 
    * @return array|false ligne de la table, false sinon
 	 */
 	public function getBouteilleCellier($bouteille_id)

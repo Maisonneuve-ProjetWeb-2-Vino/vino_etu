@@ -32,6 +32,7 @@ class Cellier extends Routeur {
   /**
    * Redirige les requêtes de l'interface Cellier vers les méthodes demandées.
    * 
+   * @throws Exception Si l'action spécifiée dans la requête n'existe pas
    * @return void
    */  
   public function gererCellier() {
@@ -48,6 +49,7 @@ class Cellier extends Routeur {
   /**
    * Ajouter une nouvelle bouteille au cellier.
    * 
+   * @throws Exception Si la bouteille insérée contient des informations invalides
    * @return void
    */
   public function ajouterNouvelleBouteilleCellier() {
@@ -118,6 +120,8 @@ class Cellier extends Routeur {
   /**
    * Modifier une bouteille du cellier.
    * 
+   * @throws Exception Si la requête de modification de bouteille contient des informations invalides,
+   *                   ou le bouteille_id d'une requête JSON est invalide.
    * @return void
    */
   public function modifierBouteilleCellier() {
@@ -182,6 +186,8 @@ class Cellier extends Routeur {
   /**
    * Incrémente la quantité pour une bouteille donnée.
    * 
+   * @throws Exception Si l'id de la bouteille à ajouter est invalide, ou si la modification
+   *                   à la base de données ne réussit pas.
    * @return void
    */
   private function ajouterBouteilleCellier()
@@ -210,6 +216,7 @@ class Cellier extends Routeur {
   /**
    * Décrémente la quantité pour une bouteille donnée.
    * 
+   * @throws Exception Si l'id de la bouteille à décrémenter est invalide
    * @return void
    */
   private function boireBouteilleCellier()
