@@ -1,0 +1,68 @@
+/********
+ * Votre CSS
+ ********/
+
+html, body {
+	height: 100%;
+	margin: 0;
+	background-color: #E5E5E5;
+	
+	font-family: 'Roboto', 'RobotoDraft', sans-serif;
+	font-size: 95%;
+	
+}
+.liste {
+	display: block;
+	border-top: 1px solid #ccc;
+	border-bottom: none;
+	/*background: #666;*/
+	/*color: #03a9f4;*/
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.liste > div {
+	height: 40px;
+	line-height: 40px;
+	padding: 0 20px;
+	border-bottom: 1px solid #ccc;
+	/*background: #666;*/
+	cursor: pointer;
+	transition: color 200ms ease-in-out;
+	/*background-color: #003777;*/
+	background-color:#e85e30;
+	color:#FFFFFF;
+}
+.liste > div:hover {
+	color:#000000;
+	transition: color 200ms ease-in-out;
+	
+}
+
+@media all and (max-width:640px)
+{
+	footer
+	{
+		display:none;
+	}
+	
+}
+
+footer
+{
+	width: 100%;
+	padding-top:3px;
+	text-align: center;
+	background-color:#FFFFFF;
+}
+footer p
+{
+	display:inline;
+	padding-right:50px;
+	font-size : 10px;
+}
+
+.erreur_champ {
+	color: red;
+}

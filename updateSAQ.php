@@ -14,7 +14,6 @@ require 'dataconf.php';
 	</head>
 	<body>
 <?php
-
 	$page = 1;
 	$nombreProduit = 96; //48 ou 96	
 	
