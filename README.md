@@ -18,8 +18,8 @@ Script PHP qui permet d'aller récupérer des données du site de la SAQ (pour d
 - Mettre les informations de connexion de la DB dans dataconf.php
 - Déployer la base de données qui se trouve dans /data/
 - Transférer les fichiers par FTP (si installé sur Webdev)
-- Tester
 
 ### Installation des dépendances de Composer (Twig)
 - cd app\vues
 - composer update
+- Tester
