@@ -27,8 +27,9 @@ function validerChampsBouteille(bouteille) {
   
   // Validation du prix
   if (prix_bouteille){
-    if(isNaN(prix_bouteille)) {
-      document.querySelector(".erreur_prix").innerHTML = "Le prix doit être un nombre.";
+    const regex_prix = /^\d+(\.\d{1,2})?$/;
+    if(!prix_bouteille.match(regex_prix)) {
+      document.querySelector(".erreur_prix").innerHTML = "Le format du prix est incorrect.";
       validation = false;
     }
     else {
@@ -44,6 +45,15 @@ function validerChampsBouteille(bouteille) {
     }
     else {
       document.querySelector(".erreur_millesime").innerHTML = "";
+    }
+  }
+
+  // Validation de la date d'achat
+  if (bouteille.date_achat.value) {
+    console.log(bouteille.date_achat.value)
+    if (new Date(bouteille.date_achat.value) > new Date()) {
+      document.querySelector(".erreur_date_achat").innerHTML = "La date d'achat doit être inférieure ou égale au jour courant.";
+      validation = false;
     }
   }
 
