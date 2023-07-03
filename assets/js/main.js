@@ -8,10 +8,6 @@
  *
  */
 
-//const BaseURL = "https://jmartel.webdev.cmaisonneuve.qc.ca/n61/vino/";
-const BaseURL = document.baseURI;
-console.log(BaseURL);
-
 // Valide les champs nécessaires à la création ou modification des champs du cellier
 function validerChampsBouteille(bouteille) {
 
@@ -31,8 +27,9 @@ function validerChampsBouteille(bouteille) {
   
   // Validation du prix
   if (prix_bouteille){
-    if(isNaN(prix_bouteille)) {
-      document.querySelector(".erreur_prix").innerHTML = "Le prix doit être un nombre.";
+    const regex_prix = /^\d+(\.\d{1,2})?$/;
+    if(!prix_bouteille.match(regex_prix)) {
+      document.querySelector(".erreur_prix").innerHTML = "Le format du prix est incorrect.";
       validation = false;
     }
     else {
@@ -51,6 +48,15 @@ function validerChampsBouteille(bouteille) {
     }
   }
 
+  // Validation de la date d'achat
+  if (bouteille.date_achat.value) {
+    console.log(bouteille.date_achat.value)
+    if (new Date(bouteille.date_achat.value) > new Date()) {
+      document.querySelector(".erreur_date_achat").innerHTML = "La date d'achat doit être inférieure ou égale au jour courant.";
+      validation = false;
+    }
+  }
+
   return validation;
 }
 
@@ -60,7 +66,7 @@ window.addEventListener('load', function() {
         console.log(element);
         element.addEventListener("click", function(evt){
             let id = evt.target.parentElement.dataset.id;
-            let requete = new Request(BaseURL+"index.php?requete=boireBouteilleCellier", {method: 'POST', body: '{"id": '+id+'}'});
+            let requete = new Request("cellier?action=b", {method: 'POST', body: '{"id": '+id+'}'});
 
             fetch(requete)
             .then(response => {
@@ -72,7 +78,7 @@ window.addEventListener('load', function() {
               })
               .then(response => {
                 console.debug(response);
-                window.location.assign(BaseURL+"index.php?requete=accueil");
+                window.location.assign("accueil");
               }).catch(error => {
                 console.error(error);
               });
@@ -84,7 +90,7 @@ window.addEventListener('load', function() {
         console.log(element);
         element.addEventListener("click", function(evt){
             let id = evt.target.parentElement.dataset.id;
-            let requete = new Request(BaseURL+"index.php?requete=ajouterBouteilleCellier", {method: 'POST', body: '{"id": '+id+'}'});
+            let requete = new Request("cellier?action=a", {method: 'POST', body: '{"id": '+id+'}'});
 
             fetch(requete)
             .then(response => {
@@ -96,7 +102,7 @@ window.addEventListener('load', function() {
               })
               .then(response => {
                 console.debug(response);
-                window.location.assign(BaseURL+"index.php?requete=accueil");
+                window.location.assign("accueil");
               }).catch(error => {
                 console.error(error);
               });
@@ -108,8 +114,8 @@ window.addEventListener('load', function() {
         console.log(element);
         element.addEventListener("click", function(evt){
             let id = evt.target.parentElement.dataset.id;
-            console.log(BaseURL+`index.php?requete=modifierBouteilleCellier&bouteille_id=${id}`);
-            window.location.assign(BaseURL+`index.php?requete=modifierBouteilleCellier&bouteille_id=${id}`);
+            console.log(`cellier?action=m&bouteille_id=${id}`);
+            window.location.assign(`cellier?action=m&bouteille_id=${id}`);
         });
     });
 
@@ -123,7 +129,7 @@ window.addEventListener('load', function() {
         let nom = inputNomBouteille.value;
         liste.innerHTML = "";
         if(nom){
-          let requete = new Request(BaseURL+"index.php?requete=autocompleteBouteille", {method: 'POST', body: '{"nom": "'+nom+'"}'});
+          let requete = new Request("cellier?action=c", {method: 'POST', body: '{"nom": "'+nom+'"}'});
           fetch(requete)
               .then(response => {
                   if (response.status === 200) {
@@ -196,7 +202,7 @@ window.addEventListener('load', function() {
               "millesime":bouteille.millesime.value,
             };
             console.log(param['id_bouteille']);
-            let requete = new Request(BaseURL+"index.php?requete=ajouterNouvelleBouteilleCellier", {method: 'POST', body: JSON.stringify(param)});
+            let requete = new Request("cellier?action=n", {method: 'POST', body: JSON.stringify(param)});
               fetch(requete)
                   .then(response => {
                       if (response.status === 200) {
@@ -207,7 +213,7 @@ window.addEventListener('load', function() {
                     })
                     .then(response => {
                       console.log(response);
-                      window.location.assign(BaseURL+"index.php?requete=accueil");
+                      window.location.assign("accueil");
                     
                     }).catch(error => {
                       console.error(error);
@@ -235,7 +241,7 @@ window.addEventListener('load', function() {
               "millesime":bouteille.millesime.value,
             };
             console.log(param);
-            let requete = new Request(BaseURL+"index.php?requete=modifierBouteilleCellier", {method: 'POST', body: JSON.stringify(param)});
+            let requete = new Request("cellier?action=m", {method: 'POST', body: JSON.stringify(param)});
               fetch(requete)
                   .then(response => {
                       if (response.status === 200) {
@@ -245,7 +251,8 @@ window.addEventListener('load', function() {
                       }
                     })
                     .then(response => {
-                      window.location.assign(BaseURL+"index.php?requete=accueil");
+                      console.log(response);
+                      window.location.assign("accueil");
                     
                     }).catch(error => {
                       console.error(error);

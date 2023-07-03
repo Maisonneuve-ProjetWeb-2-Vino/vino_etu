@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>{{ titre }}</title>
+
+		<meta charset="utf-8">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta name="viewport" content="width=device-width, minimum-scale=0.5, initial-scale=1.0, user-scalable=yes">
+
+		<meta name="description" content="Un petit verre de vino">
+		<meta name="author" content="Jonathan Martel (jmartel@cmaisonneuve.qc.ca)">
+
+		<link rel="stylesheet" href="./assets/styles/normalize.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="./assets/styles/base_h5bp.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="./assets/styles/main.css" type="text/css" media="screen">
+
+		<script src="./assets/js/main.js"></script>
+	</head>
+	<body >
+		<header>
+			<h1>Un petit verre de vino ?</h1>
+			<nav>
+				<ul>
+					<li><a href="accueil">Mon cellier</a></li>
+					<li><a href="cellier?action=n">Ajouter une bouteille au cellier</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main>
+
+      {{ include(templateMain) }}
+
+		</main>
+		<footer>
+			<p>
+				<a href="http://www.cmaisonneuve.qc.ca/"></a>
+			</p>
+			<p>
+				Réalisé par <a href="mailto:jmartel@cmaisonneuve.qc.ca">Jonathan Martel</a>. Sous licence Creative Commons BY-NC 4.0 (2014)
+			</p>
+		</footer>
+	</body>
+
+</html>

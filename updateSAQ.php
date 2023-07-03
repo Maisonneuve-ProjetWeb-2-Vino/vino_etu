@@ -1,3 +1,11 @@
+<?php
+
+require 'app/includes/config.php';
+require 'app/includes/chargementClasses.inc.php';
+require 'dataconf.php';
+
+?>
+
 <!DOCTYPE HTML>
 <html>
 	
@@ -6,8 +14,6 @@
 	</head>
 	<body>
 <?php
-	require("dataconf.php");
-	require("config.php");
 	$page = 1;
 	$nombreProduit = 96; //48 ou 96	
 	
@@ -19,10 +25,8 @@
 		echo "importation : ". $nombre. "<br>";
 	
 	}
-	
-	
-	
 
+	
 ?>
 </body>
 </html>
