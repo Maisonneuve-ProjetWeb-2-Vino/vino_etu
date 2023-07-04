@@ -17,7 +17,7 @@
         <div class="options" data-id="{{ bouteille.id_bouteille_cellier }}">
             <button class='btnModifier'>Modifier</button>
             <button class='btnAjouter'>Ajouter</button>
-            <button class='btnBoire'>Boire</button>
+            <button class='btnBoire' {% if bouteille.quantite == 0 %} disabled="true" {% endif %}>Boire</button>
         </div>
     </div>
 
