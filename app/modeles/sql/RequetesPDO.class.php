@@ -19,8 +19,8 @@ class RequetesPDO {
    * @param boolean $uneSeuleLigne true si une seule ligne à récupérer false sinon 
    * @return array|false false si aucune ligne retournée par fetch
    */ 
-  public function getLignes($params = [], $uneSeuleLigne = false) {
-    $sPDO = SingletonPDO::getInstance();
+  public function obtenirLignes($params = [], $uneSeuleLigne = false) {
+    $sPDO = SingletonPDO::obtenirInstance();
     $oPDOStatement = $sPDO->prepare($this->sql);
     foreach ($params as $nomParam => $valParam) $oPDOStatement->bindValue(':'.$nomParam, $valParam);
     $oPDOStatement->execute();
@@ -34,7 +34,7 @@ class RequetesPDO {
    * @return boolean|string chaîne contenant lastInsertId s'il est > 0
    */ 
   public function CUDLigne($params = []) {
-    $sPDO = SingletonPDO::getInstance();
+    $sPDO = SingletonPDO::obtenirInstance();
 
     $oPDOStatement = $sPDO->prepare($this->sql);
     foreach ($params as $nomParam => $valParam) $oPDOStatement->bindValue(':'.$nomParam, $valParam);
@@ -50,7 +50,7 @@ class RequetesPDO {
    * @return boolean retourne vrai, lance une exception si problème
    */ 
   public function TransactionCUDLigne($aParams) {
-    $sPDO = SingletonPDO::getInstance();
+    $sPDO = SingletonPDO::obtenirInstance();
 
     if (!$sPDO->beginTransaction()) return false;
     $i = 0;

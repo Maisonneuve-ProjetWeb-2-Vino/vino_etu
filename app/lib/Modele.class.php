@@ -15,7 +15,7 @@ class Modele {
     protected $_db;
 	function __construct ()
 	{
-		$this->_db = MonSQL::getInstance();
+		$this->_db = MonSQL::obtenirInstance();
 	}
 	
 	function __destruct ()
