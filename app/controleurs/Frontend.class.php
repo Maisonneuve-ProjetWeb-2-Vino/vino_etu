@@ -21,7 +21,7 @@ class Frontend extends Routeur {
    */  
   public function voirAccueil() {
 
-    $bouteilles = $this->oRequetesSQL->getListeBouteilleCellier();
+    $bouteilles = $this->oRequetesSQL->obtenirListeBouteilleCellier();
 
     new Vue("/Frontend/vAccueil",
       array(

@@ -23,7 +23,7 @@ class SingletonPDO extends PDO
   
     private function __clone (){}  
 
-    public static function getInstance() {  
+    public static function obtenirInstance() {  
       if(is_null(self::$instance))
       {
         self::$instance = new SingletonPDO();

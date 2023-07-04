@@ -168,7 +168,7 @@ class Cellier extends Routeur {
         throw new Exception(self::ERROR_BAD_REQUEST);
       }
 
-      $bouteilleAModifier = $this->oRequetesSQL->getBouteilleCellier($this->bouteille_id);
+      $bouteilleAModifier = $this->oRequetesSQL->obtenirBouteilleCellier($this->bouteille_id);
 
       new Vue("/Cellier/vModificationBouteille",
         array(

@@ -14,7 +14,7 @@ class RequetesSQL extends RequetesPDO {
   *
   * @return array Tableau des données représentant le cellier
   */
-  public function getListeBouteilleCellier() {
+  public function obtenirListeBouteilleCellier() {
 
     $champs = [];
     $this->sql = "
@@ -41,7 +41,7 @@ class RequetesSQL extends RequetesPDO {
         INNER JOIN vino__type t ON t.id = b.type
         ";
       
-      return $this->getLignes($champs);
+      return $this->obtenirLignes($champs);
   }
 
   /**
@@ -83,7 +83,7 @@ class RequetesSQL extends RequetesPDO {
       LIMIT 0, :nb_resultat
       ";
 
-    return $this->getLignes(['nb_resultat' => $nb_resultat, 'keywords' => $keywords]);
+    return $this->obtenirLignes(['nb_resultat' => $nb_resultat, 'keywords' => $keywords]);
   }
 
   /**
@@ -129,7 +129,7 @@ class RequetesSQL extends RequetesPDO {
 	 * @param int $bouteille_id id de la bouteille
    * @return array|false ligne de la table, false sinon
 	 */
-	public function getBouteilleCellier($bouteille_id)
+	public function obtenirBouteilleCellier($bouteille_id)
 	{
 		$this->sql = "
 			SELECT vino__cellier.id, vino__cellier.id_bouteille, nom, date_achat, garde_jusqua, notes, prix, quantite, millesime FROM vino__cellier
@@ -137,6 +137,6 @@ class RequetesSQL extends RequetesPDO {
 			WHERE vino__cellier.id = :id
       ";
 
-		return $this->getLignes(['id' => $bouteille_id], RequetesPDO::UNE_SEULE_LIGNE);
+		return $this->obtenirLignes(['id' => $bouteille_id], RequetesPDO::UNE_SEULE_LIGNE);
 	}
 }
