@@ -78,7 +78,32 @@ window.addEventListener('load', function() {
               })
               .then(response => {
                 console.debug(response);
-                window.location.assign("accueil");
+                const elBouteille = evt.target.closest(".bouteille");
+                for (let enfantBouteille of elBouteille.children) {
+                  if (enfantBouteille.classList.contains("description")) {
+                    for (let enfantDescription of enfantBouteille.children) {
+                      if (enfantDescription.classList.contains("quantite")) {
+                        let quantiteBouteille = enfantDescription.children[0].innerHTML;
+
+                        if (quantiteBouteille > 0) {
+                          quantiteBouteille -= 1;
+                        }
+                        
+                        if (quantiteBouteille == 0){
+                          evt.target.disabled = true;
+                        }
+
+                        enfantDescription.children[0].innerHTML = quantiteBouteille;
+                        break;
+                      }
+                    }
+
+                  }
+                }
+
+                //window.location.assign("accueil");
+                
+
               }).catch(error => {
                 console.error(error);
               });
@@ -102,7 +127,30 @@ window.addEventListener('load', function() {
               })
               .then(response => {
                 console.debug(response);
-                window.location.assign("accueil");
+                const elBouteille = evt.target.closest(".bouteille");
+                for (let enfantBouteille of elBouteille.children) {
+                  if (enfantBouteille.classList.contains("description")) {
+                    for (let enfantDescription of enfantBouteille.children) {
+                      if (enfantDescription.classList.contains("quantite")) {
+                        let quantiteBouteille = parseInt(enfantDescription.children[0].innerHTML);
+                        quantiteBouteille += 1;
+                        
+                        if (quantiteBouteille > 0){
+                          const elOptions = evt.target.closest(".options");
+                          for (let enfantOptions of elOptions.children) {
+                            if (enfantOptions.classList.contains("btnBoire")) {
+                              enfantOptions.disabled = false;
+                            }
+                          }
+                        }
+
+                        enfantDescription.children[0].innerHTML = quantiteBouteille;
+                        break;
+                      }
+                    }
+
+                  }
+                }
               }).catch(error => {
                 console.error(error);
               });
