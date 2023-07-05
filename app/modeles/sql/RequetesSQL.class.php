@@ -53,7 +53,9 @@ class RequetesSQL extends RequetesPDO {
 	public function ajouterBouteilleCellier($champs)
 	{
     $champs['millesime'] = empty($champs['millesime']) ? null : $champs['millesime'];
-    $champs['date_achat'] = empty($champs['date_achat']) ? null : $champs['date_achat'];   
+    $champs['date_achat'] = empty($champs['date_achat']) ? null : $champs['date_achat'];
+    $champs['quantite'] = empty($champs['quantite']) ? 0 : $champs['quantite'];
+    $champs['prix'] = empty($champs['prix']) ? 0 : $champs['prix'];
 
     $this->sql = "
       INSERT INTO vino__cellier SET id_bouteille = :id_bouteille, date_achat = :date_achat,
@@ -97,6 +99,7 @@ class RequetesSQL extends RequetesPDO {
     $champs['millesime'] = empty($champs['millesime']) ? null : $champs['millesime'];
     $champs['date_achat'] = empty($champs['date_achat']) ? null : $champs['date_achat'];
     $champs['quantite'] = empty($champs['quantite']) ? 0 : $champs['quantite'];
+    $champs['prix'] = empty($champs['prix']) ? 0 : $champs['prix'];
 
     $this->sql = "
       UPDATE vino__cellier SET id_bouteille = :id_bouteille, date_achat = :date_achat,
