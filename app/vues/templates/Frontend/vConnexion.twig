@@ -1,0 +1,21 @@
+<!-- Template Connexion -->
+
+
+<section>
+	<h1>Connexion</h1>
+
+	<form name="frmConnexion" method="POST" {% if actionUri %} action="{{ actionUri }}" {% endif %}>
+
+		<br><span id="messageErreurConnexion">&nbsp;{{ messageErreurConnexion }}</span>
+
+		<label>Courriel</label>
+		<input name="courriel" value="">
+
+		<label>Mot de passe</label>
+		<input type="password" name="mdp" value="">
+
+		<input type="submit" value="Se connecter">
+
+	</form>
+</section>
+<!-- fin template Connexion -->

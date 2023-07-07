@@ -1,0 +1,22 @@
+<!-- Template Inscription -->
+
+<link rel="stylesheet" href="assets/css/connexion.css">
+<section class="">
+	<form name="frmInscription" method="POST" action="validationInscription">
+		<input name="nom" value="{{ usager.nom }}" placeholder="Votre nom">
+		<span>&nbsp;{{ erreurs.nom }}</span>
+		<input name="prenom" value="{{ usager.prenom }}" placeholder="Votre prenom">
+		<span>&nbsp;{{ erreurs.prenom }}</span>
+		<input name="courriel" value="{{ usager.courriel }}" placeholder="Votre adresse courriel">
+		<span>&nbsp;{{ erreurs.courriel }}</span>
+		<input type="password" name="mdp" value="" placeholder="Votre mot de passe">
+		<input type="password" name="renouvelermdp" value="" placeholder="Confirmer votre mot de passe">
+		<span>&nbsp;{{ erreurs.mdp }}</span>
+		<input type="hidden" name="idprofil" value="membre">
+
+
+		<input type="submit" value="S'inscrire">
+
+	</form>
+</section>
+<!-- fin template Inscription -->
