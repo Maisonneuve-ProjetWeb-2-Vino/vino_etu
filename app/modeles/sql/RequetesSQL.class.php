@@ -142,4 +142,25 @@ class RequetesSQL extends RequetesPDO {
 
 		return $this->obtenirLignes(['id' => $bouteille_id], RequetesPDO::UNE_SEULE_LIGNE);
 	}
+
+  
+  /* GESTION DES CELLIERS
+     ==================== */
+
+  /**
+  * Retourne la liste des celliers pour un utilisateur donné.
+  *
+	* @param int $utilisateur_id id de l'utilisateur
+  * @return array Tableau des données représentant le cellier
+  */
+  public function obtenirListeCelliers($utilisateur_id) {
+		$this->sql = "
+      SELECT id_cellier, nom
+      FROM celliers
+      WHERE idmembre = :$utilisateur_id
+      ";
+
+    return $this->obtenirLignes(['utilisateur_id' => $utilisateur_id]);
+  }
+
 }

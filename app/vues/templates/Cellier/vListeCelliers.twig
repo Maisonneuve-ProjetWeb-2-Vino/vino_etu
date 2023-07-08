@@ -1,0 +1,25 @@
+<!-- Template Liste Celliers -->
+
+<div> 
+    <a href="cellier?action=p">Ajouter un cellier</a>
+</div>
+
+<div>
+    {% for cellier in celliers %}
+
+    <div>
+        <div class="charte">
+        </div>
+        <div class="description_cellier">
+            <p class="nom">{{ cellier.nom }}</p>
+            <p class="quantite":{{ cellier.quantite }} bouteilles</p>
+            <p><a href="{{ cellier?action=p }}">Voir Cellier</a></p>
+        </div>
+    </div>
+    {% else %}
+        <p>Aucun cellier pour cet usager</p>
+    {% endfor %}
+</div>
+
+
+<!-- fin template Liste Celliers -->

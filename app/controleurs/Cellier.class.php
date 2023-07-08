@@ -15,7 +15,9 @@ class Cellier extends Routeur {
     'c' => 'autocompleteBouteille',
     'l' => 'listeBouteille',
     'm' => 'modifierBouteilleCellier',
-    'n' => 'ajouterNouvelleBouteilleCellier'
+    'n' => 'ajouterNouvelleBouteilleCellier',
+    'o' => 'listeCellier'
+
   ];
 
   /**
@@ -235,4 +237,23 @@ class Cellier extends Routeur {
     echo json_encode($resultat);
   }
 
+  /**
+   * Liste les celliers pour un utilisateur donné.
+   * 
+   * @return void
+   */
+  public function listeCellier() {
+
+    // Codé en dur pour le moment
+    $utilisateur_id = 1;
+
+    $celliers = $this->oRequetesSQL->obtenirListeCellier($utilisateur_id);
+
+    new Vue("/Cellier/vListeCelliers",
+      array(
+        'titre'     => "Vos celliers",
+        'celliers'  => $celliers
+      ),
+      "/Frontend/gabarit-frontend");
+  }
 }
