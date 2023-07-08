@@ -14,10 +14,10 @@ class Routeur {
     ['',                      'Frontend', 'voirAccueil'],
     ['accueil',               'Frontend', 'voirAccueil'],
     ['cellier',               'Cellier', 'gererCellier'],
-    ['connecter',             'cMembre', 'connecter'],
-    ['deconnecter',           'cMembre', 'deconnecter'],
-    ['inscription',           'cMembre', 'inscription'],
-    ['validationInscription', 'cMembre', 'validationInscription'],
+    ['connecter',             'Membre', 'connecter'],
+    ['deconnecter',           'Membre', 'deconnecter'],
+    ['inscription',           'Membre', 'inscription'],
+    ['validationInscription', 'Membre', 'validationInscription'],
   ];
 
   protected $oRequetesSQL; // objet RequetesSQL utilisé par tous les contrôleurs
