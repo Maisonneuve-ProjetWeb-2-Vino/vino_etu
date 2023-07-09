@@ -24,6 +24,7 @@ class Routeur {
 
    const BASE_URI = RELATIVE_URI; // dossier racine du site par rapport au dossier racine d'Apache 
   //const BASE_URI = '/'; // pour le PHP Server de Visual Studio Code
+  //const BASE_URI = '/projetwebdeux/'; //Pour webdev
 
   const ERROR_BAD_REQUEST = 'HTTP 400';
   const ERROR_NOT_FOUND = 'HTTP 404';
