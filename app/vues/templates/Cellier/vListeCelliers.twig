@@ -2,6 +2,7 @@
 
 <div> 
     <a href="cellier?action=p">Ajouter un cellier</a>
+    <hr>
 </div>
 
 <div>
@@ -9,13 +10,28 @@
 
     <div>
         <div class="charte">
-        </div>
+        {% if cellier.quantite > 0 %}
+            <div style="
+                border-radius: 100%;
+                width: 150px;
+                aspect-ratio: 1;
+                background: conic-gradient({{ cellier.pourcentages }});
+             "></div>
+        {% else %}
+            <div style="
+                border-radius: 100%;
+                width: 150px;
+                aspect-ratio: 1;
+                background-color: gray
+             "></div>
+        {% endif %}
         <div class="description_cellier">
             <p class="nom">{{ cellier.nom }}</p>
-            <p class="quantite":{{ cellier.quantite }} bouteilles</p>
-            <p><a href="{{ cellier?action=p }}">Voir Cellier</a></p>
+            <p class="quantite">{{ cellier.quantite }} bouteilles</p>
+            <p><a href="cellier?action=p">Voir Cellier</a></p>
         </div>
     </div>
+    <hr>
     {% else %}
         <p>Aucun cellier pour cet usager</p>
     {% endfor %}

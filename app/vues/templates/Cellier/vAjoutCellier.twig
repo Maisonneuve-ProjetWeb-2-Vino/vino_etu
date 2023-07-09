@@ -1,0 +1,14 @@
+<!-- Template Création de cellier -->
+
+<section class="">
+	<form name="frmCreationCellier" method="POST" action="validationCreationCellier">
+		<input name="nom" value="{{ cellier.nom }}" placeholder="Nom du cellier">
+		<span>&nbsp;{{ erreurs.nom }}</span>
+		<input type="hidden" name="idprofil" value="membre">
+
+		<input type="submit" value="Créer le cellier">
+
+	</form>
+</section>
+
+<!-- fin template Création de cellier -->

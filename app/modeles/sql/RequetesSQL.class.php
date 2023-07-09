@@ -157,10 +157,45 @@ class RequetesSQL extends RequetesPDO {
 		$this->sql = "
       SELECT id_cellier, nom
       FROM celliers
-      WHERE idmembre = :$utilisateur_id
+      WHERE idmembre = :utilisateur_id
       ";
 
     return $this->obtenirLignes(['utilisateur_id' => $utilisateur_id]);
+  }
+
+  /**
+  * Retourne la liste des quantités pour chaque type de vin, pour un cellier donné.
+  *
+	* @param int $cellier_id id du cellier
+  * @return array Tableau des données représentant le cellier
+  */
+  public function obtenirQuantitesCellier($cellier_id) {
+
+    // Extraction des types de vin
+    $champs = [];
+    $this->sql = "
+      SELECT type
+      FROM types
+      ";
+    $types = $this->obtenirLignes($champs);
+
+    // Extraction des quantités pour chaque type de vin
+    $quantite = [];
+    foreach ($types as $type) {
+      $this->sql = "
+        SELECT SUM(quantite) AS quantite
+        FROM bouteilles_catalogue b
+        JOIN bouteilles_cellier c ON  b.id_bouteille = c.idbouteillecatalogue
+        WHERE idcellier = :cellier_id
+        AND b.idtype = :type
+        ";
+
+      $resultat = $this->obtenirLignes(['cellier_id' => $cellier_id, 'type' => $type['type'] ], RequetesPDO::UNE_SEULE_LIGNE);
+      $quantite[$type['type']] = $resultat['quantite'] ?? 0;
+    }
+
+    return $quantite;
+
   }
 
 }
