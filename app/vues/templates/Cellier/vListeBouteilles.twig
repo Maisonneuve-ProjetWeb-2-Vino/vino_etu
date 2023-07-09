@@ -1,0 +1,27 @@
+<div class="cellier">
+    {% for bouteille in bouteilles %}
+
+    <div class="bouteille" data-quantite="">
+        <div class="img">
+            
+            <img src="{{ bouteille.image }}">
+        </div>
+        <div class="description">
+            <p class="nom">Nom : {{ bouteille.nom }}</p>
+            <p class="quantite">Quantité :<span>{{ bouteille.quantite }}</span></p>
+            <p class="pays">Pays : {{ bouteille.pays }}</p>
+            <p class="type">Type : {{ bouteille.type }}</p>
+            <p class="millesime">Millesime : {{ bouteille.millesime }}</p>
+            <p><a href="{{ bouteille.url_saq }}">Voir SAQ</a></p>
+        </div>
+        <div class="options" data-id="{{ bouteille.id_bouteille_cellier }}">
+            <button class='btnModifier'>Modifier</button>
+            <button class='btnAjouter'>Ajouter</button>
+            <button class='btnBoire' {% if bouteille.quantite == 0 %} disabled="true" {% endif %}>Boire</button>
+        </div>
+    </div>
+
+    {% else %}
+        <p">Aucune bouteille dans ce cellier</p>
+    {% endfor %}
+</div>

@@ -13,7 +13,7 @@ class Routeur {
     // --------------------
     ['',           'Frontend', 'voirAccueil'],
     ['accueil',    'Frontend', 'voirAccueil'],
-    ['cellier',     'Cellier', 'gererCellier']
+    ['cellier',     'ControleurCellier', 'gererCellier']
   ];
 
   protected $oRequetesSQL; // objet RequetesSQL utilisé par tous les contrôleurs

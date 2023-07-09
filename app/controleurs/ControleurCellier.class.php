@@ -4,7 +4,7 @@
  * Classe Contrôleur des requêtes de l'interface Cellier.
  */
 
-class Cellier extends Routeur {
+class ControleurCellier extends Routeur {
 
   private $action;
   private $bouteille_id;
@@ -25,7 +25,7 @@ class Cellier extends Routeur {
    * 
    */
   public function __construct() {
-    $this->action = $_GET['action'] ?? 'l';
+    $this->action = $_GET['action'] ?? 'o';
     $this->bouteille_id = $_GET['bouteille_id'] ?? null;
     $this->oRequetesSQL = new RequetesSQL;
   }
@@ -244,7 +244,7 @@ class Cellier extends Routeur {
    */
   public function listeCellier() {
 
-    // Codé en dur pour le moment, à remplacer
+    //TODO Codé en dur pour le moment, à remplacer
     $utilisateur_id = 1;
 
     // Extraction nom et id de tous les celliers de l'utilisateur
@@ -252,7 +252,7 @@ class Cellier extends Routeur {
 
     $celliers_details = [];
     foreach ($celliers as $cellier) {
-      
+
       // Extraction et calcul des proportions pour chaque type de vin
       $quantites_cellier = $this->oRequetesSQL->obtenirQuantitesCellier($cellier['id_cellier']);
       $total_bouteilles = $this->calculerTotalBouteilles($quantites_cellier);
@@ -312,6 +312,72 @@ class Cellier extends Routeur {
     $finRose =  $proportions_cellier['Rouge'] + $proportions_cellier['Rosé'];
 
     return "rgb(155,54,54) 0% $finRouge, rgb(255,196,196) $finRouge $finRose,  rgb(255,255,196)$finRose 100%";
+
+  }
+
+  /**
+   * Liste les bouteilles pour un cellier donné.
+   * 
+   * @return void
+   */  
+  public function listeBouteille() {
+
+    $bouteilles = $this->oRequetesSQL->obtenirListeBouteilleCellier();
+
+    new Vue("/Frontend/vAccueil",
+      array(
+        'titre'     => "Un petit verre de vino",
+        'bouteilles'  => $bouteilles
+      ),
+      "/Frontend/gabarit-frontend");
+  }
+
+  /**
+   * Ajoute un cellier pour l'utilisateur authentifié.
+   * 
+   * @return void
+   */
+  public function ajouterCellier() {
+
+    //TODO Codé en dur pour le moment, à remplacer
+    $utilisateur_id = 1;
+    
+    $oCellier = [];
+    $erreursCellier = [];
+
+    if (count($_POST) !== 0) {
+
+      // Retour de saisie du formulaire
+      $oCellier = new Cellier([
+        'nom'       => $_POST['nom'],
+        'id_membre' => $utilisateur_id
+      ]); 
+
+
+      $erreursCellier = $oCellier->erreurs;
+
+      if (count($erreursCellier) === 0) {
+        $resultat = $this->oRequetesSQL->ajouterCellier([
+          'nom'       =>  $oCellier->nom,
+          'idmembre'  =>  $oCellier->id_membre
+        ]);
+
+        if (!$resultat) {
+          throw new Exception("Une erreur est survenue lors de l'insertion du cellier");
+        }
+
+        $this->listeCellier();
+        exit;
+      }
+    }
+
+    new Vue("/Cellier/vAjoutCellier",
+      array(
+        'titre'     => "Ajouter un cellier",
+        'cellier'   => $oCellier,
+        'erreurs'    => $erreursCellier
+      ),
+      "/Frontend/gabarit-frontend");
 
   }
 }

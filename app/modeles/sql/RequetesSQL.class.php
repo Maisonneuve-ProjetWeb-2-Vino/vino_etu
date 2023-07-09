@@ -198,4 +198,21 @@ class RequetesSQL extends RequetesPDO {
 
   }
 
+  /**
+	 * Ajoute un cellier pour un utilisateur donné.
+	 * 
+	 * @param Array $data Tableau des données contenant le nom du cellier et l'id de l'utilisateur.
+   * @return string|boolean clé primaire de la ligne ajoutée, false sinon
+	 */
+	public function ajouterCellier($champs)
+	{
+
+    $this->sql = "
+      INSERT INTO celliers SET nom = :nom, idmembre = :idmembre
+      ";
+        
+      return $this->CUDLigne($champs); 
+	}
+
+
 }
