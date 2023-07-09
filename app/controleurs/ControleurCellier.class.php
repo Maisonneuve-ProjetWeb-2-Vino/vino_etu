@@ -8,11 +8,13 @@ class ControleurCellier extends Routeur {
 
   private $action;
   private $bouteille_id;
+  private $cellier_id;
 
   private $methodes = [
     'a' => 'ajouterBouteilleCellier',
     'b' => 'boireBouteilleCellier',
     'c' => 'autocompleteBouteille',
+    'd' => 'afficherFicheBouteille',
     'l' => 'listeBouteille',
     'm' => 'modifierBouteilleCellier',
     'n' => 'ajouterNouvelleBouteilleCellier',
@@ -27,6 +29,7 @@ class ControleurCellier extends Routeur {
   public function __construct() {
     $this->action = $_GET['action'] ?? 'o';
     $this->bouteille_id = $_GET['bouteille_id'] ?? null;
+    $this->cellier_id = $_GET['cellier_id'] ?? null;
     $this->oRequetesSQL = new RequetesSQL;
   }
 
@@ -62,12 +65,8 @@ class ControleurCellier extends Routeur {
       // Création d'un objet Bouteille pour contrôler la saisie
       $oBouteille = new Bouteille([
           'id_bouteille'  => $body->id_bouteille,
-          'date_achat'    => $body->date_achat,
-          'garde_jusqua'  => $body->garde_jusqua,
           'notes'         => $body->notes,
-          'prix'          => $body->prix,
-          'quantite'      => $body->quantite,
-          'millesime'     => $body->millesime
+          'quantite'      => $body->quantite
       ]);
       
       $erreursBouteille = $oBouteille->erreurs;
@@ -76,12 +75,8 @@ class ControleurCellier extends Routeur {
 
         $resultat = $this->oRequetesSQL->ajouterBouteilleCellier([
           'id_bouteille'  => $oBouteille->id_bouteille,
-          'date_achat'    => $oBouteille->date_achat,
-          'garde_jusqua'  => $oBouteille->garde_jusqua,
           'notes'         => $oBouteille->notes,
-          'prix'          => $oBouteille->prix,
           'quantite'      => $oBouteille->quantite,
-          'millesime'     => $oBouteille->millesime
         ]);
 
         echo json_encode($resultat);
@@ -322,12 +317,15 @@ class ControleurCellier extends Routeur {
    */  
   public function listeBouteille() {
 
-    $bouteilles = $this->oRequetesSQL->obtenirListeBouteilleCellier();
+    $bouteilles = $this->oRequetesSQL->obtenirListeBouteilleCellier($this->cellier_id);
 
-    new Vue("/Frontend/vAccueil",
+    $cellier = $this->oRequetesSQL->obtenirNomCellier($this->cellier_id);
+
+    new Vue("/Cellier/vListeBouteilles",
       array(
-        'titre'     => "Un petit verre de vino",
-        'bouteilles'  => $bouteilles
+        'titre'       => "Détails du cellier",
+        'bouteilles'  => $bouteilles,
+        'cellier'     => $cellier
       ),
       "/Frontend/gabarit-frontend");
   }
@@ -341,7 +339,7 @@ class ControleurCellier extends Routeur {
 
     //TODO Codé en dur pour le moment, à remplacer
     $utilisateur_id = 1;
-    
+
     $oCellier = [];
     $erreursCellier = [];
 

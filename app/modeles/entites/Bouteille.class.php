@@ -26,7 +26,7 @@ class Bouteille
     public function __construct($proprietes = []) {
         $t = array_keys($proprietes);
         foreach ($t as $nom_propriete) {
-        $this->__set($nom_propriete, $proprietes[$nom_propriete]);
+            $this->__set($nom_propriete, $proprietes[$nom_propriete]);
         } 
     }
 

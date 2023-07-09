@@ -14,34 +14,24 @@ class RequetesSQL extends RequetesPDO {
   *
   * @return array Tableau des données représentant le cellier
   */
-  public function obtenirListeBouteilleCellier() {
+  public function obtenirListeBouteilleCellier($id_cellier) {
 
-    $champs = [];
     $this->sql = "
       SELECT 
-        c.id as id_bouteille_cellier,
-        c.id_bouteille, 
-        c.date_achat, 
-        c.garde_jusqua, 
-        c.notes, 
-        c.prix, 
+        c.id_bouteille_cellier,
         c.quantite,
-        c.millesime, 
-        b.id,
         b.nom, 
-        b.type, 
-        b.image, 
-        b.code_saq, 
-        b.url_saq, 
-        b.pays, 
-        b.description,
-        t.type 
-        FROM vino__cellier c 
-        INNER JOIN vino__bouteille b ON c.id_bouteille = b.id
-        INNER JOIN vino__type t ON t.id = b.type
+        b.idtype AS type, 
+        b.image_url,
+        b.format,
+        p.pays
+        FROM bouteilles_cellier c 
+        INNER JOIN bouteilles_catalogue b ON c.idbouteillecatalogue = b.id_bouteille
+        INNER JOIN pays p ON b.idpays = p.id_pays
+        WHERE c.idcellier = :id_cellier
         ";
       
-      return $this->obtenirLignes($champs);
+      return $this->obtenirLignes(['id_cellier' => $id_cellier]);
   }
 
   /**
@@ -52,18 +42,14 @@ class RequetesSQL extends RequetesPDO {
 	 */
 	public function ajouterBouteilleCellier($champs)
 	{
-    $champs['millesime'] = empty($champs['millesime']) ? null : $champs['millesime'];
-    $champs['date_achat'] = empty($champs['date_achat']) ? null : $champs['date_achat'];
     $champs['quantite'] = empty($champs['quantite']) ? 0 : $champs['quantite'];
-    $champs['prix'] = empty($champs['prix']) ? 0 : $champs['prix'];
 
     $this->sql = "
-      INSERT INTO vino__cellier SET id_bouteille = :id_bouteille, date_achat = :date_achat,
-      garde_jusqua = :garde_jusqua, notes = :notes, prix = :prix, quantite = :quantite,
-      millesime = :millesime
+      INSERT INTO bouteilles__cellier SET idbouteillecatalogue = :id_bouteille,
+      notes = :notes, quantite = :quantite
       ";
         
-      return $this->CUDLigne($champs); 
+    return $this->CUDLigne($champs); 
 	}
 
   /**
@@ -80,7 +66,7 @@ class RequetesSQL extends RequetesPDO {
 		$keywords = '%'. $nom .'%';
 
 		$this->sql = "
-      SELECT id, nom FROM vino__bouteille
+      SELECT id_bouteille AS id, nom FROM bouteilles_catalogue
       WHERE LOWER(nom) LIKE LOWER(:keywords) 
       LIMIT 0, :nb_resultat
       ";
@@ -214,5 +200,14 @@ class RequetesSQL extends RequetesPDO {
       return $this->CUDLigne($champs); 
 	}
 
+  public function obtenirNomCellier($id_cellier) {
+    $this->sql = "
+      SELECT nom
+      FROM celliers
+      WHERE id_cellier = :id_cellier
+      ";
+
+    return $this->obtenirLignes(['id_cellier' => $id_cellier], RequetesPDO::UNE_SEULE_LIGNE);
+  }
 
 }
