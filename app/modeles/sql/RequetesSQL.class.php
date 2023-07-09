@@ -142,4 +142,25 @@ class RequetesSQL extends RequetesPDO {
 
 		return $this->obtenirLignes(['id' => $bouteille_id], RequetesPDO::UNE_SEULE_LIGNE);
 	}
+
+  /* GESTION DES USAGERS 
+     ======================== */
+
+  /**
+   * Connecter un usager
+   * @param array $champs, tableau avec les champs courriel et mdp  
+   * @return array|false ligne de la table, false sinon 
+   */
+  public function connecter($champs)
+
+  {
+    //var_dump($champs);
+    $this->sql = "
+      SELECT id_membre, nom, prenom, courriel, idprofil
+      FROM membres
+      WHERE courriel = :courriel AND mdp = SHA2(:mdp, 512)";
+
+    return $this->obtenirLignes($champs, RequetesPDO::UNE_SEULE_LIGNE);
+  }
+
 }
