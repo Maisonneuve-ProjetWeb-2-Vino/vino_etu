@@ -82,6 +82,7 @@ window.addEventListener('load', function() {
         console.log(element);
         element.addEventListener("click", function(evt){
             let id = evt.target.parentElement.dataset.id;
+            console.log(id)
             let requete = new Request("cellier?action=a", {method: 'POST', body: '{"id": '+id+'}'});
 
             fetch(requete)

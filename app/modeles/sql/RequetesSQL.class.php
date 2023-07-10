@@ -25,11 +25,11 @@ class RequetesSQL extends RequetesPDO {
         b.image_url,
         b.format,
         p.pays
-        FROM bouteilles_cellier c 
-        INNER JOIN bouteilles_catalogue b ON c.idbouteillecatalogue = b.id_bouteille
-        INNER JOIN pays p ON b.idpays = p.id_pays
-        WHERE c.idcellier = :id_cellier
-        ";
+      FROM bouteilles_cellier c 
+      INNER JOIN bouteilles_catalogue b ON c.idbouteillecatalogue = b.id_bouteille
+      INNER JOIN pays p ON b.idpays = p.id_pays
+      WHERE c.idcellier = :id_cellier
+      ";
       
       return $this->obtenirLignes(['id_cellier' => $id_cellier]);
   }
@@ -106,7 +106,7 @@ class RequetesSQL extends RequetesPDO {
 	public function modifierQuantiteBouteilleCellier($id, $nombre)
 	{		
 		$this->sql = "
-      UPDATE vino__cellier SET quantite = GREATEST(quantite + :nombre, 0) WHERE id = :id
+      UPDATE bouteilles_cellier SET quantite = GREATEST(quantite + :nombre, 0) WHERE id_bouteille_cellier = :id
       ";
 
       return $this->CUDLigne(['nombre' => $nombre, 'id' => $id]); 
@@ -210,4 +210,32 @@ class RequetesSQL extends RequetesPDO {
     return $this->obtenirLignes(['id_cellier' => $id_cellier], RequetesPDO::UNE_SEULE_LIGNE);
   }
 
+  public function obtenirDetailsBouteilleCellier($id_bouteille) {
+
+    //TODO  extraire colonne sucre aussi
+    $this->sql = "
+      SELECT 
+        c.id_bouteille_cellier,
+        c.quantite,
+        c.idcellier AS id_cellier,
+        b.nom, 
+        b.idtype AS type, 
+        b.image_url,
+        b.format,
+        b.cepage,
+        b.degreAlcool,
+        b.producteur,
+        b.prix_saq,
+        b.region,
+        b.pastille,
+        p.pays
+      FROM bouteilles_cellier c 
+      INNER JOIN bouteilles_catalogue b ON c.idbouteillecatalogue = b.id_bouteille
+      INNER JOIN pays p ON b.idpays = p.id_pays
+      WHERE c.id_bouteille_cellier = :id_bouteille
+      ";
+
+    return $this->obtenirLignes(['id_bouteille' => $id_bouteille], RequetesPDO::UNE_SEULE_LIGNE);
+
+  }
 }

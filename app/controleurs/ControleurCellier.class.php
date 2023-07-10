@@ -196,7 +196,7 @@ class ControleurCellier extends Routeur {
     
     // Création d'un objet Bouteille pour contrôler la saisie
     $oBouteille = new Bouteille([
-      'id_bouteille_cellier'=> $body->id_bouteille
+      'id_bouteille_cellier'=> $body->id
     ]);
 
     if (count($oBouteille->erreurs) === 0) {
@@ -384,5 +384,21 @@ class ControleurCellier extends Routeur {
       ),
       "/Frontend/gabarit-frontend");
 
+  }
+
+  public function afficherFicheBouteille() {
+
+    $bouteille = $this->oRequetesSQL->obtenirDetailsBouteilleCellier($this->bouteille_id);
+
+    if (!$bouteille) {
+      throw new Exception(self::ERROR_BAD_REQUEST);
+    }
+    
+    new Vue("/Cellier/vFicheBouteille",
+      array(
+        'titre'     => "Fiche détaillée",
+        'bouteille'   => $bouteille
+      ),
+      "/Frontend/gabarit-frontend");
   }
 }
