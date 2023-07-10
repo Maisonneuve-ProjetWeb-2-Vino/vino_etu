@@ -5,8 +5,13 @@
     <h1>{{ cellier.nom }}</h1>
 
     <a href="cellier?action=n&cellier_id={{ cellier.id }}">Ajouter une bouteille</a>
-    <hr>
-
+    <br>
+    <br>
+    <a href="cellier?action=q&cellier_id={{ cellier.id }}">Modifier le cellier</a>
+    <br>
+    <a href="cellier?action=s&cellier_id={{ cellier.id }}">Supprimer le cellier</a>
+    <br>
+    <br>
     {% for bouteille in bouteilles %}
 
     <div class="bouteille" data-quantite="">

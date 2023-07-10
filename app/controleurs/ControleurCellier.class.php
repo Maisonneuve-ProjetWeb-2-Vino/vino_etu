@@ -19,7 +19,8 @@ class ControleurCellier extends Routeur {
     'm' => 'modifierBouteilleCellier',
     'n' => 'ajouterNouvelleBouteilleCellier',
     'o' => 'listeCellier',
-    'p' => 'ajouterCellier'
+    'p' => 'ajouterCellier',
+    'q' => 'modifierCellier'
   ];
 
   /**
@@ -393,12 +394,45 @@ class ControleurCellier extends Routeur {
     if (!$bouteille) {
       throw new Exception(self::ERROR_BAD_REQUEST);
     }
-    
+
     new Vue("/Cellier/vFicheBouteille",
       array(
         'titre'     => "Fiche détaillée",
         'bouteille'   => $bouteille
       ),
       "/Frontend/gabarit-frontend");
+  }
+
+  public function modifierCellier() {
+
+    $body = json_decode(file_get_contents('php://input'));
+
+    if(!empty($body)){
+
+      $resultat = $this->oRequetesSQL->modifierCellier([
+        'cellier_id'  => $body->cellier_id,
+        'nom'         => $body->nom
+      ]);
+
+      echo json_encode($resultat);
+
+    }
+    else {
+      if (!$this->cellier_id) {
+        throw new Exception(self::ERROR_BAD_REQUEST);
+      }
+
+      $cellier = $this->oRequetesSQL->obtenirNomCellier($this->cellier_id);
+
+      new Vue("/Cellier/vModificationCellier",
+        array(
+          'titre'       => "Modification du cellier",
+          'cellier'     => $cellier
+      ),
+      "/Frontend/gabarit-frontend");
+    }
+
+
+
   }
 }

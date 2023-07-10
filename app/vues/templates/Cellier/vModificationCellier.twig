@@ -1,0 +1,12 @@
+<div>
+    <h1>Modifier le cellier</h1>
+    <br>
+    <div>
+        <p>Nom : <input type="text" class="nom_cellier" name="nom" value="{{ cellier.nom }}"><span class="erreur_champ erreur_nom"></span></p>
+        <input id="cellier_id" type="hidden" value="{{ cellier.id }}">
+    </div>
+    
+    <button name="modifierCellier">Modifier le cellier</button>
+    <li><a href="cellier?action=l&cellier_id={{ cellier.id }}">Annuler</a></li>
+
+</div>

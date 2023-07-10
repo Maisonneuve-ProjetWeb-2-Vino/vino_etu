@@ -8,7 +8,7 @@
  *
  */
 
-// Valide les champs nécessaires à la création ou modification des champs du cellier
+// Valide les champs nécessaires à la création ou modification des champs des bouteilles d'un cellier
 function validerChampsBouteille(bouteille) {
 
   let validation = true;
@@ -22,6 +22,21 @@ function validerChampsBouteille(bouteille) {
     else {
         document.querySelector(".erreur_quantite").innerHTML = "";
     }
+  }
+
+  return validation;
+}
+
+function validerChampsCellier(cellier) {
+
+  let validation = true;
+
+  if (!cellier.nom.value) {
+    document.querySelector(".erreur_nom").innerHTML = "Le nom du cellier ne peut pas être vide";
+    validation = false;
+  }
+  else {
+    document.querySelector(".erreur_nom").innerHTML = "";
   }
 
   return validation;
@@ -172,9 +187,7 @@ window.addEventListener('load', function() {
       let bouteille = {
         nom : document.querySelector(".nom_bouteille"),
         quantite : document.querySelector("[name='quantite']"),
-        notes : document.querySelector("[name='notes']")
       };
-
 
       liste.addEventListener("click", function(evt){
         console.dir(evt.target)
@@ -241,7 +254,6 @@ window.addEventListener('load', function() {
             let param = {
               "id_bouteille_cellier":document.querySelector("#bouteille_id").dataset.idCellier,
 			        "id_bouteille":bouteille.nom.dataset.id,
-              "notes":bouteille.notes.value,
               "quantite":parseInt(bouteille.quantite.value),
             };
             console.log(param);
@@ -267,8 +279,47 @@ window.addEventListener('load', function() {
 
         
         });
-      } 
-  }
+      }
+
+    }
+
+    
+    let cellier = {
+      nom : document.querySelector(".nom_cellier")
+    }
+
+    let btnModifierCellier = document.querySelector("[name='modifierCellier']");
+    console.log(btnModifierCellier)
+    if(btnModifierCellier){
+      btnModifierCellier.addEventListener("click", function(evt){
+
+        if (validerChampsCellier(cellier)) {
+          let param = {
+            "cellier_id":document.querySelector("#cellier_id").value,
+            "nom": cellier.nom.value,
+          };
+          console.log(param);
+          let requete = new Request("cellier?action=q", {method: 'POST', body: JSON.stringify(param)});
+            fetch(requete)
+              .then(response => {
+                  if (response.status === 200) {
+                    return response.json();
+                  } else {
+                    throw new Error('Erreur');
+                  }
+                })
+                .then(response => {
+                  console.log(response);
+                  window.location.assign("cellier");
+                
+                }).catch(error => {
+                  console.error(error);
+                });
+        
+        }
+
+      });
+    } 
     
 
 });

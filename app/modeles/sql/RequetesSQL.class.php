@@ -238,4 +238,13 @@ class RequetesSQL extends RequetesPDO {
     return $this->obtenirLignes(['id_bouteille' => $id_bouteille], RequetesPDO::UNE_SEULE_LIGNE);
 
   }
+
+  public function modifierCellier($champs) {
+    
+		$this->sql = "
+      UPDATE celliers SET nom = :nom WHERE id_cellier = :cellier_id
+      ";
+
+      return $this->CUDLigne($champs);
+  }
 }
