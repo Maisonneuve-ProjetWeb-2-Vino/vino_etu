@@ -60,12 +60,13 @@ class ControleurCellier extends Routeur {
 
     $body = json_decode(file_get_contents('php://input'));
 
+
     if(!empty($body)){
 
       // Création d'un objet Bouteille pour contrôler la saisie
       $oBouteille = new Bouteille([
           'id_bouteille'  => $body->id_bouteille,
-          'notes'         => $body->notes,
+          'id_cellier'    => $body->id_cellier,
           'quantite'      => $body->quantite
       ]);
       
@@ -75,7 +76,7 @@ class ControleurCellier extends Routeur {
 
         $resultat = $this->oRequetesSQL->ajouterBouteilleCellier([
           'id_bouteille'  => $oBouteille->id_bouteille,
-          'notes'         => $oBouteille->notes,
+          'id_cellier'    => $oBouteille->id_cellier,
           'quantite'      => $oBouteille->quantite,
         ]);
 
@@ -88,9 +89,14 @@ class ControleurCellier extends Routeur {
 
     }
     else{
+      if(!$this->cellier_id) {
+        throw new Exception(self::ERROR_BAD_REQUEST);
+      }
+
       new Vue("/Cellier/vAjoutBouteille",
         array(
-          'titre'     => "Ajout de bouteille"
+          'titre'     => "Ajout de bouteille",
+          'cellier_id'   => $this->cellier_id
         ),
       "/Frontend/gabarit-frontend");
     }
@@ -190,7 +196,7 @@ class ControleurCellier extends Routeur {
     
     // Création d'un objet Bouteille pour contrôler la saisie
     $oBouteille = new Bouteille([
-      'id_bouteille_cellier'=> $body->id
+      'id_bouteille_cellier'=> $body->id_bouteille
     ]);
 
     if (count($oBouteille->erreurs) === 0) {
@@ -251,6 +257,7 @@ class ControleurCellier extends Routeur {
       // Extraction et calcul des proportions pour chaque type de vin
       $quantites_cellier = $this->oRequetesSQL->obtenirQuantitesCellier($cellier['id_cellier']);
       $total_bouteilles = $this->calculerTotalBouteilles($quantites_cellier);
+      $cellier_details = [];
 
       if ($total_bouteilles > 0) {
         $proportions_cellier = $this->calculerProportionsTypes($quantites_cellier);
@@ -258,7 +265,7 @@ class ControleurCellier extends Routeur {
       }
 
       // Remettre toutes les infos dans une variable pour Twig
-      $cellier_details = [];
+      
       $cellier_details['id'] = $cellier['id_cellier'];
       $cellier_details['nom'] = $cellier['nom'];
 
@@ -306,7 +313,7 @@ class ControleurCellier extends Routeur {
     $finRouge = $proportions_cellier['Rouge'];
     $finRose =  $proportions_cellier['Rouge'] + $proportions_cellier['Rosé'];
 
-    return "rgb(155,54,54) 0% $finRouge, rgb(255,196,196) $finRouge $finRose,  rgb(255,255,196)$finRose 100%";
+    return "rgb(155,54,54) 0% $finRouge%, rgb(255,196,196) $finRouge% $finRose%,  rgb(255,255,196) $finRose% 100%";
 
   }
 

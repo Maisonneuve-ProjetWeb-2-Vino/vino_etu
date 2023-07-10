@@ -2,7 +2,7 @@
 
     <h1>{{ cellier.nom }}</h1>
 
-    <a href="cellier?action=n">Ajouter une bouteille</a>
+    <a href="cellier?action=n&cellier_id={{ cellier.id }}">Ajouter une bouteille</a>
     <hr>
 
     {% for bouteille in bouteilles %}

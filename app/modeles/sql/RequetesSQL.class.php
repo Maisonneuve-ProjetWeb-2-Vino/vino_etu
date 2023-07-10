@@ -45,8 +45,8 @@ class RequetesSQL extends RequetesPDO {
     $champs['quantite'] = empty($champs['quantite']) ? 0 : $champs['quantite'];
 
     $this->sql = "
-      INSERT INTO bouteilles__cellier SET idbouteillecatalogue = :id_bouteille,
-      notes = :notes, quantite = :quantite
+      INSERT INTO bouteilles_cellier SET idbouteillecatalogue = :id_bouteille,
+      idcellier = :id_cellier, quantite = :quantite
       ";
         
     return $this->CUDLigne($champs); 
@@ -202,7 +202,7 @@ class RequetesSQL extends RequetesPDO {
 
   public function obtenirNomCellier($id_cellier) {
     $this->sql = "
-      SELECT nom
+      SELECT nom, id_cellier AS id
       FROM celliers
       WHERE id_cellier = :id_cellier
       ";

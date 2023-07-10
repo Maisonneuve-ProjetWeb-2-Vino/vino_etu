@@ -12,7 +12,6 @@
 function validerChampsBouteille(bouteille) {
 
   let validation = true;
-  const prix_bouteille = bouteille.prix.value.replace(",", ".");
 
   // Validation de la quantité
   if (bouteille.quantite.value){
@@ -22,38 +21,6 @@ function validerChampsBouteille(bouteille) {
     }
     else {
         document.querySelector(".erreur_quantite").innerHTML = "";
-    }
-  }
-  
-  // Validation du prix
-  if (prix_bouteille){
-    const regex_prix = /^\d+(\.\d{1,2})?$/;
-    if(!prix_bouteille.match(regex_prix)) {
-      document.querySelector(".erreur_prix").innerHTML = "Le format du prix est incorrect.";
-      validation = false;
-    }
-    else {
-      document.querySelector(".erreur_prix").innerHTML = "";
-    }
-  }
-
-  // Validation du millésime
-  if (bouteille.millesime.value) {
-    if(isNaN(bouteille.millesime.value) || bouteille.millesime.value > new Date().getFullYear()) {
-      document.querySelector(".erreur_millesime").innerHTML = "Le millésime doit être une année inférieure ou égale à l'année courante.";
-      validation = false;
-    }
-    else {
-      document.querySelector(".erreur_millesime").innerHTML = "";
-    }
-  }
-
-  // Validation de la date d'achat
-  if (bouteille.date_achat.value) {
-    console.log(bouteille.date_achat.value)
-    if (new Date(bouteille.date_achat.value) > new Date()) {
-      document.querySelector(".erreur_date_achat").innerHTML = "La date d'achat doit être inférieure ou égale au jour courant.";
-      validation = false;
     }
   }
 
@@ -203,12 +170,8 @@ window.addEventListener('load', function() {
 
       let bouteille = {
         nom : document.querySelector(".nom_bouteille"),
-        millesime : document.querySelector("[name='millesime']"),
         quantite : document.querySelector("[name='quantite']"),
-        date_achat : document.querySelector("[name='date_achat']"),
-        prix : document.querySelector("[name='prix']"),
-        garde_jusqua : document.querySelector("[name='garde_jusqua']"),
-        notes : document.querySelector("[name='notes']"),
+        notes : document.querySelector("[name='notes']")
       };
 
 
@@ -242,14 +205,10 @@ window.addEventListener('load', function() {
           if (validation) {
             var param = {
               "id_bouteille":bouteille.nom.dataset.id,
-              "date_achat":bouteille.date_achat.value,
-              "garde_jusqua":bouteille.garde_jusqua.value,
-              "notes":bouteille.notes.value,
-              "prix": bouteille.prix.value.replace(",", "."),
               "quantite":bouteille.quantite.value,
-              "millesime":bouteille.millesime.value,
+              "id_cellier":document.querySelector("#cellier_id").value
             };
-            console.log(param['id_bouteille']);
+            console.log(param['id_cellier']);
             let requete = new Request("cellier?action=n", {method: 'POST', body: JSON.stringify(param)});
               fetch(requete)
                   .then(response => {
@@ -261,7 +220,7 @@ window.addEventListener('load', function() {
                     })
                     .then(response => {
                       console.log(response);
-                      window.location.assign("accueil");
+                      window.location.assign("cellier");
                     
                     }).catch(error => {
                       console.error(error);
@@ -281,12 +240,8 @@ window.addEventListener('load', function() {
             let param = {
               "id_bouteille_cellier":document.querySelector("#bouteille_id").dataset.idCellier,
 			        "id_bouteille":bouteille.nom.dataset.id,
-              "date_achat":bouteille.date_achat.value,
-              "garde_jusqua":bouteille.garde_jusqua.value,
               "notes":bouteille.notes.value,
-              "prix":bouteille.prix.value.replace(",", "."),
               "quantite":parseInt(bouteille.quantite.value),
-              "millesime":bouteille.millesime.value,
             };
             console.log(param);
             let requete = new Request("cellier?action=m", {method: 'POST', body: JSON.stringify(param)});
