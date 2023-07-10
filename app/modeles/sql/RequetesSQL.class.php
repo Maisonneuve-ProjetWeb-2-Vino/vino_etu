@@ -240,11 +240,19 @@ class RequetesSQL extends RequetesPDO {
   }
 
   public function modifierCellier($champs) {
-    
+
 		$this->sql = "
       UPDATE celliers SET nom = :nom WHERE id_cellier = :cellier_id
       ";
 
       return $this->CUDLigne($champs);
+  }
+
+  public function supprimerCellier($id_cellier) {
+    $this->sql = "
+      DELETE FROM celliers WHERE id_cellier = :id_cellier
+      ";
+
+    return $this->CUDLigne(['id_cellier' => $id_cellier]);
   }
 }

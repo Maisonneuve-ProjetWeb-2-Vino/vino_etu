@@ -431,8 +431,11 @@ class ControleurCellier extends Routeur {
       ),
       "/Frontend/gabarit-frontend");
     }
+  
 
+  }
 
-
+  public function supprimerCellier() {
+    
   }
 }
