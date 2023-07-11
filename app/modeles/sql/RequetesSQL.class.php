@@ -6,8 +6,8 @@
  */
 class RequetesSQL extends RequetesPDO {
 
-  /* GESTION DES BOUTEILLES DU CELLIER
-     ================================= */
+  /* GESTION DES CELLIERS
+     ==================== */
 
   /**
   * Retourne les détails sur chaque bouteille du cellier.
@@ -57,7 +57,7 @@ class RequetesSQL extends RequetesPDO {
    * de l'ajout des bouteilles dans le cellier
 	 * 
 	 * @param string $nom La chaine de caractère à rechercher
-   * 
+	 * @param integer $utilisateur_id L'id de l'utilisateur
 	 * @param integer $nb_resultat Le nombre de résultats maximal à retourner.
 	 * @return array id et nom de la bouteille trouvée dans le catalogue
 	 */
@@ -135,11 +135,7 @@ class RequetesSQL extends RequetesPDO {
 		return $this->obtenirLignes(['id_bouteille' => $id_bouteille], RequetesPDO::UNE_SEULE_LIGNE);
 	}
 
-  
-  /* GESTION DES CELLIERS
-     ==================== */
-
-  /**
+ /**
   * Retourne la liste des celliers pour un utilisateur donné.
   *
 	* @param int $utilisateur_id id de l'utilisateur
@@ -207,6 +203,12 @@ class RequetesSQL extends RequetesPDO {
     return $this->CUDLigne($champs); 
 	}
 
+  /**
+   * Retourne le nom d'un cellier.
+   * 
+   * @param int $id_cellier L'id du cellier
+   * @return array|false ligne de la table, false sinon
+   */
   public function obtenirNomCellier($id_cellier) {
 
     $this->sql = "
@@ -218,6 +220,11 @@ class RequetesSQL extends RequetesPDO {
     return $this->obtenirLignes(['id_cellier' => $id_cellier], RequetesPDO::UNE_SEULE_LIGNE);
   }
 
+  /**
+   * Donne les détails du catalogue et du cellier (quantité) pour une bouteille donnée.
+   * 
+   * @param int $id_bouteille L'id de la bouteille
+   */
   public function obtenirDetailsBouteilleCellier($id_bouteille) {
 
     //TODO  extraire colonne sucre aussi
@@ -247,6 +254,12 @@ class RequetesSQL extends RequetesPDO {
 
   }
 
+  /**
+   * Modifier le nom d'un cellier.
+   * 
+   * @param array $champs Tableau avec le nouveau nom et l'id du cellier à changer.
+   * @return string|boolean clé primaire de la ligne modifiée, false sinon
+   */
   public function modifierCellier($champs) {
 
 		$this->sql = "
@@ -256,6 +269,12 @@ class RequetesSQL extends RequetesPDO {
     return $this->CUDLigne($champs);
   }
 
+  /**
+   * Supprime un cellier et toutes les bouteilles en inventaire associées.
+   * 
+   * @param int $id_cellier L'id du cellier à supprimer
+   * @return string|boolean clé primaire de la ligne modifiée, false sinon
+   */
   public function supprimerCellier($id_cellier) {
 
     $this->sql = "
@@ -265,6 +284,11 @@ class RequetesSQL extends RequetesPDO {
     return $this->CUDLigne(['id_cellier' => $id_cellier]);
   }
 
+  /**
+   * Retourne la liste de tous les pays.
+   * 
+   * @return array Tableau avec les pays.
+   */
   public function obtenirListePays() {
 
     $champs = [];
@@ -276,6 +300,11 @@ class RequetesSQL extends RequetesPDO {
     return $this->obtenirLignes($champs);
   }
 
+  /**
+   * Retourne la liste de tous les types de vins.
+   * 
+   * @return array Tableau avec les types de vins.
+   */
   public function obtenirListeTypes() {
 
     $champs = [];
