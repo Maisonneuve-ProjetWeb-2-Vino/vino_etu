@@ -5,7 +5,7 @@
 html, body {
 	height: 100%;
 	margin: 0;
-	background-color: #E5E5E5;
+	background-color: #3B3333;
 	
 	font-family: 'Roboto', 'RobotoDraft', sans-serif;
 	font-size: 95%;
@@ -40,21 +40,20 @@ html, body {
 	
 }
 
-@media all and (max-width:640px)
+/* @media all and (max-width:640px)
 {
 	footer
 	{
 		display:none;
 	}
 	
-}
+} */
 
 footer
 {
 	width: 100%;
 	padding-top:3px;
 	text-align: center;
-	background-color:#FFFFFF;
 }
 footer p
 {
