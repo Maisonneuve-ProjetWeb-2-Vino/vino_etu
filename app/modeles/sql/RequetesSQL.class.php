@@ -31,7 +31,7 @@ class RequetesSQL extends RequetesPDO {
       WHERE c.idcellier = :id_cellier
       ";
       
-      return $this->obtenirLignes(['id_cellier' => $id_cellier]);
+    return $this->obtenirLignes(['id_cellier' => $id_cellier]);
   }
 
   /**
@@ -49,7 +49,7 @@ class RequetesSQL extends RequetesPDO {
       idcellier = :id_cellier, quantite = :quantite
       ";
         
-    return $this->CUDLigne($champs); 
+    return $this->CUDLigne($champs);
 	}
 
   /**
@@ -93,7 +93,7 @@ class RequetesSQL extends RequetesPDO {
       millesime = :millesime WHERE id = :id_bouteille_cellier
       ";
         
-      return $this->CUDLigne($champs); 
+    return $this->CUDLigne($champs); 
 	}
 
 	/**
@@ -103,13 +103,13 @@ class RequetesSQL extends RequetesPDO {
 	 * @param int $nombre Nombre de bouteilles à ajouter ou retirer
    * @return string|boolean clé primaire de la ligne modifiée, false sinon
 	 */
-	public function modifierQuantiteBouteilleCellier($id, $nombre)
-	{		
+	public function modifierQuantiteBouteilleCellier($id, $nombre) {
+
 		$this->sql = "
       UPDATE bouteilles_cellier SET quantite = GREATEST(quantite + :nombre, 0) WHERE id_bouteille_cellier = :id
       ";
 
-      return $this->CUDLigne(['nombre' => $nombre, 'id' => $id]); 
+    return $this->CUDLigne(['nombre' => $nombre, 'id' => $id]); 
 	}
 
   /**
@@ -118,8 +118,8 @@ class RequetesSQL extends RequetesPDO {
 	 * @param int $bouteille_id id de la bouteille
    * @return array|false ligne de la table, false sinon
 	 */
-	public function obtenirBouteilleCellier($bouteille_id)
-	{
+	public function obtenirBouteilleCellier($bouteille_id) {
+
 		$this->sql = "
 			SELECT vino__cellier.id, vino__cellier.id_bouteille, nom, date_achat, garde_jusqua, notes, prix, quantite, millesime FROM vino__cellier
 			JOIN vino__bouteille ON vino__cellier.id_bouteille = vino__bouteille.id
@@ -140,6 +140,7 @@ class RequetesSQL extends RequetesPDO {
   * @return array Tableau des données représentant le cellier
   */
   public function obtenirListeCelliers($utilisateur_id) {
+
 		$this->sql = "
       SELECT id_cellier, nom
       FROM celliers
@@ -197,10 +198,11 @@ class RequetesSQL extends RequetesPDO {
       INSERT INTO celliers SET nom = :nom, idmembre = :idmembre
       ";
         
-      return $this->CUDLigne($champs); 
+    return $this->CUDLigne($champs); 
 	}
 
   public function obtenirNomCellier($id_cellier) {
+
     $this->sql = "
       SELECT nom, id_cellier AS id
       FROM celliers
@@ -245,10 +247,11 @@ class RequetesSQL extends RequetesPDO {
       UPDATE celliers SET nom = :nom WHERE id_cellier = :cellier_id
       ";
 
-      return $this->CUDLigne($champs);
+    return $this->CUDLigne($champs);
   }
 
   public function supprimerCellier($id_cellier) {
+
     $this->sql = "
       DELETE FROM celliers WHERE id_cellier = :id_cellier
       ";

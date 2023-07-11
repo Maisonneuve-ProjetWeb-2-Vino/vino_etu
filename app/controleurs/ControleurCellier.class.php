@@ -59,8 +59,10 @@ class ControleurCellier extends Routeur {
    */
   public function ajouterNouvelleBouteilleCellier() {
 
-    $body = json_decode(file_get_contents('php://input'));
+    //TODO remplacer par vrai id de l,Utilisateur
+    $utilisateur_id = 1;
 
+    $body = json_decode(file_get_contents('php://input'));
 
     if(!empty($body)){
 
@@ -90,14 +92,15 @@ class ControleurCellier extends Routeur {
 
     }
     else{
-      if(!$this->cellier_id) {
-        throw new Exception(self::ERROR_BAD_REQUEST);
-      }
+
+      $cellier_preferentiel = $this->cellier_id ?? null;
+      $celliers = $this->oRequetesSQL->obtenirListeCelliers($utilisateur_id);
 
       new Vue("/Cellier/vAjoutBouteille",
         array(
           'titre'     => "Ajout de bouteille",
-          'cellier_id'   => $this->cellier_id
+          'cellier_preferentiel'   => $cellier_preferentiel,
+          'celliers'  => $celliers
         ),
       "/Frontend/gabarit-frontend");
     }

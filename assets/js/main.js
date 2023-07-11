@@ -42,6 +42,25 @@ function validerChampsCellier(cellier) {
   return validation;
 }
 
+function changerStatutInterfaceAjout(bouteille, statut) {
+  bouteille.nom.disabled = statut;
+  bouteille.quantite.disabled = statut;
+  bouteille.pays.disabled = statut;
+  bouteille.type.disabled = statut;
+  bouteille.millesime.disabled = statut;
+  bouteille.pastille.disabled = statut;
+  bouteille.appellation.disabled = statut;
+  bouteille.format.disabled = statut;
+  bouteille.cepage.disabled = statut;
+  bouteille.particularite.disabled = statut;
+  bouteille.degreAlcool.disabled = statut;
+  bouteille.origine.disabled = statut;
+  bouteille.producteur.disabled = statut;
+  bouteille.prix.disabled = statut;
+  bouteille.region.disabled = statut;
+  bouteille.sucre.disabled = statut;
+}
+
 window.addEventListener('load', function() {
     console.log("load");
     document.querySelectorAll(".btnBoire").forEach(function(element){
@@ -150,11 +169,34 @@ window.addEventListener('load', function() {
         });
     });
 
+
     let inputNomBouteille = document.querySelector("[name='nom_bouteille']");
     console.log(inputNomBouteille);
     let liste = document.querySelector('.listeAutoComplete');
 
+    // Si on est sur la page d'ajout de bouteille
     if(inputNomBouteille){
+
+      let bouteille = {
+        nom : document.querySelector(".nom_bouteille"),
+        quantite : document.querySelector("[name='quantite']"),
+        pays : document.querySelector("[name='pays']"),
+        type : document.querySelector("[name='type']"),
+        millesime : document.querySelector("[name='millesime']"),
+        pastille : document.querySelector("[name='pastille']"),
+        appellation : document.querySelector("[name='appellation']"),
+        format : document.querySelector("[name='format']"),
+        cepage : document.querySelector("[name='cepage']"),
+        particularite : document.querySelector("[name='particularite']"),
+        degreAlcool : document.querySelector("[name='degreAlcool']"),
+        origine : document.querySelector("[name='origine']"),
+        producteur : document.querySelector("[name='producteur']"),
+        prix : document.querySelector("[name='prix']"),
+        region : document.querySelector("[name='region']"),
+        sucre : document.querySelector("[name='sucre']")
+      };
+
+      changerStatutInterfaceAjout(bouteille, true);
       inputNomBouteille.addEventListener("keyup", function(evt){
         console.log(evt);
         let nom = inputNomBouteille.value;
@@ -184,16 +226,14 @@ window.addEventListener('load', function() {
         
       });
 
-      let bouteille = {
-        nom : document.querySelector(".nom_bouteille"),
-        quantite : document.querySelector("[name='quantite']"),
-      };
+
 
       liste.addEventListener("click", function(evt){
         console.dir(evt.target)
         if(evt.target.tagName == "LI"){
           bouteille.nom.dataset.id = evt.target.dataset.id;
-          bouteille.nom.innerHTML = evt.target.innerHTML;
+          console.log(evt.target.innerHTML)
+          bouteille.nom.value = evt.target.innerHTML;
           
           liste.innerHTML = "";
           inputNomBouteille.value = "";
