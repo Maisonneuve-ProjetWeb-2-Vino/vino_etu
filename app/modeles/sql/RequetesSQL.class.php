@@ -57,10 +57,11 @@ class RequetesSQL extends RequetesPDO {
    * de l'ajout des bouteilles dans le cellier
 	 * 
 	 * @param string $nom La chaine de caractère à rechercher
+   * 
 	 * @param integer $nb_resultat Le nombre de résultats maximal à retourner.
 	 * @return array id et nom de la bouteille trouvée dans le catalogue
 	 */
-  public function autocomplete($nom, $nb_resultat=10) {
+  public function autocomplete($nom, $utilisateur_id, $nb_resultat=10) {
 
 		$nom = preg_replace("/\*/","%" , $nom);
 		$keywords = '%'. $nom .'%';
@@ -68,10 +69,15 @@ class RequetesSQL extends RequetesPDO {
 		$this->sql = "
       SELECT id_bouteille AS id, nom FROM bouteilles_catalogue
       WHERE LOWER(nom) LIKE LOWER(:keywords) 
+      AND (idmembre is NULL OR idmembre = :utilisateur_id)
       LIMIT 0, :nb_resultat
       ";
 
-    return $this->obtenirLignes(['nb_resultat' => $nb_resultat, 'keywords' => $keywords]);
+    return $this->obtenirLignes([
+      'nb_resultat'     => $nb_resultat,
+      'keywords'        => $keywords,
+      'utilisateur_id'  => $utilisateur_id
+    ]);
   }
 
   /**
@@ -115,18 +121,18 @@ class RequetesSQL extends RequetesPDO {
   /**
 	 * Récupère les données d'une bouteille d'un cellier, à partir de son id.
 	 * 
-	 * @param int $bouteille_id id de la bouteille
+	 * @param int $id_bouteille id de la bouteille
    * @return array|false ligne de la table, false sinon
 	 */
-	public function obtenirBouteilleCellier($bouteille_id) {
+	public function obtenirBouteilleCellier($id_bouteille) {
 
 		$this->sql = "
-			SELECT vino__cellier.id, vino__cellier.id_bouteille, nom, date_achat, garde_jusqua, notes, prix, quantite, millesime FROM vino__cellier
-			JOIN vino__bouteille ON vino__cellier.id_bouteille = vino__bouteille.id
-			WHERE vino__cellier.id = :id
+			SELECT *
+      FROM bouteilles_catalogue
+			WHERE id_bouteille = :id_bouteille
       ";
 
-		return $this->obtenirLignes(['id' => $bouteille_id], RequetesPDO::UNE_SEULE_LIGNE);
+		return $this->obtenirLignes(['id_bouteille' => $id_bouteille], RequetesPDO::UNE_SEULE_LIGNE);
 	}
 
   
@@ -142,7 +148,7 @@ class RequetesSQL extends RequetesPDO {
   public function obtenirListeCelliers($utilisateur_id) {
 
 		$this->sql = "
-      SELECT id_cellier, nom
+      SELECT id_cellier AS id, nom
       FROM celliers
       WHERE idmembre = :utilisateur_id
       ";
@@ -257,5 +263,27 @@ class RequetesSQL extends RequetesPDO {
       ";
 
     return $this->CUDLigne(['id_cellier' => $id_cellier]);
+  }
+
+  public function obtenirListePays() {
+
+    $champs = [];
+    $this->sql = "
+      SELECT id_pays AS id, pays
+      FROM pays
+      ";
+
+    return $this->obtenirLignes($champs);
+  }
+
+  public function obtenirListeTypes() {
+
+    $champs = [];
+    $this->sql = "
+      SELECT type
+      FROM types
+      ";
+
+    return $this->obtenirLignes($champs);
   }
 }

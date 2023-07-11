@@ -4,7 +4,7 @@
         <label for="cellier">Cellier:</label>
         <select id="cellier_id" name="cellier">
         {% for cellier in celliers %}
-            <option value="{{ cellier.id }}">{{ cellier.nom }}</option>
+            <option value="{{ cellier.id }}" {% if cellier.id == cellier_preferentiel %} selected {% endif %}>{{ cellier.nom }}</option>
         {% endfor %}
         </select>
         <br>
@@ -29,15 +29,15 @@
                 <label for="pays">Pays</label>
                 <select id="pays_id" name="pays">
                 {% for unPays in pays %}
-                    <option value="{{ pays.id }}">{{ pays.nom }}</option>
+                    <option value="{{ unPays.id }}">{{ unPays.pays }}</option>
                 {% endfor %}
                 </select>
                 <br>
                 <br>
                 <label for="type">Type</label>
                 <select id="type_id" name="type">
-                {% for unType in type %}
-                    <option value="{{ type.id }}">{{ type.nom }}</option>
+                {% for type in types %}
+                    <option value="{{ type.type }}">{{ type.type }}</option>
                 {% endfor %}
                 </select>
                 <br>

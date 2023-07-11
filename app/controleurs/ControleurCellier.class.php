@@ -20,7 +20,9 @@ class ControleurCellier extends Routeur {
     'n' => 'ajouterNouvelleBouteilleCellier',
     'o' => 'listeCellier',
     'p' => 'ajouterCellier',
-    'q' => 'modifierCellier'
+    'q' => 'modifierCellier',
+    'r' => 'obtenirDetailsBouteille',
+    's' => 'supprimerCellier'
   ];
 
   /**
@@ -59,7 +61,7 @@ class ControleurCellier extends Routeur {
    */
   public function ajouterNouvelleBouteilleCellier() {
 
-    //TODO remplacer par vrai id de l,Utilisateur
+    //TODO remplacer par vrai id de l'utilisateur
     $utilisateur_id = 1;
 
     $body = json_decode(file_get_contents('php://input'));
@@ -95,12 +97,16 @@ class ControleurCellier extends Routeur {
 
       $cellier_preferentiel = $this->cellier_id ?? null;
       $celliers = $this->oRequetesSQL->obtenirListeCelliers($utilisateur_id);
+      $pays = $this->oRequetesSQL->obtenirListePays();
+      $types = $this->oRequetesSQL->obtenirListeTypes();
 
       new Vue("/Cellier/vAjoutBouteille",
         array(
-          'titre'     => "Ajout de bouteille",
-          'cellier_preferentiel'   => $cellier_preferentiel,
-          'celliers'  => $celliers
+          'titre'                 => "Ajout de bouteille",
+          'cellier_preferentiel'  => $cellier_preferentiel,
+          'celliers'              => $celliers,
+          'pays'                  => $pays,
+          'types'                 => $types
         ),
       "/Frontend/gabarit-frontend");
     }
@@ -115,11 +121,14 @@ class ControleurCellier extends Routeur {
    */
   public function autocompleteBouteille() {
 
-			$body = json_decode(file_get_contents('php://input'));
-            
-      $listeBouteilles = $this->oRequetesSQL->autocomplete($body->nom);
-            
-      echo json_encode($listeBouteilles);
+    #TODO utilisateur id hardcodé à 1
+    $utilisateur_id = 1;
+
+    $body = json_decode(file_get_contents('php://input'));
+          
+    $listeBouteilles = $this->oRequetesSQL->autocomplete($body->nom, $utilisateur_id);
+          
+    echo json_encode($listeBouteilles);
   }
 
   /**
@@ -259,7 +268,7 @@ class ControleurCellier extends Routeur {
     foreach ($celliers as $cellier) {
 
       // Extraction et calcul des proportions pour chaque type de vin
-      $quantites_cellier = $this->oRequetesSQL->obtenirQuantitesCellier($cellier['id_cellier']);
+      $quantites_cellier = $this->oRequetesSQL->obtenirQuantitesCellier($cellier['id']);
       $total_bouteilles = $this->calculerTotalBouteilles($quantites_cellier);
       $cellier_details = [];
 
@@ -270,7 +279,7 @@ class ControleurCellier extends Routeur {
 
       // Remettre toutes les infos dans une variable pour Twig
       
-      $cellier_details['id'] = $cellier['id_cellier'];
+      $cellier_details['id'] = $cellier['id'];
       $cellier_details['nom'] = $cellier['nom'];
 
       $cellier_details['quantite'] = $total_bouteilles;
@@ -440,5 +449,15 @@ class ControleurCellier extends Routeur {
 
   public function supprimerCellier() {
     
+  }
+
+  public function obtenirDetailsBouteille() {
+
+    $body = json_decode(file_get_contents('php://input'));
+
+    $bouteille = $this->oRequetesSQL->obtenirBouteilleCellier($body->id_bouteille);
+            
+    echo json_encode($bouteille);
+
   }
 }

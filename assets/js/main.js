@@ -44,7 +44,6 @@ function validerChampsCellier(cellier) {
 
 function changerStatutInterfaceAjout(bouteille, statut) {
   bouteille.nom.disabled = statut;
-  bouteille.quantite.disabled = statut;
   bouteille.pays.disabled = statut;
   bouteille.type.disabled = statut;
   bouteille.millesime.disabled = statut;
@@ -59,6 +58,41 @@ function changerStatutInterfaceAjout(bouteille, statut) {
   bouteille.prix.disabled = statut;
   bouteille.region.disabled = statut;
   bouteille.sucre.disabled = statut;
+}
+
+function remplirChampsAjout(bouteille, details) {
+  bouteille.pays.value = details.idpays;
+  bouteille.type.value = details.idtype;
+  bouteille.millesime.value = details.annee;
+  bouteille.pastille.value = details.pastille;
+  bouteille.appellation.value = details.appellation;
+  bouteille.format.value = details.format;
+  bouteille.cepage.value = details.cepage;
+  bouteille.particularite.value = details.particularite;
+  bouteille.degreAlcool.value = details.degreAlcool;
+  bouteille.origine.value = details.origine;
+  bouteille.producteur.value = details.producteur;
+  bouteille.prix.value = details.prix_saq;
+  bouteille.region.value = details.region;
+  bouteille.sucre.value = details.sucre;
+}
+
+function viderChampsAjout(bouteille) {
+  bouteille.nom.value = "";
+  bouteille.pays.value = 1;
+  bouteille.type.value = "Blanc";
+  bouteille.millesime.value = "";
+  bouteille.pastille.value = "";
+  bouteille.appellation.value = "";
+  bouteille.format.value = "";
+  bouteille.cepage.value = "";
+  bouteille.particularite.value = "";
+  bouteille.degreAlcool.value = "";
+  bouteille.origine.value = "";
+  bouteille.producteur.value = "";
+  bouteille.prix.value = "";
+  bouteille.region.value = "";
+  bouteille.sucre.value = "";
 }
 
 window.addEventListener('load', function() {
@@ -227,7 +261,7 @@ window.addEventListener('load', function() {
       });
 
 
-
+      // Écouteur sur la liste des résultats de recherche d'une bouteille
       liste.addEventListener("click", function(evt){
         console.dir(evt.target)
         if(evt.target.tagName == "LI"){
@@ -240,9 +274,32 @@ window.addEventListener('load', function() {
 
           const erreur_nom = document.querySelector(".erreur_nom_bouteille");
           erreur_nom.innerHTML = "";
+          changerStatutInterfaceAjout(bouteille, true)
+
+          let param = {
+            "id_bouteille":bouteille.nom.dataset.id,
+          }
+
+          let requete = new Request("cellier?action=r", {method: 'POST', body: JSON.stringify(param)});
+              fetch(requete)
+                  .then(response => {
+                      if (response.status === 200) {
+                        return response.json();
+                      } else {
+                        throw new Error('Erreur');
+                      }
+                    })
+                    .then(response => {
+                      console.log(response)
+                      remplirChampsAjout(bouteille, response);
+                    
+                    }).catch(error => {
+                      console.error(error);
+                    });
         }
       });
 
+      // Ajouter une nouvelle bouteille au cellier
       let btnAjouter = document.querySelector("[name='ajouterBouteilleCellier']");
       if(btnAjouter){
         btnAjouter.addEventListener("click", function(evt){
@@ -308,7 +365,7 @@ window.addEventListener('load', function() {
                     })
                     .then(response => {
                       console.log(response);
-                      window.location.assign("accueil");
+                      window.location.assign("cellier");
                     
                     }).catch(error => {
                       console.error(error);
@@ -321,7 +378,19 @@ window.addEventListener('load', function() {
         });
       }
 
-    }
+      let btnEntrerBouteillePersonnalisee = document.querySelector("[name='entrerBouteillePersonnalisee']");
+      console.log(btnEntrerBouteillePersonnalisee)
+      if(btnEntrerBouteillePersonnalisee) {
+        btnEntrerBouteillePersonnalisee.addEventListener("click", function(evt){
+           changerStatutInterfaceAjout(bouteille, false);
+           viderChampsAjout(bouteille);
+           bouteille.nom.dataset.id = "";
+           const erreur_nom = document.querySelector(".erreur_nom_bouteille");
+           erreur_nom.innerHTML = "";
+        });
+      }
+
+    } // Fin page ajout bouteille
 
     
     let cellier = {
