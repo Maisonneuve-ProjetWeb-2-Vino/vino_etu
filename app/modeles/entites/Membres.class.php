@@ -4,7 +4,7 @@
  * Classe de l'entité Usagers
  *
  */
-class Usagers
+class Membres
 {
   private $id_membre;
   private $nom;
@@ -196,7 +196,19 @@ class Usagers
     $this->renouvelermdp = $renouvelermdp;
     return $this;
   }
-
+/**
+     * Mutateur de la propriété date_creataion
+     * @param string $date_creation
+     * @return $this
+     */
+    public function setdate_creation($date_creation)
+    {
+        $this->date_creation = $date_creation;
+        unset($this->erreurs['date_creation']);
+        $date_creation = trim($date_creation);
+        $this->date_creation = $date_creation;
+        return $this;
+    }
   /**
    * Mutateur de la propriété idprofil
    * @param string $idprofil
