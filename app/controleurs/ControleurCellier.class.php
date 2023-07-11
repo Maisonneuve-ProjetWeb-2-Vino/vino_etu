@@ -269,24 +269,20 @@ class ControleurCellier extends Routeur {
 
       // Extraction et calcul des proportions pour chaque type de vin
       $quantites_cellier = $this->oRequetesSQL->obtenirQuantitesCellier($cellier['id']);
-      $total_bouteilles = $this->calculerTotalBouteilles($quantites_cellier);
+      $total_bouteilles = Utilitaires::calculerTotalBouteilles($quantites_cellier);
       $cellier_details = [];
 
       if ($total_bouteilles > 0) {
-        $proportions_cellier = $this->calculerProportionsTypes($quantites_cellier);
-        $cellier_details['pourcentages'] = $this->formerDiagrammeCirculaire($proportions_cellier);
+        $proportions_cellier = Utilitaires::calculerProportionsTypes($quantites_cellier);
+        $cellier_details['pourcentages'] = Utilitaires::formerDiagrammeCirculaire($proportions_cellier);
       }
 
       // Remettre toutes les infos dans une variable pour Twig
-      
       $cellier_details['id'] = $cellier['id'];
       $cellier_details['nom'] = $cellier['nom'];
-
       $cellier_details['quantite'] = $total_bouteilles;
       $celliers_details[] = $cellier_details;
-
     }
-
 
     new Vue("/Cellier/vListeCelliers",
       array(
@@ -294,40 +290,6 @@ class ControleurCellier extends Routeur {
         'celliers'  => $celliers_details
       ),
       "/Frontend/gabarit-frontend");
-  }
-
-  private function calculerTotalBouteilles($quantites) {
-
-    // Calcul du total de bouteilles
-    $total = 0;
-    foreach($quantites as $type => $quantite) {
-      $total += $quantite;
-    }
-
-    return $total;
-  }
-
-  private function calculerProportionsTypes($quantites) {
-    
-    $total = $this->calculerTotalBouteilles($quantites);
-
-    // Calcul des proportions
-    $proportions = [];
-    foreach($quantites as $type => $quantite) {
-      $proportions[$type] = $quantite / $total * 100;
-    }
-
-    return $proportions;
-
-  }
-
-  private function formerDiagrammeCirculaire($proportions_cellier) {
-
-    $finRouge = $proportions_cellier['Rouge'];
-    $finRose =  $proportions_cellier['Rouge'] + $proportions_cellier['Rosé'];
-
-    return "rgb(155,54,54) 0% $finRouge%, rgb(255,196,196) $finRouge% $finRose%,  rgb(255,255,196) $finRose% 100%";
-
   }
 
   /**
@@ -399,6 +361,11 @@ class ControleurCellier extends Routeur {
 
   }
 
+  /**
+   * Affiche la fiche détaillée pour une bouteille donnée.
+   * 
+   * @return void
+   */
   public function afficherFicheBouteille() {
 
     $bouteille = $this->oRequetesSQL->obtenirDetailsBouteilleCellier($this->bouteille_id);
@@ -415,6 +382,11 @@ class ControleurCellier extends Routeur {
       "/Frontend/gabarit-frontend");
   }
 
+  /**
+   * Modifie le nom d'un cellier.
+   * 
+   * @return void
+   */
   public function modifierCellier() {
 
     $body = json_decode(file_get_contents('php://input'));
@@ -443,14 +415,17 @@ class ControleurCellier extends Routeur {
       ),
       "/Frontend/gabarit-frontend");
     }
-  
-
   }
 
   public function supprimerCellier() {
     
   }
 
+  /**
+   * Donne la liste des détails pour une bouteille donnée du catalogue.
+   * 
+   * @return void
+   */
   public function obtenirDetailsBouteille() {
 
     $body = json_decode(file_get_contents('php://input'));
