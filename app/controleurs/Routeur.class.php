@@ -11,15 +11,19 @@ class Routeur {
   private $routes = [
     // uri, classe, méthode
     // --------------------
-    ['',                      'Frontend', 'voirAccueil'],
-    ['accueil',               'Frontend', 'voirAccueil'],
+    ['',                      'Membre', 'connecter'],
+    ['accueil',               'Membre', 'connecter'],
     ['cellier',               'Cellier', 'gererCellier'],
-    ['celliers',     'Cellier', 'listeCellier']
+    ['connecter',             'Membre', 'connecter'],
+    ['deconnecter',           'Membre', 'deconnecter'],
+    ['inscription',           'Membre', 'inscription'],
+    ['validationInscription', 'Membre', 'validationInscription'],
+    ['celliers',              'Cellier', 'listeCellier']
   ];
 
   protected $oRequetesSQL; // objet RequetesSQL utilisé par tous les contrôleurs
 
-   const BASE_URI = RELATIVE_URI; // dossier racine du site par rapport au dossier racine d'Apache 
+   const BASE_URI = RELATIVE_URI; // Inscrire /ProjetWebDeux/PW2-Vino/ pour wamp et RELATIVE_URI pour exterieur
   //const BASE_URI = '/'; // pour le PHP Server de Visual Studio Code
   //const BASE_URI = '/projetwebdeux/'; //Pour webdev
 
