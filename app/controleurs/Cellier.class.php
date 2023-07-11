@@ -28,6 +28,18 @@ class Cellier extends Routeur {
     $this->oRequetesSQL = new RequetesSQL;
   }
 
+  
+  public function listeCellier(){
+    
+    new Vue("/Cellier/vCelliers",
+        array(
+          'titre'       => "Cellier",
+ 
+        ),
+      "/Frontend/gabarit-frontend");
+  }
+
+
   /**
    * Redirige les requêtes de l'interface Cellier vers les méthodes demandées.
    * 

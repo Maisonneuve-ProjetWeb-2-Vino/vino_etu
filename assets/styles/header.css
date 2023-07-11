@@ -1,0 +1,12 @@
+.container_header{
+    text-align:center;
+ 
+
+}
+
+.container_header>h1{
+    font-family:'Space Mono', monospace;
+    font-size:18pt;
+    color:#ffffff;
+    font-weight:400;
+}
