@@ -3,13 +3,24 @@
  ********/
 
 html, body {
-	height: 100%;
 	margin: 0;
 	background-color: #3B3333;
 	
 	font-family: 'Roboto', 'RobotoDraft', sans-serif;
-	font-size: 95%;
+	/* font-size: 95%; */
+	min-height: 100vh;
+	display:flex;
+	flex-direction:column;
+}
+
+main{
+	display:flex;
+}
+
+.contenu{
 	
+	min-height:100vh;
+	width:100%;
 }
 .liste {
 	display: block;
@@ -54,6 +65,8 @@ footer
 	width: 100%;
 	padding-top:3px;
 	text-align: center;
+	position: fixed;
+  	bottom: 0;
 }
 footer p
 {
