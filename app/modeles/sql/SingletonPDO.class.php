@@ -12,7 +12,7 @@ class SingletonPDO extends PDO
     const DB_PASSWORD = PASSWORD;
 
     private function __construct() {
-        
+      
       $options = [
         PDO::ATTR_ERRMODE           => PDO::ERRMODE_EXCEPTION, // Gestion des erreurs par des exceptions de la classe PDOException
         PDO::ATTR_EMULATE_PREPARES  => false                   // Préparation des requêtes non émulée
