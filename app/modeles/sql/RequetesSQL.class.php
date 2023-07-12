@@ -163,4 +163,15 @@ class RequetesSQL extends RequetesPDO {
     return $this->obtenirLignes($champs, RequetesPDO::UNE_SEULE_LIGNE);
   }
 
+/**
+   * Ajouter un membre
+   * @param array $champs tableau des champs du membre
+   * @return string|boolean clé primaire de la ligne ajoutée, false sinon
+   */
+  public function getInscription($champs)
+  {
+    $this->sql = '
+      INSERT INTO membres SET nom = :nom, prenom = :prenom, courriel = :courriel, mdp = SHA2(:mdp, 512), renouvelermdp = SHA2(:renouvelermdp, 512),idprofil = :idprofil, date_creation = NOW()';
+    return $this->CUDLigne($champs);
+  }
 }
