@@ -39,6 +39,17 @@ class Cellier extends Routeur {
       "/Frontend/gabarit-frontend");
   }
 
+  
+  public function listeBouteille(){
+    
+    new Vue("/Cellier/vBouteilles",
+        array(
+          'titre'       => "Bouteille",
+ 
+        ),
+      "/Frontend/gabarit-frontend");
+  }
+
 
   /**
    * Redirige les requêtes de l'interface Cellier vers les méthodes demandées.

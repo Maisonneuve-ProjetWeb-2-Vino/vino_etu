@@ -1,47 +1,56 @@
-
 html {
     font-size: 12px;
 }
+
 .main-nav ul {
-    padding-bottom:5px;
-    padding-top:15px;
-    padding-left:5px;
-    padding-right:5px;
+    padding-bottom: 5px;
+    padding-top: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
     display: flex;
-    justify-content:space-evenly;
+    justify-content: space-evenly;
     list-style: none;
-    background-color:#696868;
+    background-color: #252525;
     border-top-left-radius: 25px;
-    border-top-right-radius: 25px;   
-    margin:0;
+    border-top-right-radius: 25px;
+    margin: 0;
 }
+
 .main-nav a {
-    font-family:'Roboto', sans-serif;
-    font-size:12pt;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12pt;
     text-decoration: none;
     display: flex;
     align-items: flex-start;
     color: #333;
 }
-.main-nav a:hover, .main-nav a:focus {
+
+.main-nav a:hover,
+.main-nav a:focus {
     color: #772743;
 }
-.main-nav a:hover svg, .main-nav a:focus svg {
+
+.main-nav a:hover svg,
+.main-nav a:focus svg {
     fill: #772743;
 }
-.main-nav a:hover span, .main-nav a:focus span {
+
+.main-nav a:hover span,
+.main-nav a:focus span {
     color: #772743;
 }
+
 .main-nav span {
     display: block;
     color: #ffffff;
 }
+
 .main-nav .icon {
     width: 34px;
     height: 34px;
-    fill:#FFFFFF;
+    fill: #FFFFFF;
 }
 
-.container_icones_navbar{
-    text-align:center;
+.container_icones_navbar {
+    text-align: center;
 }
