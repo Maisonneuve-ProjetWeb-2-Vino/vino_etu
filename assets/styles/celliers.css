@@ -1,65 +1,71 @@
-.conteneur_celliers{
-    display:flex;
-    flex-direction:column;
-    flex-grow:1;
-    gap:25px;
-    margin-left:25px;
-    margin-right:25px;
+.conteneur_celliers,
+.conteneur_bouteilles {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 25px;
+    margin-left: 25px;
+    margin-right: 25px;
 }
 
-.carte_cellier{
-    display:flex;
-    flex-direction:row;
-    background-color:#6A6767;
-    padding:10px;
-    border-radius:25px;
-    flex-grow:1;
+.carte_cellier {
+    display: flex;
+    flex-direction: row;
+    background-color: #6A6767;
+    padding: 10px;
+    border-radius: 25px;
+    flex-grow: 1;
 }
 
-.cercle_cellier{
-    display:flex;
-    align-items:center;
+.cercle_cellier {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    padding:0;
-    margin:0;
-    
+    padding: 0;
+    margin: 0;
+
 }
 
-.bouton_ajout_cellier{
-    border-radius:25px;
-    background-color:#772743;
-    
-}
-.bouton_ajout_cellier>p{
-    font-size: 16pt;
-    color:#ffffff;
-    text-align:center;
-}
-.texte_cellier{
-    padding:15px;
+.bouton_ajout_cellier_top {
+    border-radius: 25px;
+    background-color: #772743;
 }
 
-.chevron_cellier{
-    display:flex;
-    align-items:center;
-    justify-content: center;
+.bouton_ajout_cellier_top>p {
+    font-size: 14pt;
+    color: #ffffff;
+    text-align: center;
 }
-.chevron_cellier>svg{
-    height:80px;
-    width:80px;
-    fill:#ffffff;
+
+.texte_cellier {
+    padding: 15px;
 }
-.cercle_cellier>div{
-    height:80px;
-    width:80px;
-    background-color:#ffffff;
-    border-radius:200px;
+
+.chevron_cellier {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
-.cellier_gros_texte{
+
+.chevron_cellier>svg {
+    height: 80px;
+    width: 80px;
+    fill: #ffffff;
+}
+
+.cercle_cellier>div {
+    height: 80px;
+    width: 80px;
+    background-color: #ffffff;
+    border-radius: 200px;
+}
+
+.cellier_gros_texte {
     font-size: 16pt;
-    color:#ffffff;
+    color: #ffffff;
 }
-.cellier_petit_texte{
+
+.cellier_petit_texte {
     font-size: 12pt;
-    color:#ffffff;
+    color: #ffffff;
 }

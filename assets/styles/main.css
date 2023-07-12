@@ -2,26 +2,28 @@
  * Votre CSS
  ********/
 
-html, body {
+html,
+body {
 	margin: 0;
 	background-color: #3B3333;
-	
+
 	font-family: 'Roboto', 'RobotoDraft', sans-serif;
 	/* font-size: 95%; */
 	min-height: 100vh;
-	display:flex;
-	flex-direction:column;
+	display: flex;
+	flex-direction: column;
 }
 
-main{
-	display:flex;
+main {
+	display: flex;
 }
 
-.contenu{
-	
-	min-height:100vh;
-	width:100%;
+.contenu {
+
+	min-height: 100vh;
+	width: 100%;
 }
+
 .liste {
 	display: block;
 	border-top: 1px solid #ccc;
@@ -33,7 +35,7 @@ main{
 	padding: 0;
 }
 
-.liste > div {
+.liste>div {
 	height: 40px;
 	line-height: 40px;
 	padding: 0 20px;
@@ -42,13 +44,14 @@ main{
 	cursor: pointer;
 	transition: color 200ms ease-in-out;
 	/*background-color: #003777;*/
-	background-color:#e85e30;
-	color:#FFFFFF;
+	background-color: #e85e30;
+	color: #FFFFFF;
 }
-.liste > div:hover {
-	color:#000000;
+
+.liste>div:hover {
+	color: #000000;
 	transition: color 200ms ease-in-out;
-	
+
 }
 
 /* @media all and (max-width:640px)
@@ -60,19 +63,18 @@ main{
 	
 } */
 
-footer
-{
+footer {
 	width: 100%;
-	padding-top:3px;
+	padding-top: 3px;
 	text-align: center;
-	position: fixed;
-  	bottom: 0;
+	position: sticky;
+	bottom: 0;
 }
-footer p
-{
-	display:inline;
-	padding-right:50px;
-	font-size : 10px;
+
+footer p {
+	display: inline;
+	padding-right: 50px;
+	font-size: 10px;
 }
 
 .erreur_champ {

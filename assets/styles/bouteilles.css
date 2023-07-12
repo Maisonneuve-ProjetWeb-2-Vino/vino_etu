@@ -1,0 +1,55 @@
+.carte_bouteille {
+    display: flex;
+    flex-direction: column;
+    background-color: #8F4848;
+    padding: 10px;
+    border-radius: 25px;
+    flex-grow: 1;
+}
+
+.image_bouteille>img {
+    height: 150px;
+    width: 75px;
+    object-fit: cover;
+}
+
+.carte_bouteille_top {
+    display: flex;
+}
+
+.carte_bouteille_bottom {
+    display: flex;
+}
+
+.bouteille_gros_texte {
+    font-size: 14pt;
+    color: #ffffff;
+}
+
+.bouteille_petit_texte {
+    font-size: 12pt;
+    color: #ffffff;
+}
+
+.icones_gauche {
+    padding: 10px;
+    display: flex;
+    flex: 1;
+    align-items: center;
+}
+
+.icones_gauche>svg {
+    padding: 5px;
+}
+
+.icones_droite>svg {
+    padding: 5px;
+}
+
+.icone_droite {
+    padding: 10px;
+    display: flex;
+    flex: 4;
+    align-items: center;
+    justify-content: flex-end;
+}

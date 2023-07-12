@@ -49,6 +49,19 @@ class ControleurCellier extends Routeur {
   }
 
 
+
+  public function listeBouteilleTemporaire(){
+    
+    // TODO Enlever cette méthode lors de l'intégration de Twig et HTML/CSS
+    new Vue("/Cellier/vBouteilles",
+        array(
+          'titre'       => "Bouteille",
+
+        ),
+      "/Frontend/gabarit-frontend");
+  }
+
+
   /**
    * Redirige les requêtes de l'interface Cellier vers les méthodes demandées.
    * 
