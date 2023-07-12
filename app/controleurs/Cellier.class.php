@@ -33,7 +33,7 @@ class Cellier extends Routeur {
     
     new Vue("/Cellier/vCelliers",
         array(
-          'titre'       => "Cellier",
+          'titre'       => "Celliers",
  
         ),
       "/Frontend/gabarit-frontend");
