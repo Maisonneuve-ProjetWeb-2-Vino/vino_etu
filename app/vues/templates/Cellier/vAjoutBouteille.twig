@@ -1,19 +1,85 @@
 <div class="ajouter">
 
     <div class="nouvelleBouteille" vertical layout>
-        Recherche : <input type="text" name="nom_bouteille">
+        <label for="cellier">Cellier:</label>
+        <select id="cellier_id" name="cellier">
+        {% for cellier in celliers %}
+            <option value="{{ cellier.id }}" {% if cellier.id == cellier_preferentiel %} selected {% endif %}>{{ cellier.nom }}</option>
+        {% endfor %}
+        </select>
+        <br>
+        <br>
+        <div>
+            <label for="nom_bouteille">Recherche</label>
+            <input type="text" name="nom_bouteille">
+            <span> ou </span>
+            <button name="entrerBouteillePersonnalisee">Entrer une bouteille personnalisée</button>
+        </div>
+        
         <ul class="listeAutoComplete">
 
         </ul>
             <div >
-                <p>Nom : <span data-id="" class="nom_bouteille"></span><span class="erreur_champ erreur_nom_bouteille"></span></p>
-                <p>Millesime : <input name="millesime"><span class="erreur_champ erreur_millesime"></p>
-                <p>Quantite : <input name="quantite" value="1"><span class="erreur_champ erreur_quantite"></span></p>
-                <p>Date achat : <input type="date" name="date_achat"><span class="erreur_champ erreur_date_achat"></span></p>
-                <p>Prix : <input type="text" name="prix"><span class="erreur_champ erreur_prix"></span></p>
-                <p>Garde : <input type="text" name="garde_jusqua"></p>
-                <p>Notes <input type="text" name="notes"></p>
+                <label for="nom">Nom</label>
+                <input span data-id="" class="nom_bouteille"> </input> <span class="erreur_champ erreur_nom_bouteille"></span>
+                <br>
+                <label for="quantite">Quantité</label> <input name="quantite" value="1"><span class="erreur_champ erreur_quantite"></span>
+                <br>
+                <br>
+                <label for="pays">Pays</label>
+                <select id="pays_id" name="pays">
+                {% for unPays in pays %}
+                    <option value="{{ unPays.id }}">{{ unPays.pays }}</option>
+                {% endfor %}
+                </select>
+                <br>
+                <br>
+                <label for="type">Type</label>
+                <select id="type_id" name="type">
+                {% for type in types %}
+                    <option value="{{ type.type }}">{{ type.type }}</option>
+                {% endfor %}
+                </select>
+                <br>
+                <label for="millesime">Millésime</label>
+                <input name="millesime" value={{ bouteille.millesime }}></input>
+                <br>
+                <label for="pastille">Pastille SAQ</label>
+                <input name="pastille" value={{ bouteille.pastille }}></input>
+                <br>
+                <label for="appellation">Appellation</label>
+                <input name="appellation" value={{ bouteille.appellation }}></input>
+                <br>  
+                <label for="format">Format</label>
+                <input name="format" value={{ bouteille.format }}></input>
+                <br>
+                <label for="cepage">Cépage(s)</label>
+                <input name="cepage" value={{ bouteille.cepage }}></input>
+                <br>
+                <label for="particularite">Particularité</label>
+                <input name="particularite" value={{ bouteille.particularite }}></input>
+                <br>
+                <label for="degreAlcool">Degré d'alcool</label>
+                <input name="degreAlcool" value={{ bouteille.degreAlcool }}></input>
+                <br>
+                <label for="origine">Origine</label>
+                <input name="origine" value={{ bouteille.origine }}></input>
+                <br>
+                <label for="producteur">Producteur</label>
+                <input name="producteur" value={{ bouteille.producteur }}></input>
+                <br>
+                <label for="prix">Prix</label>
+                <input name="prix" value={{ bouteille.prix_saq }}></input>
+                <br>
+                <label for="region">Région</label>
+                <input name="region" value={{ bouteille.region }}></input>
+                <br>
+                <label for="sucre">Taux de sucre</label>
+                <input name="sucre" value={{ bouteille.sucre }}></input>
+                <br>
+
             </div>
+            <input id="cellier_id" type="hidden" value="{{ cellier_id }}">
             <button name="ajouterBouteilleCellier">Ajouter la bouteille</button>
         </div>
     </div>

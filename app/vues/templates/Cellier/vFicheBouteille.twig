@@ -1,0 +1,35 @@
+<div class="cellier">
+
+    <a href="cellier?action=l&cellier_id={{ bouteille.id_cellier }}">Retour au cellier</a>
+    <br>
+    <h1>Fiche détaillée</h1>
+
+    <div>
+        <div >
+            <img class="img_bouteille" src="{{ bouteille.image_url }}">
+        </div>
+        <div class="description">
+            <p class="nom">Nom : {{ bouteille.nom }}</p>
+            <p class="quantite">Quantité :<span>{{ bouteille.quantite }}</span></p>
+            <p class="pays">Pays : {{ bouteille.pays }}</p>
+            <p class="type">Type : {{ bouteille.type }}</p>
+            <p class="format">Format : {{ bouteille.format }}</p>
+        </div>
+        <details>
+            <p>Cépage(s) : {{ bouteille.cepage }}</p>
+            <p>Degré d'alcool : {{ bouteille.degreAlcool }}</p>
+            <p>Producteur : {{ bouteille.producteur }}</p>
+            <p>Prix : {{ bouteille.prix_saq }}</p>
+            <p>Région : {{ bouteille.region }}</p>
+            <p>Taux de sucre : {{ bouteille.sucre }}</p>
+            <br>
+            <p>{{ bouteille.pastille }}</p>
+        </details>
+
+    </div>
+
+    <a href="">Modifier la bouteille</a>
+    <br>
+    <a href="">Supprimer la bouteille</a>
+
+</div>
