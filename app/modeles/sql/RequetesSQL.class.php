@@ -284,6 +284,24 @@ class RequetesSQL extends RequetesPDO {
     return $this->CUDLigne(['id_cellier' => $id_cellier]);
   }
 
+
+  /**
+   * Retourne l'id du membre pour un cellier donné.
+   * 
+   * @param int $id_cellier
+   * @return int 
+   */
+  public function obtenirMembreCellier($id_cellier) {
+    
+    $this->sql = "
+      SELECT idmembre
+      FROM celliers
+      WHERE id_cellier = :id_cellier
+      ";
+
+    return $this->obtenirLignes(['id_cellier' => $id_cellier], RequetesPDO::UNE_SEULE_LIGNE)['idmembre'];
+  }
+
   /**
    * Retourne la liste de tous les pays.
    * 

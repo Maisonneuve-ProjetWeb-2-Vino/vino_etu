@@ -451,12 +451,33 @@ class ControleurCellier extends Routeur {
   /**
    * Supprime un cellier avec tout son contenu.
    * 
+   * @throws Exception Si la requête ne contient pas l'id du membre, ou s'il y a 
+   *                   une erreur lors de la suppression.
    * @return void
    */
   public function supprimerCellier() {
-    //TODO: Vérifier que le cellier appartient bien à l'usager avant de supprimer
 
-    //TODO : suppression
+    //TODO Obtenir l'id de l'utilisateur, hardcodé à 1
+    $utilisateur_id = 1;
+
+    if (!$this->cellier_id) {
+      throw new Exception(self::ERROR_BAD_REQUEST);
+    }
+
+    // Vérifier que le membre supprime bien un de ses propres celliers
+    $id_membre_cellier = $this->oRequetesSQL->obtenirMembreCellier($this->cellier_id);
+    if ($id_membre_cellier != $utilisateur_id) {
+      throw new Exception(self::ERROR_FORBIDDEN);
+    }
+
+    $resultat = $this->oRequetesSQL->supprimerCellier($this->cellier_id);
+
+    if (!$resultat) {
+      throw new Exception("Erreur lors de la suppression du cellier");
+    }
+
+    // Redirection vers la liste des celliers
+    header('Location: cellier');
   }
 
   /**
