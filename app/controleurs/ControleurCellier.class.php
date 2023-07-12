@@ -22,7 +22,8 @@ class ControleurCellier extends Routeur {
     'p' => 'ajouterCellier',
     'q' => 'modifierCellier',
     'r' => 'obtenirDetailsBouteille',
-    's' => 'supprimerCellier'
+    's' => 'supprimerCellier',
+    't' => 'supprimerBouteille'
   ];
 
   /**
@@ -328,12 +329,14 @@ class ControleurCellier extends Routeur {
     $bouteilles = $this->oRequetesSQL->obtenirListeBouteilleCellier($this->cellier_id);
 
     $cellier = $this->oRequetesSQL->obtenirNomCellier($this->cellier_id);
+    $message = "Voulez-vous vraiment supprimer ce cellier avec tout son contenu ?";
 
     new Vue("/Cellier/vListeBouteilles",
       array(
         'titre'       => "Détails du cellier",
         'bouteilles'  => $bouteilles,
-        'cellier'     => $cellier
+        'cellier'     => $cellier,
+        'message'     => $message
       ),
       "/Frontend/gabarit-frontend");
   }
@@ -402,10 +405,13 @@ class ControleurCellier extends Routeur {
       throw new Exception(self::ERROR_BAD_REQUEST);
     }
 
+    $message = "Voulez-vous vraiment supprimer cette bouteille ?";
+
     new Vue("/Cellier/vFicheBouteille",
       array(
         'titre'     => "Fiche détaillée",
-        'bouteille'   => $bouteille
+        'bouteille' => $bouteille,
+        'message'   => $message
       ),
       "/Frontend/gabarit-frontend");
   }
@@ -478,6 +484,36 @@ class ControleurCellier extends Routeur {
 
     // Redirection vers la liste des celliers
     header('Location: cellier');
+  }
+
+  /**
+   * Supprime une bouteille d'un cellier.
+   * 
+   */
+  public function supprimerBouteille() {
+
+    //TODO Obtenir l'id de l'utilisateur, hardcodé à 1
+    $utilisateur_id = 1;
+
+    if (!$this->bouteille_id) {
+      throw new Exception(self::ERROR_BAD_REQUEST);
+    }
+
+    // Vérifier que le membre supprime bien une de ses propres bouteilles
+    $details_bouteille = $this->oRequetesSQL->obtenirMembreBouteille($this->bouteille_id);
+    if ($details_bouteille['idmembre'] != $utilisateur_id) {
+      throw new Exception(self::ERROR_FORBIDDEN);
+    }
+
+    $resultat = $this->oRequetesSQL->supprimerBouteille($this->bouteille_id);
+    $cellier_id = $details_bouteille['id_cellier'];
+
+    if (!$resultat) {
+      throw new Exception("Erreur lors de la suppression de la bouteille");
+    }
+
+    // Redirection vers la liste des bouteilles
+    header("Location: cellier?action=l&cellier_id=$cellier_id");
   }
 
   /**

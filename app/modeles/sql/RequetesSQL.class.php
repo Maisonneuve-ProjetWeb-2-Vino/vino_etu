@@ -284,12 +284,26 @@ class RequetesSQL extends RequetesPDO {
     return $this->CUDLigne(['id_cellier' => $id_cellier]);
   }
 
+  /**
+   * Supprime une bouteille du cellier.
+   * 
+   * @param int $id_bouteille L'id de la bouteille à supprimer
+   * @return string|boolean clé primaire de la ligne modifiée, false sinon
+   */
+    public function supprimerBouteille($id_bouteille) {
+
+    $this->sql = "
+      DELETE FROM bouteilles_cellier WHERE id_bouteille_cellier = :id_bouteille
+      ";
+
+    return $this->CUDLigne(['id_bouteille' => $id_bouteille]);
+  }
 
   /**
    * Retourne l'id du membre pour un cellier donné.
    * 
-   * @param int $id_cellier
-   * @return int 
+   * @param int $id_cellier L'id du cellier
+   * @return int L'id du membre
    */
   public function obtenirMembreCellier($id_cellier) {
     
@@ -300,6 +314,24 @@ class RequetesSQL extends RequetesPDO {
       ";
 
     return $this->obtenirLignes(['id_cellier' => $id_cellier], RequetesPDO::UNE_SEULE_LIGNE)['idmembre'];
+  }
+
+  /**
+   * Retourne l'id du membre pour une bouteille donnée.
+   * 
+   * @param int $id_bouteille L'id de la bouteille
+   * @return int L'id du membre
+   */
+  public function obtenirMembreBouteille($id_bouteille) {
+    
+    $this->sql = "
+      SELECT idmembre, id_cellier
+      FROM bouteilles_cellier
+      JOIN celliers ON bouteilles_cellier.idcellier = celliers.id_cellier
+      WHERE bouteilles_cellier.id_bouteille_cellier = :id_bouteille
+      ";
+
+    return $this->obtenirLignes(['id_bouteille' => $id_bouteille], RequetesPDO::UNE_SEULE_LIGNE);
   }
 
   /**
