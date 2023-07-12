@@ -1,0 +1,39 @@
+<div class="cellier">
+
+    <a href="cellier">Retour aux celliers</a>
+    <br>
+    <h1>{{ cellier.nom }}</h1>
+
+    <a href="cellier?action=n&cellier_id={{ cellier.id }}">Ajouter une bouteille</a>
+    <br>
+    <br>
+    <a href="cellier?action=q&cellier_id={{ cellier.id }}">Modifier le cellier</a>
+    <br>
+    <a href="cellier?action=s&cellier_id={{ cellier.id }}">Supprimer le cellier</a>
+    <br>
+    <br>
+    {% for bouteille in bouteilles %}
+
+    <div class="bouteille" data-quantite="">
+        <div >
+            <img class="img_bouteille" src="{{ bouteille.image_url }}">
+        </div>
+        <div class="description">
+            <p class="nom">Nom : {{ bouteille.nom }}</p>
+            <p class="quantite">Quantité :<span>{{ bouteille.quantite }}</span></p>
+            <p class="pays">Pays : {{ bouteille.pays }}</p>
+            <p class="type">Type : {{ bouteille.type }}</p>
+            <p class="format">Format : {{ bouteille.format }}</p>
+        </div>
+        <div class="options" data-id="{{ bouteille.id_bouteille_cellier }}">
+            <button class='btnAjouter'>Ajouter</button>
+            <button class='btnBoire' {% if bouteille.quantite == 0 %} disabled="true" {% endif %}>Boire</button>
+        </div>
+
+        <a href="cellier?action=d&bouteille_id={{ bouteille.id_bouteille_cellier }}">Voir fiche détaillée</a>
+    </div>
+
+    {% else %}
+        <p">Aucune bouteille dans ce cellier</p>
+    {% endfor %}
+</div>

@@ -13,13 +13,13 @@ class Routeur {
     // --------------------
     ['',           'Frontend', 'voirAccueil'],
     ['accueil',    'Frontend', 'voirAccueil'],
-    ['cellier',     'Cellier', 'gererCellier'],
-    ['celliers',     'Cellier', 'listeCellier']
+    ['cellier',     'ControleurCellier', 'gererCellier'],
+    ['celliers',     'ControleurCellier', 'listeCellier'],
   ];
 
   protected $oRequetesSQL; // objet RequetesSQL utilisé par tous les contrôleurs
 
-   const BASE_URI = RELATIVE_URI; // dossier racine du site par rapport au dossier racine d'Apache 
+  const BASE_URI = RELATIVE_URI; // dossier racine du site par rapport au dossier racine d'Apache 
   //const BASE_URI = '/'; // pour le PHP Server de Visual Studio Code
 
   const ERROR_BAD_REQUEST = 'HTTP 400';

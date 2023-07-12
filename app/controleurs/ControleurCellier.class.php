@@ -4,18 +4,25 @@
  * Classe Contrôleur des requêtes de l'interface Cellier.
  */
 
-class Cellier extends Routeur {
+class ControleurCellier extends Routeur {
 
   private $action;
   private $bouteille_id;
+  private $cellier_id;
 
   private $methodes = [
     'a' => 'ajouterBouteilleCellier',
     'b' => 'boireBouteilleCellier',
     'c' => 'autocompleteBouteille',
+    'd' => 'afficherFicheBouteille',
     'l' => 'listeBouteille',
     'm' => 'modifierBouteilleCellier',
-    'n' => 'ajouterNouvelleBouteilleCellier'
+    'n' => 'ajouterNouvelleBouteilleCellier',
+    'o' => 'listeCellier',
+    'p' => 'ajouterCellier',
+    'q' => 'modifierCellier',
+    'r' => 'obtenirDetailsBouteille',
+    's' => 'supprimerCellier'
   ];
 
   /**
@@ -23,8 +30,9 @@ class Cellier extends Routeur {
    * 
    */
   public function __construct() {
-    $this->action = $_GET['action'] ?? 'l';
+    $this->action = $_GET['action'] ?? 'o';
     $this->bouteille_id = $_GET['bouteille_id'] ?? null;
+    $this->cellier_id = $_GET['cellier_id'] ?? null;
     $this->oRequetesSQL = new RequetesSQL;
   }
 
@@ -65,6 +73,9 @@ class Cellier extends Routeur {
    */
   public function ajouterNouvelleBouteilleCellier() {
 
+    //TODO remplacer par vrai id de l'utilisateur
+    $utilisateur_id = 1;
+
     $body = json_decode(file_get_contents('php://input'));
 
     if(!empty($body)){
@@ -72,12 +83,8 @@ class Cellier extends Routeur {
       // Création d'un objet Bouteille pour contrôler la saisie
       $oBouteille = new Bouteille([
           'id_bouteille'  => $body->id_bouteille,
-          'date_achat'    => $body->date_achat,
-          'garde_jusqua'  => $body->garde_jusqua,
-          'notes'         => $body->notes,
-          'prix'          => $body->prix,
-          'quantite'      => $body->quantite,
-          'millesime'     => $body->millesime
+          'id_cellier'    => $body->id_cellier,
+          'quantite'      => $body->quantite
       ]);
       
       $erreursBouteille = $oBouteille->erreurs;
@@ -86,12 +93,8 @@ class Cellier extends Routeur {
 
         $resultat = $this->oRequetesSQL->ajouterBouteilleCellier([
           'id_bouteille'  => $oBouteille->id_bouteille,
-          'date_achat'    => $oBouteille->date_achat,
-          'garde_jusqua'  => $oBouteille->garde_jusqua,
-          'notes'         => $oBouteille->notes,
-          'prix'          => $oBouteille->prix,
+          'id_cellier'    => $oBouteille->id_cellier,
           'quantite'      => $oBouteille->quantite,
-          'millesime'     => $oBouteille->millesime
         ]);
 
         echo json_encode($resultat);
@@ -103,9 +106,19 @@ class Cellier extends Routeur {
 
     }
     else{
+
+      $cellier_preferentiel = $this->cellier_id ?? null;
+      $celliers = $this->oRequetesSQL->obtenirListeCelliers($utilisateur_id);
+      $pays = $this->oRequetesSQL->obtenirListePays();
+      $types = $this->oRequetesSQL->obtenirListeTypes();
+
       new Vue("/Cellier/vAjoutBouteille",
         array(
-          'titre'     => "Ajout de bouteille"
+          'titre'                 => "Ajout de bouteille",
+          'cellier_preferentiel'  => $cellier_preferentiel,
+          'celliers'              => $celliers,
+          'pays'                  => $pays,
+          'types'                 => $types
         ),
       "/Frontend/gabarit-frontend");
     }
@@ -120,11 +133,14 @@ class Cellier extends Routeur {
    */
   public function autocompleteBouteille() {
 
-			$body = json_decode(file_get_contents('php://input'));
-            
-      $listeBouteilles = $this->oRequetesSQL->autocomplete($body->nom);
-            
-      echo json_encode($listeBouteilles);
+    #TODO utilisateur id hardcodé à 1
+    $utilisateur_id = 1;
+
+    $body = json_decode(file_get_contents('php://input'));
+          
+    $listeBouteilles = $this->oRequetesSQL->autocomplete($body->nom, $utilisateur_id);
+          
+    echo json_encode($listeBouteilles);
   }
 
   /**
@@ -247,4 +263,188 @@ class Cellier extends Routeur {
     echo json_encode($resultat);
   }
 
+  /**
+   * Liste les celliers pour un utilisateur donné.
+   * 
+   * @return void
+   */
+  public function listeCellier() {
+
+    //TODO Codé en dur pour le moment, à remplacer
+    $utilisateur_id = 1;
+
+    // Extraction nom et id de tous les celliers de l'utilisateur
+    $celliers = $this->oRequetesSQL->obtenirListeCelliers($utilisateur_id);
+
+    $celliers_details = [];
+    foreach ($celliers as $cellier) {
+
+      // Extraction et calcul des proportions pour chaque type de vin
+      $quantites_cellier = $this->oRequetesSQL->obtenirQuantitesCellier($cellier['id']);
+      $total_bouteilles = Utilitaires::calculerTotalBouteilles($quantites_cellier);
+      $cellier_details = [];
+
+      if ($total_bouteilles > 0) {
+        $proportions_cellier = Utilitaires::calculerProportionsTypes($quantites_cellier);
+        $cellier_details['pourcentages'] = Utilitaires::formerDiagrammeCirculaire($proportions_cellier);
+      }
+
+      // Remettre toutes les infos dans une variable pour Twig
+      $cellier_details['id'] = $cellier['id'];
+      $cellier_details['nom'] = $cellier['nom'];
+      $cellier_details['quantite'] = $total_bouteilles;
+      $celliers_details[] = $cellier_details;
+    }
+
+    new Vue("/Cellier/vListeCelliers",
+      array(
+        'titre'     => "Vos celliers",
+        'celliers'  => $celliers_details
+      ),
+      "/Frontend/gabarit-frontend");
+  }
+
+  /**
+   * Liste les bouteilles pour un cellier donné.
+   * 
+   * @return void
+   */  
+  public function listeBouteille() {
+
+    $bouteilles = $this->oRequetesSQL->obtenirListeBouteilleCellier($this->cellier_id);
+
+    $cellier = $this->oRequetesSQL->obtenirNomCellier($this->cellier_id);
+
+    new Vue("/Cellier/vListeBouteilles",
+      array(
+        'titre'       => "Détails du cellier",
+        'bouteilles'  => $bouteilles,
+        'cellier'     => $cellier
+      ),
+      "/Frontend/gabarit-frontend");
+  }
+
+  /**
+   * Ajoute un cellier pour l'utilisateur authentifié.
+   * 
+   * @return void
+   */
+  public function ajouterCellier() {
+
+    //TODO Codé en dur pour le moment, à remplacer
+    $utilisateur_id = 1;
+
+    $oCellier = [];
+    $erreursCellier = [];
+
+    if (count($_POST) !== 0) {
+
+      // Retour de saisie du formulaire
+      $oCellier = new Cellier([
+        'nom'       => $_POST['nom'],
+        'id_membre' => $utilisateur_id
+      ]); 
+
+
+      $erreursCellier = $oCellier->erreurs;
+
+      if (count($erreursCellier) === 0) {
+        $resultat = $this->oRequetesSQL->ajouterCellier([
+          'nom'       =>  $oCellier->nom,
+          'idmembre'  =>  $oCellier->id_membre
+        ]);
+
+        if (!$resultat) {
+          throw new Exception("Une erreur est survenue lors de l'insertion du cellier");
+        }
+
+        $this->listeCellier();
+        exit;
+      }
+    }
+
+    new Vue("/Cellier/vAjoutCellier",
+      array(
+        'titre'     => "Ajouter un cellier",
+        'cellier'   => $oCellier,
+        'erreurs'    => $erreursCellier
+      ),
+      "/Frontend/gabarit-frontend");
+
+  }
+
+  /**
+   * Affiche la fiche détaillée pour une bouteille donnée.
+   * 
+   * @return void
+   */
+  public function afficherFicheBouteille() {
+
+    $bouteille = $this->oRequetesSQL->obtenirDetailsBouteilleCellier($this->bouteille_id);
+
+    if (!$bouteille) {
+      throw new Exception(self::ERROR_BAD_REQUEST);
+    }
+
+    new Vue("/Cellier/vFicheBouteille",
+      array(
+        'titre'     => "Fiche détaillée",
+        'bouteille'   => $bouteille
+      ),
+      "/Frontend/gabarit-frontend");
+  }
+
+  /**
+   * Modifie le nom d'un cellier.
+   * 
+   * @return void
+   */
+  public function modifierCellier() {
+
+    $body = json_decode(file_get_contents('php://input'));
+
+    if(!empty($body)){
+
+      $resultat = $this->oRequetesSQL->modifierCellier([
+        'cellier_id'  => $body->cellier_id,
+        'nom'         => $body->nom
+      ]);
+
+      echo json_encode($resultat);
+
+    }
+    else {
+      if (!$this->cellier_id) {
+        throw new Exception(self::ERROR_BAD_REQUEST);
+      }
+
+      $cellier = $this->oRequetesSQL->obtenirNomCellier($this->cellier_id);
+
+      new Vue("/Cellier/vModificationCellier",
+        array(
+          'titre'       => "Modification du cellier",
+          'cellier'     => $cellier
+      ),
+      "/Frontend/gabarit-frontend");
+    }
+  }
+
+  public function supprimerCellier() {
+    
+  }
+
+  /**
+   * Donne la liste des détails pour une bouteille donnée du catalogue.
+   * 
+   * @return void
+   */
+  public function obtenirDetailsBouteille() {
+
+    $body = json_decode(file_get_contents('php://input'));
+
+    $bouteille = $this->oRequetesSQL->obtenirBouteilleCellier($body->id_bouteille);
+            
+    echo json_encode($bouteille);
+
+  }
 }
