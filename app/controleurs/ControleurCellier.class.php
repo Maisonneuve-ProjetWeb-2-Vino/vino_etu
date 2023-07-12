@@ -37,8 +37,9 @@ class ControleurCellier extends Routeur {
   }
 
   
-  public function listeCellier(){
+  public function listeCellierTemporaire(){
     
+    // TODO Enlever cette méthode lors de l'intégration de Twig et HTML/CSS
     new Vue("/Cellier/vCelliers",
         array(
           'titre'       => "Cellier",
@@ -327,6 +328,7 @@ class ControleurCellier extends Routeur {
   /**
    * Ajoute un cellier pour l'utilisateur authentifié.
    * 
+   * @throws Exception Si une erreur survient lors de l'insertion du cellier
    * @return void
    */
   public function ajouterCellier() {
@@ -376,6 +378,7 @@ class ControleurCellier extends Routeur {
   /**
    * Affiche la fiche détaillée pour une bouteille donnée.
    * 
+   * @throws Exception Si la requête de lecture des détails échoue.
    * @return void
    */
   public function afficherFicheBouteille() {
@@ -397,9 +400,12 @@ class ControleurCellier extends Routeur {
   /**
    * Modifie le nom d'un cellier.
    * 
+   * @throws Exception Si une requête est faite sans envoi du numéro de cellier
    * @return void
    */
   public function modifierCellier() {
+
+    //TODO: vérifier que le cellier appartient bien à l'usager
 
     $body = json_decode(file_get_contents('php://input'));
 
@@ -429,8 +435,15 @@ class ControleurCellier extends Routeur {
     }
   }
 
+  /**
+   * Supprime un cellier avec tout son contenu.
+   * 
+   * @return void
+   */
   public function supprimerCellier() {
-    
+    //TODO: Vérifier que le cellier appartient bien à l'usager avant de supprimer
+
+    //TODO : suppression
   }
 
   /**
@@ -439,6 +452,8 @@ class ControleurCellier extends Routeur {
    * @return void
    */
   public function obtenirDetailsBouteille() {
+
+    //TODO Vérifier que l'usager a la permission pour lire cette bouteille
 
     $body = json_decode(file_get_contents('php://input'));
 
