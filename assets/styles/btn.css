@@ -1,0 +1,28 @@
+.btn{
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    outline: 1px solid var(--gris-medium);
+}
+
+.btn_connexion,
+.btn_inscription{
+    
+    height: 40px;
+    width: 100%;
+    border-radius: 20px;
+    background-color: var(--vin);
+    font-size: 16px;
+    color: var(--blanc);
+    margin-bottom: 20px;
+    transition: 0.3s ease-in-out;
+}
+
+.btn_inscription:hover,
+.btn_connexion:hover{    
+   background-color: var(--vin-hover);
+}
+
+.btn_inscription:active,
+.btn_connexion:active{    
+    background-color: var(--gris-fonce);
+}
+    

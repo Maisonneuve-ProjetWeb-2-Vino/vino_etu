@@ -29,9 +29,9 @@ class Membre extends Routeur {
             '/Frontend/vConnexion',
             array(
 
-                'titre'  => 'Connexion membre'
+                'titre'  => 'Se connecter'
             ),
-            'Frontend/gabarit-frontend'
+            'Frontend/gabarit-vide'
         );
 }
 
