@@ -73,7 +73,7 @@ class RequetesSQL extends RequetesPDO {
       LIMIT 0, :nb_resultat
       ";
 
-    return $this->obtenirLignes(['nb_resultat' => $nb_resultat, 'keywords' => $keywords]);
+    return $this->obtenirLignes(['nb_resultat' => $nb_resultat, 'keywords' => $keywords, 'utilisateur_id' => $utilisateur_id]);
   }
 
   /**
