@@ -24,7 +24,8 @@ class ControleurCellier extends Routeur {
     'q' => 'modifierCellier',
     'r' => 'obtenirDetailsBouteille',
     's' => 'supprimerCellier',
-    't' => 'supprimerBouteille'
+    't' => 'supprimerBouteille',
+    'v' => 'verifierBouteilleCellier'
   ];
 
   /**
@@ -568,8 +569,6 @@ class ControleurCellier extends Routeur {
         'tauxSucre'     => $body->tauxSucre,
       ]);
       
-
-      
       if (count($oBouteilleCatalogue->erreurs) === 0) {
 
         $id_bouteille_catalogue = $this->oRequetesSQL->ajouterBouteilleCatalogue([
@@ -621,5 +620,23 @@ class ControleurCellier extends Routeur {
       // requête REST seulement
       throw new Exception(self::ERROR_BAD_REQUEST);
     }
+  }
+
+  /**
+   * Vérifie si une bouteille du catalogue se trouve déjà dans un cellier.
+   * 
+   * @return void
+   */
+  public function verifierBouteilleCellier() {
+
+    //TODO remplacer par vrai id de l'utilisateur
+    $utilisateur_id = 1;
+
+    $body = json_decode(file_get_contents('php://input'));
+
+    $resultat = $this->oRequetesSQL->verifierBouteilleDansCellier($body->id_bouteille, $body->id_cellier);
+
+    $msgRetour = ['statut' =>  $resultat];
+    echo json_encode($msgRetour);
   }
 }

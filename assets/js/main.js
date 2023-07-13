@@ -314,29 +314,55 @@ window.addEventListener('load', function() {
 
           if (validation) {
 
-            // Si le vin provient de la saq
+            // Si le vin provient du catalogue
             if(bouteille.nom.dataset.id) {
               var param = {
                 "id_bouteille":bouteille.nom.dataset.id,
                 "quantite":bouteille.quantite.value,
                 "id_cellier":document.querySelector("#cellier_id").value
               };
-              let requete = new Request("cellier?action=n", {method: 'POST', body: JSON.stringify(param)});
-                fetch(requete)
-                    .then(response => {
-                        if (response.status === 200) {
-                          return response.json();
-                        } else {
-                          throw new Error('Erreur');
-                        }
-                      })
-                      .then(response => {
-                        console.log(response);
-                        window.location.assign("cellier");
-                      
-                      }).catch(error => {
-                        console.error(error);
-                      });
+
+              let requeteVerification = new Request("cellier?action=v", {method: 'POST', body: JSON.stringify(param)});
+              fetch(requeteVerification) 
+                .then(response => {
+                    if (response.status === 200) {
+                      return response.json();
+                    } else {
+                      throw new Error('Erreur');
+                    }
+                  })
+                  .then(response => {
+                    console.log(response);
+                    
+                    if (!response.statut) {
+                      // La bouteille ne se trouve pas déjà dans le cellier
+                      let requete = new Request("cellier?action=n", {method: 'POST', body: JSON.stringify(param)});
+                        fetch(requete)
+                            .then(response => {
+                                if (response.status === 200) {
+                                  return response.json();
+                                } else {
+                                  throw new Error('Erreur');
+                                }
+                              })
+                              .then(response => {
+                                console.log(response);
+                                window.location.assign("cellier");
+                              
+                              }).catch(error => {
+                                console.error(error);
+                              });
+                    } else 
+                    {
+                      const erreur_nom = document.querySelector(".erreur_nom_bouteille");
+                      erreur_nom.innerHTML = "La bouteille se trouve déjà dans le cellier. Veuillez ajuster la quantité dans le cellier.";
+                    }
+
+                
+                  }).catch(error => {
+                    console.error(error);
+                  });
+
             } else {
               // Vin personnalisé
               var param = {

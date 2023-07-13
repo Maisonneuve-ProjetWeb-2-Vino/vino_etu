@@ -385,6 +385,28 @@ class RequetesSQL extends RequetesPDO {
     return $this->CUDLigne($champs);
   }
 
+  /**
+   * Vérifie si une bouteille du catalogue se trouve déjà dans un cellier.
+   * 
+   * @param int $id_bouteille L'id de la bouteille (catalogue)
+   * @param int $id_cellier L'id du cellier
+   * @return bool Vrai si la bouteille se trouve dans le cellier, faux sinon
+   */
+  public function verifierBouteilleDansCellier($id_bouteille, $id_cellier) {
+        
+    $this->sql = "
+      SELECT COUNT(*) AS nombre FROM bouteilles_cellier
+      WHERE idcellier = :id_cellier AND idbouteillecatalogue = :id_bouteille
+      ";
+
+    $resultat = $this->obtenirLignes([
+      'id_cellier' => $id_cellier,
+      'id_bouteille' => $id_bouteille
+    ], RequetesPDO::UNE_SEULE_LIGNE);
+    
+    return $resultat['nombre'] > 0 ? true : false;
+  }
+
   /* GESTION DES USAGERS 
     ======================== */
 
