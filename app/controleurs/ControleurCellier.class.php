@@ -537,7 +537,9 @@ class ControleurCellier extends Routeur {
   /**
    * Ajouter une bouteille personnalisée au cellier.
    * 
-   * 
+   * @throws Exception S'il y a des erreurs dans les champs ou une erreur d'insertion
+   *                   dans la bd.
+   * @return void
    */
   public function ajouterBouteillePersonnaliseeCellier() {
         
@@ -549,27 +551,69 @@ class ControleurCellier extends Routeur {
     if(!empty($body)){
 
       // Création d'un objet BouteilleCatalogue pour contrôler la saisie
-      $oBouteille = new BouteilleCatalogue([
-          'id_bouteille'  => $body->id_bouteille,
-          'id_cellier'    => $body->id_cellier,
-          'quantite'      => $body->quantite
+      $oBouteilleCatalogue = new BouteilleCatalogue([
+        'nom'           => $body->nom,
+        'pays'          => $body->pays,
+        'type'          => $body->type,
+        'annee'         => $body->annee,
+        'format'        => $body->format,
+        'cepage'        => $body->cepage,
+        'particularite' => $body->particularite,
+        'appellation'   => $body->appellation,
+        'degreAlcool'   => $body->degreAlcool,
+        'origine'       => $body->origine,
+        'producteur'    => $body->producteur,
+        'prix_saq'      => $body->prix_saq,
+        'region'        => $body->region,
+        'tauxSucre'     => $body->tauxSucre,
       ]);
       
-      $erreursBouteille = $oBouteille->erreurs;
 
-      if (count($erreursBouteille) === 0) {
+      
+      if (count($oBouteilleCatalogue->erreurs) === 0) {
 
-        $resultat = $this->oRequetesSQL->ajouterBouteilleCellier([
-          'id_bouteille'  => $oBouteille->id_bouteille,
-          'id_cellier'    => $oBouteille->id_cellier,
-          'quantite'      => $oBouteille->quantite,
+        $id_bouteille_catalogue = $this->oRequetesSQL->ajouterBouteilleCatalogue([
+          'nom'           => $oBouteilleCatalogue->nom,
+          'pays'          => $oBouteilleCatalogue->pays,
+          'type'          => $oBouteilleCatalogue->type,
+          'annee'         => $oBouteilleCatalogue->annee,
+          'format'        => $oBouteilleCatalogue->format,
+          'cepage'        => $oBouteilleCatalogue->cepage,
+          'particularite' => $oBouteilleCatalogue->particularite,
+          'degreAlcool'   => $oBouteilleCatalogue->degreAlcool,
+          'origine'       => $oBouteilleCatalogue->origine,
+          'appellation'   => $oBouteilleCatalogue->appellation,
+          'producteur'    => $oBouteilleCatalogue->producteur,
+          'prix_saq'      => $oBouteilleCatalogue->prix_saq,
+          'region'        => $oBouteilleCatalogue->region,
+          'tauxSucre'     => $oBouteilleCatalogue->tauxSucre,
+          'idmembre'      => $utilisateur_id
         ]);
 
-        echo json_encode($resultat);
+        // Création d'un objet BouteilleCellier pour contrôler la saisie
+        $oBouteilleCellier = new BouteilleCellier([
+            'id_bouteille'  => $id_bouteille_catalogue,
+            'id_cellier'    => $body->id_cellier,
+            'quantite'      => $body->quantite
+        ]);
+
+        if (count($oBouteilleCellier->erreurs) === 0) {
+
+          $resultat = $this->oRequetesSQL->ajouterBouteilleCellier([
+            'id_bouteille'  => $oBouteilleCellier->id_bouteille,
+            'id_cellier'    => $oBouteilleCellier->id_cellier,
+            'quantite'      => $oBouteilleCellier->quantite,
+          ]);
+
+          echo json_encode($resultat);
+
+        } else { // Pas supposé étant donné la validation front-end
+            
+           throw new Exception("Erreur: bouteille cellier invalide, non insérée:" . implode($oBouteilleCellier->erreurs));
+        }
       }
-      else {
-        // Pas supposé étant donné la validation front-end
-        throw new Exception("Erreur: bouteille invalide, non insérée:" . implode($oBouteille->erreurs));
+      else { // Pas supposé étant donné la validation front-end
+        throw new Exception("Erreur: bouteille invalide, non insérée:" . implode($oBouteilleCatalogue->erreurs));
       }
 
     }

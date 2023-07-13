@@ -366,6 +366,25 @@ class RequetesSQL extends RequetesPDO {
     return $this->obtenirLignes($champs);
   }
 
+  /**
+   * Ajoute une bouteille personnalisée au catalogue.
+   * 
+   * @param array $champs tableau des champs de la bouteille
+   * @return string|boolean clé primaire de la ligne ajoutée, false sinon
+   */
+  public function ajouterBouteilleCatalogue($champs) {
+
+    $this->sql = "
+      INSERT INTO bouteilles_catalogue SET nom = :nom, prix_saq = :prix_saq, annee = :annee,
+      idtype = :type, origine = :origine, region = :region, appellation = :appellation,
+      cepage = :cepage, degreAlcool = :degreAlcool, particularite = :particularite,
+      format = :format, producteur = :producteur, idpays = :pays, tauxSucre = :tauxSucre,
+      idmembre = :idmembre
+      ";
+
+    return $this->CUDLigne($champs);
+  }
+
   /* GESTION DES USAGERS 
     ======================== */
 

@@ -340,22 +340,24 @@ window.addEventListener('load', function() {
             } else {
               // Vin personnalisé
               var param = {
+                "nom":bouteille.nom.value,
                 "quantite":bouteille.quantite.value,
                 "id_cellier":document.querySelector("#cellier_id").value,
                 "pays":bouteille.pays.value,
                 "type":bouteille.type.value,
-                "millesime":bouteille.millesime.value,
+                "annee":bouteille.millesime.value,
                 "format":bouteille.format.value,
+                "appellation":bouteille.appellation.value,
                 "cepage":bouteille.cepage.value,
                 "particularite":bouteille.particularite.value,
                 "degreAlcool":bouteille.degreAlcool.value,
                 "origine":bouteille.origine.value,
                 "producteur":bouteille.producteur.value,
-                "prix":bouteille.prix.value,
+                "prix_saq":bouteille.prix.value,
                 "region":bouteille.region.value,
-                "sucre":bouteille.sucre,
+                "tauxSucre":bouteille.sucre.value,
               };
-              let requete = new Request("cellier?action=n", {method: 'POST', body: JSON.stringify(param)});
+              let requete = new Request("cellier?action=e", {method: 'POST', body: JSON.stringify(param)});
               fetch(requete)
                   .then(response => {
                       if (response.status === 200) {

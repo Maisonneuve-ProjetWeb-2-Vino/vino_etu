@@ -15,11 +15,12 @@ class BouteilleCatalogue
     private $format;
     private $cepage;
     private $particularite;
+    private $appellation;
     private $degreAlcool;
     private $origine;
     private $producteur;
     private $region;
-    private $sucre;
+    private $tauxSucre;
 
     private $erreurs = array();
 
@@ -56,12 +57,13 @@ class BouteilleCatalogue
     public function getFormat()       { return $this->format; }
     public function getCepage()       { return $this->cepage; }
     public function getParticularite()       { return $this->particularite; }
+    public function getAppellation()        { return $this->appellation; }
     public function getDegreAlcool()       { return $this->degreAlcool; }
     public function getPrigine()       { return $this->origine; }
     public function getProducteur()       { return $this->producteur; }
     public function getPrix()       { return $this->prix; }
     public function getRegion()       { return $this->region; }
-    public function getSucre()       { return $this->sucre; }
+    public function getTauxSucre()       { return $this->tauxSucre; }
 
     /**
      * Mutateur magique qui exécute le mutateur de la propriété en paramètre 
@@ -111,7 +113,7 @@ class BouteilleCatalogue
      * @param int $prix_saq
      * @return $this
      */  
-    public function setPrix($prix_saq) {
+    public function setPrix_saq($prix_saq) {
         unset($this->erreurs['prix_saq']);
         $regExp = '/^\d+(\.\d{1,2})?$/';
         if (!empty($prix_saq)) {
@@ -205,6 +207,18 @@ class BouteilleCatalogue
     }
 
     /**
+     * Mutateur de la propriété appellation
+     * 
+     * @param int $appellation
+     * @return $this
+     */    
+    public function setAppellation($appellation) {
+        unset($this->erreurs['appellation']);
+        $this->appellation = $appellation;
+        return $this;
+    }
+
+    /**
      * Mutateur de la propriété degreAlcool
      * 
      * @param int $degreAlcool
@@ -246,6 +260,17 @@ class BouteilleCatalogue
     public function setRegion($region) {
         unset($this->erreurs['region']);
         $this->region = $region;
+        return $this;
+    }
+
+    /**
+     * Mutateur de la propriété tauxSucre
+     * @param int $tauxSucre
+     * @return $this
+     */    
+    public function setTauxSucre($tauxSucre) {
+        unset($this->erreurs['tauxSucre']);
+        $this->tauxSucre = $tauxSucre;
         return $this;
     }
 }
