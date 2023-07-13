@@ -47,7 +47,6 @@ function changerStatutInterfaceAjout(bouteille, statut) {
   bouteille.pays.disabled = statut;
   bouteille.type.disabled = statut;
   bouteille.millesime.disabled = statut;
-  bouteille.pastille.disabled = statut;
   bouteille.appellation.disabled = statut;
   bouteille.format.disabled = statut;
   bouteille.cepage.disabled = statut;
@@ -307,20 +306,56 @@ window.addEventListener('load', function() {
           let validation = validerChampsBouteille(bouteille);
 
           // Validation supplémentaire dans le cas de l'ajout de bouteille
-          if (!bouteille.nom.dataset.id) {
+          if (!bouteille.nom.value) {
             const erreur_nom = document.querySelector(".erreur_nom_bouteille");
-            erreur_nom.innerHTML = "Une bouteille doit être sélectionnée.";
+            erreur_nom.innerHTML = "Une bouteille doit être sélectionnée ou un nom entré.";
             validation = false;
           }
 
           if (validation) {
-            var param = {
-              "id_bouteille":bouteille.nom.dataset.id,
-              "quantite":bouteille.quantite.value,
-              "id_cellier":document.querySelector("#cellier_id").value
-            };
-            console.log(param['id_cellier']);
-            let requete = new Request("cellier?action=n", {method: 'POST', body: JSON.stringify(param)});
+
+            // Si le vin provient de la saq
+            if(bouteille.nom.dataset.id) {
+              var param = {
+                "id_bouteille":bouteille.nom.dataset.id,
+                "quantite":bouteille.quantite.value,
+                "id_cellier":document.querySelector("#cellier_id").value
+              };
+              let requete = new Request("cellier?action=n", {method: 'POST', body: JSON.stringify(param)});
+                fetch(requete)
+                    .then(response => {
+                        if (response.status === 200) {
+                          return response.json();
+                        } else {
+                          throw new Error('Erreur');
+                        }
+                      })
+                      .then(response => {
+                        console.log(response);
+                        window.location.assign("cellier");
+                      
+                      }).catch(error => {
+                        console.error(error);
+                      });
+            } else {
+              // Vin personnalisé
+              var param = {
+                "quantite":bouteille.quantite.value,
+                "id_cellier":document.querySelector("#cellier_id").value,
+                "pays":bouteille.pays.value,
+                "type":bouteille.type.value,
+                "millesime":bouteille.millesime.value,
+                "format":bouteille.format.value,
+                "cepage":bouteille.cepage.value,
+                "particularite":bouteille.particularite.value,
+                "degreAlcool":bouteille.degreAlcool.value,
+                "origine":bouteille.origine.value,
+                "producteur":bouteille.producteur.value,
+                "prix":bouteille.prix.value,
+                "region":bouteille.region.value,
+                "sucre":bouteille.sucre,
+              };
+              let requete = new Request("cellier?action=n", {method: 'POST', body: JSON.stringify(param)});
               fetch(requete)
                   .then(response => {
                       if (response.status === 200) {
@@ -336,6 +371,8 @@ window.addEventListener('load', function() {
                     }).catch(error => {
                       console.error(error);
                     });
+            }
+
           }
 
 

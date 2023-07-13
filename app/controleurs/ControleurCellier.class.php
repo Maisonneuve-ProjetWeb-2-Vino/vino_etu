@@ -15,6 +15,7 @@ class ControleurCellier extends Routeur {
     'b' => 'boireBouteilleCellier',
     'c' => 'autocompleteBouteille',
     'd' => 'afficherFicheBouteille',
+    'e' => 'ajouterBouteillePersonnaliseeCellier',
     'l' => 'listeBouteille',
     'm' => 'modifierBouteilleCellier',
     'n' => 'ajouterNouvelleBouteilleCellier',
@@ -96,7 +97,7 @@ class ControleurCellier extends Routeur {
     if(!empty($body)){
 
       // Création d'un objet Bouteille pour contrôler la saisie
-      $oBouteille = new Bouteille([
+      $oBouteille = new BouteilleCellier([
           'id_bouteille'  => $body->id_bouteille,
           'id_cellier'    => $body->id_cellier,
           'quantite'      => $body->quantite
@@ -172,7 +173,7 @@ class ControleurCellier extends Routeur {
     if(!empty($body)){
 
       // Création d'un objet Bouteille pour contrôler la saisie
-      $oBouteille = new Bouteille([
+      $oBouteille = new BouteilleCellier([
           'id_bouteille_cellier'=> $body->id_bouteille_cellier,
           'id_bouteille'       => $body->id_bouteille,
           'date_achat'         => $body->date_achat,
@@ -235,7 +236,7 @@ class ControleurCellier extends Routeur {
     $body = json_decode(file_get_contents('php://input'));
     
     // Création d'un objet Bouteille pour contrôler la saisie
-    $oBouteille = new Bouteille([
+    $oBouteille = new BouteilleCellier([
       'id_bouteille_cellier'=> $body->id
     ]);
 
@@ -264,7 +265,7 @@ class ControleurCellier extends Routeur {
     $body = json_decode(file_get_contents('php://input'));
     
     // Création d'un objet Bouteille pour contrôler la saisie
-    $oBouteille = new Bouteille([
+    $oBouteille = new BouteilleCellier([
       'id_bouteille_cellier'=> $body->id
     ]);
 
@@ -531,5 +532,50 @@ class ControleurCellier extends Routeur {
             
     echo json_encode($bouteille);
 
+  }
+
+  /**
+   * Ajouter une bouteille personnalisée au cellier.
+   * 
+   * 
+   */
+  public function ajouterBouteillePersonnaliseeCellier() {
+        
+    //TODO remplacer par vrai id de l'utilisateur
+    $utilisateur_id = 1;
+
+    $body = json_decode(file_get_contents('php://input'));
+
+    if(!empty($body)){
+
+      // Création d'un objet BouteilleCatalogue pour contrôler la saisie
+      $oBouteille = new BouteilleCatalogue([
+          'id_bouteille'  => $body->id_bouteille,
+          'id_cellier'    => $body->id_cellier,
+          'quantite'      => $body->quantite
+      ]);
+      
+      $erreursBouteille = $oBouteille->erreurs;
+
+      if (count($erreursBouteille) === 0) {
+
+        $resultat = $this->oRequetesSQL->ajouterBouteilleCellier([
+          'id_bouteille'  => $oBouteille->id_bouteille,
+          'id_cellier'    => $oBouteille->id_cellier,
+          'quantite'      => $oBouteille->quantite,
+        ]);
+
+        echo json_encode($resultat);
+      }
+      else {
+        // Pas supposé étant donné la validation front-end
+        throw new Exception("Erreur: bouteille invalide, non insérée:" . implode($oBouteille->erreurs));
+      }
+
+    }
+    else{
+      // requête REST seulement
+      throw new Exception(self::ERROR_BAD_REQUEST);
+    }
   }
 }
