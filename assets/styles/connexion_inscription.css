@@ -1,3 +1,9 @@
+.content_wrapper{
+    background-image: url("");
+    width: 100%;
+    background-size: 100%;    
+}
+
 .auth_form_wrapper{
     background-color: var(--gris-medium);
     border-top-left-radius: 25px;
@@ -27,15 +33,16 @@
     height: 40px;
     background-color: var(--fonce);
     border-radius: 20px;
-    margin-top: 10px;   
+    margin-top: 10px;  
+    padding-left: 20px; 
     color: var(--blanc);
     font-size: 16px;
 }
 
 .form_connexion input::placeholder{
     color: var(--blanc);
-    font-size: 16px;
-    padding-left: 20px;
+    font-size: 16px;    
+    font-weight: 300;
 }
 
 .form_connexion .error{

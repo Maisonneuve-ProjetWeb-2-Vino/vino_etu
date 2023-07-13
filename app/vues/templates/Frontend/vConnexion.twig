@@ -1,29 +1,30 @@
 <!-- Template Connexion -->				
 
-	<form class="form_connexion" name="frmConnexion" method="POST" {% if actionUri %} action="{{ actionUri }}" {% endif %}>
+<form class="form_connexion" name="frmConnexion" method="POST" {% if actionUri %} action="{{ actionUri }}" {% endif %}>
 
-		<br><span id="messageErreurConnexion">&nbsp;{{ messageErreurConnexion }}</span>	
+	<br><span id="messageErreurConnexion">&nbsp;{{ messageErreurConnexion }}</span>	
 
-		<input class="form_connexion_input" aria-label="courriel" type="email" id="courriel" placeholder="Courriel" name="courriel" value="">
-		<div class="error error_email">
-			<span>Format incorrect</span>
-		</div>		
+	<!-- Champ courriel -->	
+	<input class="form_connexion_input" aria-label="Courriel" type="email" id="courriel" placeholder="Courriel" name="courriel" value="">
+	<div class="error">
+		<span>Format incorrect</span>
+	</div>		
 
-		<input class="form_connexion_input" aria-label="mot de passe" type="password" id="mot_de_passe" placeholder="Mot de passe" name="mdp" value="">
-            <div class="error">
-                <span>Au moins 10 caractères, une majuscule, une minuscule et un chiffre</span>
-            </div>
+	<!-- Champ mot de passe -->	
+	<input class="form_connexion_input" aria-label="Mot de passe" type="password" id="mdp" placeholder="Mot de passe" name="mdp" value="">
+    <div class="error">
+        <span>Au moins 10 caractères, une majuscule, une minuscule et un chiffre</span>
+    </div>
 
-		<a href="">Mot de passe oublié?</a>	
+	<a href="">Mot de passe oublié?</a>	
 
-		<input class="btn btn_connexion" type="submit" value="Se connecter">
+	<input class="btn btn_connexion" type="submit" value="Se connecter">
 
-		<div class="option_alternative">
-			<span>Vous n’avez pas de compte?
-				<a href="inscription">S'inscrire</a>
-			</span>                            
-		</div>
-
-	</form>
+	<div class="option_alternative">
+		<span>Vous n’avez pas de compte?
+			<a href="inscription">S'inscrire</a>
+		</span>                            
+	</div>
+</form>
 
 <!-- fin template Connexion -->

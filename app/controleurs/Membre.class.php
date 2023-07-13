@@ -102,7 +102,7 @@ public function verifConnexion($courriel, $mdp)
 
                 'titre'  => 'Inscription membre'
             ),
-            'Frontend/gabarit-frontend'
+            'Frontend/gabarit-vide'
         );
     }
     /**
