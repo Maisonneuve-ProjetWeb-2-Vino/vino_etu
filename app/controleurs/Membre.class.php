@@ -29,9 +29,9 @@ class Membre extends Routeur {
             '/Frontend/vConnexion',
             array(
 
-                'titre'  => 'Connexion membre'
+                'titre'  => 'Se connecter'
             ),
-            'Frontend/gabarit-frontend'
+            'Frontend/gabarit-vide'
         );
 }
 
@@ -41,7 +41,7 @@ public function connexion() {
         $courriel = $_POST['courriel'];
         $mdp = $_POST['mdp'];
         
-
+        var_dump($courriel);
         // Vérifier les identifiants
         $membre = new Membre();
         $oConnexion = $membre->verifConnexion($courriel, $mdp);
@@ -70,11 +70,8 @@ public function verifConnexion($courriel, $mdp)
       SELECT id_membre, nom, prenom, courriel, mdp, idprofil
       FROM membres
       WHERE courriel = :courriel AND mdp = SHA2(:mdp, 512)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':courriel', $courriel);
-        $stmt->execute();
-
-        $membre = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        $membre = fetch(PDO::FETCH_ASSOC);
 
         if ($membre && password_verify($password, $membre['password'])) {
             // Les identifiants sont corrects
@@ -102,7 +99,7 @@ public function verifConnexion($courriel, $mdp)
 
                 'titre'  => 'Inscription membre'
             ),
-            'Frontend/gabarit-frontend'
+            'Frontend/gabarit-vide'
         );
     }
     /**
@@ -116,34 +113,35 @@ public function verifConnexion($courriel, $mdp)
         $membre  = [];
         $erreurs = [];
         if (count($_POST) !== 0) {
-            
-            // retour de saisie du formulaire
-            $membre = $_POST;
-            var_dump($_POST);
-            $oMembre = new Membres($Membre); // création d'un objet membre pour contrôler la saisie
-            $erreurs = $oMembre->erreurs;
-            if (count($erreurs) === 0) {
-                $id_membre = $this->oRequetesSQL->getInscription([
-                    'nom'    => $oMembre->nom,
-                    'prenom' => $oMembre->prenom,
-                    'courriel' => $oMembre->courriel,
-                    'mdp' => $oMembre->mdp,
-                    'renouvelermdp' => $oMembre->renouvelermdp,
-                    'idprofil' => $oUsager->idprofil
-                ]);
-                if ($id_membre > 0) {
-                    header("Location: /projetWeb1/accueil"); // retour sur la page du profil
-                    exit;
+            if($_POST['mdp'] === $_POST['renouvelermdp']){
+                // retour de saisie du formulaire
+                $membre = $_POST;
+                var_dump($membre);
+                $oMembre = new Membres($membre); // création d'un objet membre pour contrôler la saisie
+                $erreurs = $oMembre->erreurs;
+                if (count($erreurs) === 0) {
+                    $id_membre = $this->oRequetesSQL->getInscription([
+                        'nom'    => $oMembre->nom,
+                        'prenom' => $oMembre->prenom,
+                        'courriel' => $oMembre->courriel,
+                        'mdp' => $oMembre->mdp,
+                        'renouvelermdp' => $oMembre->renouvelermdp,
+                        'idprofil' => $oMembre->idprofil
+                    ]);
+                    if ($id_membre > 0) {
+                        header("Location: /ProjetWebDeux/PW2-Vino/accueil"); // retour sur la page du profil
+                        exit;
+                    }
                 }
             }
             new Vue(
-                'vInscription',
+                'Frontend/vInscription',
                 array(
                     'titre'    => 'Ajouter un Membre',
-                    'usager'   => $usager,
+                    'membre'   => $membre,
                     'erreurs'  => $erreurs
                 ),
-                'gabarit-frontend'
+                'Frontend/gabarit-frontend'
             );
         }
     }

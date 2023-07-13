@@ -1,22 +1,47 @@
 <!-- Template Inscription -->
 
-<link rel="stylesheet" href="assets/css/connexion.css">
-<section class="">
-	<form name="frmInscription" method="POST" action="validationInscription">
-		<input name="nom" value="{{ usager.nom }}" placeholder="Votre nom">
-		<span>&nbsp;{{ erreurs.nom }}</span>
-		<input name="prenom" value="{{ usager.prenom }}" placeholder="Votre prenom">
-		<span>&nbsp;{{ erreurs.prenom }}</span>
-		<input name="courriel" value="{{ usager.courriel }}" placeholder="Votre adresse courriel">
-		<span>&nbsp;{{ erreurs.courriel }}</span>
-		<input type="password" name="mdp" value="" placeholder="Votre mot de passe">
-		<input type="password" name="renouvelermdp" value="" placeholder="Confirmer votre mot de passe">
-		<span>&nbsp;{{ erreurs.mdp }}</span>
-		<input type="hidden" name="idprofil" value="membre">
+<form class="form_connexion" name="frmInscription" method="POST" action="validationInscription">	
 
+	<!-- Champ nom -->	
+	<input class="form_connexion_input" aria-label="Votre nom" type="text" id="nom" placeholder="Votre nom" name="nom" value="{{ usager.nom }}">
+	<div class="error">
+		<span>{{ erreurs.nom }}</span>
+	</div>
 
-		<input type="submit" value="S'inscrire">
+	<!-- Champ prénom -->	
+	<input class="form_connexion_input" aria-label="Votre prénom" type="text" id="prenom" placeholder="Votre prénom" name="prenom" value="{{ usager.prenom }}">
+	<div class="error">
+		<span>{{ erreurs.prenom }}</span>
+	</div>
 
-	</form>
-</section>
+	<!-- Champ courriel -->	
+	<input class="form_connexion_input" aria-label="Votre adresse courriel" type="email" id="courriel" placeholder="Votre adresse courriel" name="courriel" value="{{ usager.courriel }}">
+	<div class="error">
+		<span>{{ erreurs.courriel }}</span>
+	</div>	
+
+	<!-- Champ mot de passe -->	
+	<input class="form_connexion_input" aria-label="Votre mot de passe" type="password" id="mdp" placeholder="Votre mot de passe" name="mdp" value="">
+    <div class="error">
+        <span>{{ erreurs.mdp }}</span>
+    </div>
+
+	<!-- Champ confirmation de mot de passe -->	
+	<input class="form_connexion_input" aria-label="Votre mot de passe" type="password" id="mdp_renouveler" placeholder="Confirmez votre mot de passe" name="renouvelermdp" value="">
+    <div class="error">
+        <span>{{ erreurs.mdp }}</span>
+    </div>	
+	
+	<input type="hidden" name="idprofil" value="membre">
+
+	<input class="btn btn_inscription" type="submit" value="S'inscrire">
+
+	<div class="option_alternative">
+		<span>Vous avez un compte?
+			<a href="connecter">Se connecter</a>
+		</span>                            
+	</div>
+
+</form>
+
 <!-- fin template Inscription -->
