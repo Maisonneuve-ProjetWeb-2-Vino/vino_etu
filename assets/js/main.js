@@ -196,7 +196,7 @@ window.addEventListener('load', function() {
     document.querySelectorAll(".btnModifier").forEach(function(element){
         console.log(element);
         element.addEventListener("click", function(evt){
-            let id = evt.target.parentElement.dataset.id;
+            let id = evt.target.dataset.id;
             console.log(`cellier?action=m&bouteille_id=${id}`);
             window.location.assign(`cellier?action=m&bouteille_id=${id}`);
         });
@@ -204,11 +204,11 @@ window.addEventListener('load', function() {
 
 
     let inputNomBouteille = document.querySelector("[name='nom_bouteille']");
-    console.log(inputNomBouteille);
     let liste = document.querySelector('.listeAutoComplete');
+    let nouvelleBouteille = document.querySelector(".nouvelleBouteille");
 
     // Si on est sur la page d'ajout de bouteille
-    if(inputNomBouteille){
+    if(nouvelleBouteille){
 
       let bouteille = {
         nom : document.querySelector(".nom_bouteille"),
@@ -408,14 +408,116 @@ window.addEventListener('load', function() {
         });
       }
 
+
+      let btnEntrerBouteillePersonnalisee = document.querySelector("[name='entrerBouteillePersonnalisee']");
+      console.log(btnEntrerBouteillePersonnalisee)
+      if(btnEntrerBouteillePersonnalisee) {
+        btnEntrerBouteillePersonnalisee.addEventListener("click", function(evt){
+           changerStatutInterfaceAjout(bouteille, false);
+           viderChampsAjout(bouteille);
+           bouteille.nom.dataset.id = "";
+           const erreur_nom = document.querySelector(".erreur_nom_bouteille");
+           erreur_nom.innerHTML = "";
+        });
+      }
+
+    } // Fin page ajout bouteille
+
+    // Si on est sur la page de modification de bouteille
+    let modificationBouteille = document.querySelector(".modificationBouteille");
+    if(modificationBouteille){
+
+      let bouteille = {
+        nom : document.querySelector(".nom_bouteille"),
+        quantite : document.querySelector("[name='quantite']"),
+        pays : document.querySelector("[name='pays']"),
+        type : document.querySelector("[name='type']"),
+        millesime : document.querySelector("[name='millesime']"),
+        pastille : document.querySelector("[name='pastille']"),
+        appellation : document.querySelector("[name='appellation']"),
+        format : document.querySelector("[name='format']"),
+        cepage : document.querySelector("[name='cepage']"),
+        particularite : document.querySelector("[name='particularite']"),
+        degreAlcool : document.querySelector("[name='degreAlcool']"),
+        origine : document.querySelector("[name='origine']"),
+        producteur : document.querySelector("[name='producteur']"),
+        prix : document.querySelector("[name='prix']"),
+        region : document.querySelector("[name='region']"),
+        sucre : document.querySelector("[name='sucre']")
+      };
+
+      inputNomBouteille.addEventListener("keyup", function(evt){
+
+        let nom = inputNomBouteille.value;
+        liste.innerHTML = "";
+        if(nom){
+          let requete = new Request("cellier?action=c", {method: 'POST', body: '{"nom": "'+nom+'"}'});
+          fetch(requete)
+              .then(response => {
+                  if (response.status === 200) {
+                    return response.json();
+                  } else {
+                    throw new Error('Erreur');
+                  }
+                })
+                .then(response => {
+                  console.log(response);
+                  
+                  response.forEach(function(element){
+                    liste.innerHTML += "<li data-id='"+element.id +"'>"+element.nom+"</li>";
+                  })
+                }).catch(error => {
+                  console.error(error);
+                });
+        }
+        
+        
+      });
+
+
+      // Écouteur sur la liste des résultats de recherche d'une bouteille
+      liste.addEventListener("click", function(evt){
+        console.dir(evt.target)
+        if(evt.target.tagName == "LI"){
+          bouteille.nom.dataset.id = evt.target.dataset.id;
+          console.log(evt.target.innerHTML)
+          console.log(bouteille.nom)
+          bouteille.nom.innerHTML = evt.target.innerHTML;
+
+          liste.innerHTML = "";
+          inputNomBouteille.value = "";
+
+          let param = {
+            "id_bouteille":bouteille.nom.dataset.id,
+          }
+
+          let requete = new Request("cellier?action=r", {method: 'POST', body: JSON.stringify(param)});
+              fetch(requete)
+                  .then(response => {
+                      if (response.status === 200) {
+                        return response.json();
+                      } else {
+                        throw new Error('Erreur');
+                      }
+                    })
+                    .then(response => {
+                      console.log(response)
+                      //remplirChampsAjout(bouteille, response);
+                    
+                    }).catch(error => {
+                      console.error(error);
+                    });
+        }
+      });
+
       let btnModifier = document.querySelector("[name='modifierBouteilleCellier']");
       if(btnModifier){
         btnModifier.addEventListener("click", function(evt){
 
           if (validerChampsBouteille(bouteille)) {
             let param = {
-              "id_bouteille_cellier":document.querySelector("#bouteille_id").dataset.idCellier,
-			        "id_bouteille":bouteille.nom.dataset.id,
+              "id_bouteille_cellier":document.querySelector("#bouteille_id").dataset.idBouteilleCellier,
+			        "id_bouteille_catalogue":bouteille.nom.dataset.id,
               "quantite":parseInt(bouteille.quantite.value),
             };
             console.log(param);
@@ -442,28 +544,14 @@ window.addEventListener('load', function() {
         
         });
       }
+    }
 
-      let btnEntrerBouteillePersonnalisee = document.querySelector("[name='entrerBouteillePersonnalisee']");
-      console.log(btnEntrerBouteillePersonnalisee)
-      if(btnEntrerBouteillePersonnalisee) {
-        btnEntrerBouteillePersonnalisee.addEventListener("click", function(evt){
-           changerStatutInterfaceAjout(bouteille, false);
-           viderChampsAjout(bouteille);
-           bouteille.nom.dataset.id = "";
-           const erreur_nom = document.querySelector(".erreur_nom_bouteille");
-           erreur_nom.innerHTML = "";
-        });
-      }
-
-    } // Fin page ajout bouteille
-
-    
     let cellier = {
       nom : document.querySelector(".nom_cellier")
     }
 
+    // Page de modification de cellier
     let btnModifierCellier = document.querySelector("[name='modifierCellier']");
-    console.log(btnModifierCellier)
     if(btnModifierCellier){
       btnModifierCellier.addEventListener("click", function(evt){
 

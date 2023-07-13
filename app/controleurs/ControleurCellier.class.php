@@ -176,13 +176,8 @@ class ControleurCellier extends Routeur {
       // Création d'un objet Bouteille pour contrôler la saisie
       $oBouteille = new BouteilleCellier([
           'id_bouteille_cellier'=> $body->id_bouteille_cellier,
-          'id_bouteille'       => $body->id_bouteille,
-          'date_achat'         => $body->date_achat,
-          'garde_jusqua'       => $body->garde_jusqua,
-          'notes'              => $body->notes,
-          'prix'               => $body->prix,
-          'quantite'           => $body->quantite,
-          'millesime'          => $body->millesime
+          'id_bouteille'       => $body->id_bouteille_catalogue,
+          'quantite'           => $body->quantite
       ]);
       
       $erreursBouteille = $oBouteille->erreurs;
@@ -192,12 +187,7 @@ class ControleurCellier extends Routeur {
         $resultat = $this->oRequetesSQL->modifierBouteilleCellier([
           'id_bouteille_cellier'=> $oBouteille->id_bouteille_cellier,
           'id_bouteille'        => $oBouteille->id_bouteille,
-          'date_achat'          => $oBouteille->date_achat,
-          'garde_jusqua'        => $oBouteille->garde_jusqua,
-          'notes'               => $oBouteille->notes,
-          'prix'                => $oBouteille->prix,
-          'quantite'            => $oBouteille->quantite,
-          'millesime'           => $oBouteille->millesime
+          'quantite'            => $oBouteille->quantite
         ]);
 
         echo json_encode($resultat);
@@ -213,7 +203,7 @@ class ControleurCellier extends Routeur {
         throw new Exception(self::ERROR_BAD_REQUEST);
       }
 
-      $bouteilleAModifier = $this->oRequetesSQL->obtenirBouteilleCellier($this->bouteille_id);
+      $bouteilleAModifier = $this->oRequetesSQL->obtenirDetailsBouteilleCellier($this->bouteille_id);
 
       new Vue("/Cellier/vModificationBouteille",
         array(
@@ -529,7 +519,7 @@ class ControleurCellier extends Routeur {
 
     $body = json_decode(file_get_contents('php://input'));
 
-    $bouteille = $this->oRequetesSQL->obtenirBouteilleCellier($body->id_bouteille);
+    $bouteille = $this->oRequetesSQL->obtenirBouteilleCatalogue($body->id_bouteille);
             
     echo json_encode($bouteille);
 

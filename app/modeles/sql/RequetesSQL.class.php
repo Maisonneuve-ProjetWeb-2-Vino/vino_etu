@@ -88,15 +88,11 @@ class RequetesSQL extends RequetesPDO {
 	 */
 	public function modifierBouteilleCellier($champs)
 	{
-    $champs['millesime'] = empty($champs['millesime']) ? null : $champs['millesime'];
-    $champs['date_achat'] = empty($champs['date_achat']) ? null : $champs['date_achat'];
     $champs['quantite'] = empty($champs['quantite']) ? 0 : $champs['quantite'];
-    $champs['prix'] = empty($champs['prix']) ? 0 : $champs['prix'];
 
     $this->sql = "
-      UPDATE vino__cellier SET id_bouteille = :id_bouteille, date_achat = :date_achat,
-      garde_jusqua = :garde_jusqua, notes = :notes, prix = :prix, quantite = :quantite,
-      millesime = :millesime WHERE id = :id_bouteille_cellier
+      UPDATE bouteilles_cellier SET idbouteillecatalogue = :id_bouteille, quantite = :quantite
+      WHERE id_bouteille_cellier = :id_bouteille_cellier
       ";
         
     return $this->CUDLigne($champs); 
@@ -119,12 +115,12 @@ class RequetesSQL extends RequetesPDO {
 	}
 
   /**
-	 * Récupère les données d'une bouteille d'un cellier, à partir de son id.
+	 * Récupère les données d'une bouteille d'un cellier, à partir de son id dans le catalogue.
 	 * 
-	 * @param int $id_bouteille id de la bouteille
+	 * @param int $id_bouteille_catalogue L'id de la bouteille dans le catalogue
    * @return array|false ligne de la table, false sinon
 	 */
-	public function obtenirBouteilleCellier($id_bouteille) {
+	public function obtenirBouteilleCatalogue($id_bouteille_catalogue) {
 
 		$this->sql = "
 			SELECT *
@@ -132,7 +128,25 @@ class RequetesSQL extends RequetesPDO {
 			WHERE id_bouteille = :id_bouteille
       ";
 
-		return $this->obtenirLignes(['id_bouteille' => $id_bouteille], RequetesPDO::UNE_SEULE_LIGNE);
+		return $this->obtenirLignes(['id_bouteille' => $id_bouteille_catalogue], RequetesPDO::UNE_SEULE_LIGNE);
+	}
+
+    /**
+	 * Récupère les données d'une bouteille d'un cellier, à partir de son id dans le cellier.
+	 * 
+	 * @param int $id_bouteille_cellier L'id de la bouteille dans le cellier
+   * @return array|false ligne de la table, false sinon
+	 */
+	public function obtenirBouteilleCellier($id_bouteille_cellier) {
+
+		$this->sql = "
+			SELECT *
+      FROM bouteilles_catalogue
+      JOIN bouteilles_cellier ON bouteilles_catalogue.id_bouteille = bouteilles_cellier.idbouteillecatalogue
+			WHERE bouteilles_cellier.id_bouteille_cellier = :id_bouteille_cellier
+      ";
+
+		return $this->obtenirLignes(['id_bouteille_cellier' => $id_bouteille_cellier], RequetesPDO::UNE_SEULE_LIGNE);
 	}
 
  /**
@@ -230,7 +244,7 @@ class RequetesSQL extends RequetesPDO {
     //TODO  extraire colonne sucre aussi
     $this->sql = "
       SELECT 
-        c.id_bouteille_cellier,
+        c.id_bouteille_cellier AS id_bouteille_cellier,
         c.quantite,
         c.idcellier AS id_cellier,
         b.nom, 

@@ -28,8 +28,9 @@
 
     </div>
 
-    <a href="">Modifier la bouteille</a>
+    <button class="btnModifier" data-id="{{ bouteille.id_bouteille_cellier }}">Modifier la bouteille</button>
     <br>
     <button class="confirmer" data-href="cellier?action=t&bouteille_id={{ bouteille.id_bouteille_cellier }}">Supprimer la bouteille</button>
 </div>
+
 {{ include("/Cellier/modaleSuppression.twig") }}
