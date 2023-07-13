@@ -48,7 +48,7 @@ class Membres
   // Getters explicites nécessaires au moteur de templates TWIG
   public function getid_membre()
   {
-    return $this->id_usager;
+    return $this->id_membre;
   }
   public function getnom()
   {
@@ -70,11 +70,11 @@ class Membres
   }
   public function getrenouvelermdp()
   {
-    return $this->mdp;
+    return $this->renouvelermdp;
   }
   public function getdate_creation()
   {
-    return $this->mdp;
+    return $this->date_creation;
   }
   public function getidprofil()
   {
@@ -189,10 +189,7 @@ class Membres
     $this->renouvelermdp = $renouvelermdp;
     unset($this->erreurs['renouvelermdp']);
     $renouvelermdp = trim($renouvelermdp);
-    
-    if ($mdp != $renouvelermdp) {
-      $this->erreurs['renouvelermdp'] = "Votre mot de passe et la confirmation ne sont pas identiques";
-    }
+  
     $this->renouvelermdp = $renouvelermdp;
     return $this;
   }
