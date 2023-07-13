@@ -17,6 +17,7 @@ class Frontend extends Routeur {
 
   /**
    * Afficher la page d'accueil.
+   * 
    * @return void
    */  
   public function voirAccueil() {
