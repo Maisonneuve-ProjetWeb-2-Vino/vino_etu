@@ -1,20 +1,30 @@
-<!-- Template Connexion -->
+<!-- Template Connexion -->				
 
+<form class="form_connexion" name="frmConnexion" method="POST" {% if actionUri %} action="{{ actionUri }}" {% endif %}>
 
-<section>
+	<br><span id="messageErreurConnexion">&nbsp;{{ messageErreurConnexion }}</span>	
 
-	<form name="frmConnexion" method="POST" action="connexion">
+	<!-- Champ courriel -->	
+	<input class="form_connexion_input" aria-label="Courriel" type="email" id="courriel" placeholder="Courriel" name="courriel" value="">
+	<div class="error">
+		<span>Format incorrect</span>
+	</div>		
 
-		<br><span id="messageErreurConnexion">&nbsp;{{ messageErreurConnexion }}</span>
+	<!-- Champ mot de passe -->	
+	<input class="form_connexion_input" aria-label="Mot de passe" type="password" id="mdp" placeholder="Mot de passe" name="mdp" value="">
+    <div class="error">
+        <span>Au moins 10 caractères, une majuscule, une minuscule et un chiffre</span>
+    </div>
 
-		<label>Courriel</label>
-		<input name="courriel" value="">
+	<a href="">Mot de passe oublié?</a>	
 
-		<label>Mot de passe</label>
-		<input type="password" name="mdp" value="">
+	<input class="btn btn_connexion" type="submit" value="Se connecter">
 
-		<input type="submit" value="Se connecter">
+	<div class="option_alternative">
+		<span>Vous n’avez pas de compte?
+			<a href="inscription">S'inscrire</a>
+		</span>                            
+	</div>
+</form>
 
-	</form>
-</section>
 <!-- fin template Connexion -->

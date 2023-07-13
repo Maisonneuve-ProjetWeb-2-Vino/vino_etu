@@ -29,9 +29,9 @@ class Membre extends Routeur {
             '/Frontend/vConnexion',
             array(
 
-                'titre'  => 'Connexion membre'
+                'titre'  => 'Se connecter'
             ),
-            'Frontend/gabarit-frontend'
+            'Frontend/gabarit-vide'
         );
 }
 
@@ -99,7 +99,7 @@ public function verifConnexion($courriel, $mdp)
 
                 'titre'  => 'Inscription membre'
             ),
-            'Frontend/gabarit-frontend'
+            'Frontend/gabarit-vide'
         );
     }
     /**
