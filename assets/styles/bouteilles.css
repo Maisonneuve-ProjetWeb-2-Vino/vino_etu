@@ -1,15 +1,25 @@
 .carte_bouteille {
     display: flex;
     flex-direction: column;
-    background-color: #8F4848;
     padding: 10px;
     border-radius: 25px;
     flex-grow: 1;
 }
 
+.texte_bouteille{
+    display:flex;
+    flex-direction:column;
+    align-items:right;
+    justify-content:center;
+}
+.image_bouteille{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
 .image_bouteille>img {
-    height: 150px;
-    width: 75px;
+    height: 125px;
+    width: 65px;
     object-fit: cover;
 }
 
@@ -52,4 +62,21 @@
     flex: 4;
     align-items: center;
     justify-content: flex-end;
+}
+
+.disabled-svg {
+    pointer-events: none;
+    opacity: 0.5; 
+}
+
+.bouteille_rouge {
+    background-color:#8F4848;
+}
+
+.bouteille_blanche{
+    background-color: #86847C;
+}
+
+.bouteille_rose{
+    background-color:#B5707D;
 }
