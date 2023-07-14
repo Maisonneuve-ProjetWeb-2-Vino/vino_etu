@@ -99,7 +99,11 @@ window.addEventListener('load', function() {
     document.querySelectorAll(".btnBoire").forEach(function(element){
         console.log(element);
         element.addEventListener("click", function(evt){
-            let id = evt.target.parentElement.dataset.id;
+          console.log(evt.currentTarget)
+            let id = evt.target.closest(".options").dataset.id;
+            const elCible = evt.currentTarget;
+            const elParent = evt.currentTarget.parentElement;
+            console.log(id)
             let requete = new Request("cellier?action=b", {method: 'POST', body: '{"id": '+id+'}'});
 
             fetch(requete)
@@ -112,31 +116,24 @@ window.addEventListener('load', function() {
               })
               .then(response => {
                 console.debug(response);
-                const elBouteille = evt.target.closest(".bouteille");
-                for (let enfantBouteille of elBouteille.children) {
-                  if (enfantBouteille.classList.contains("description")) {
-                    for (let enfantDescription of enfantBouteille.children) {
-                      if (enfantDescription.classList.contains("quantite")) {
-                        let quantiteBouteille = enfantDescription.children[0].innerHTML;
+                for (let elEnfant of elParent.children) {
+                  if (elEnfant.classList.contains("quantite")) {
+                    console.log("ici")
+                    let quantiteBouteille = elEnfant.children[0].innerHTML;
 
-                        if (quantiteBouteille > 0) {
-                          quantiteBouteille -= 1;
-                        }
-                        
-                        if (quantiteBouteille == 0){
-                          evt.target.disabled = true;
-                        }
-
-                        enfantDescription.children[0].innerHTML = quantiteBouteille;
-                        break;
-                      }
+                    if (quantiteBouteille > 0) {
+                      quantiteBouteille -= 1;
+                    }
+                    
+                    if (quantiteBouteille == 0){
+                      elCible.disabled = true;
+                      elCible.classList.add("disabled-svg");
                     }
 
+                    elEnfant.children[0].innerHTML = quantiteBouteille;
                   }
                 }
-
-                //window.location.assign("accueil");
-                
+      
 
               }).catch(error => {
                 console.error(error);
@@ -148,8 +145,8 @@ window.addEventListener('load', function() {
     document.querySelectorAll(".btnAjouter").forEach(function(element){
         console.log(element);
         element.addEventListener("click", function(evt){
-            let id = evt.target.parentElement.dataset.id;
-            console.log(id)
+            let id = evt.target.closest(".options").dataset.id;
+            const elParent = evt.currentTarget.parentElement;
             let requete = new Request("cellier?action=a", {method: 'POST', body: '{"id": '+id+'}'});
 
             fetch(requete)
@@ -162,30 +159,29 @@ window.addEventListener('load', function() {
               })
               .then(response => {
                 console.debug(response);
-                const elBouteille = evt.target.closest(".bouteille");
-                for (let enfantBouteille of elBouteille.children) {
-                  if (enfantBouteille.classList.contains("description")) {
-                    for (let enfantDescription of enfantBouteille.children) {
-                      if (enfantDescription.classList.contains("quantite")) {
-                        let quantiteBouteille = parseInt(enfantDescription.children[0].innerHTML);
-                        quantiteBouteille += 1;
-                        
-                        if (quantiteBouteille > 0){
-                          const elOptions = evt.target.closest(".options");
-                          for (let enfantOptions of elOptions.children) {
-                            if (enfantOptions.classList.contains("btnBoire")) {
-                              enfantOptions.disabled = false;
-                            }
+                for (let elEnfant of elParent.children) {
+                  if (elEnfant.classList.contains("quantite")) {
+                    console.log("ici")
+                    let quantiteBouteille = parseInt(elEnfant.children[0].innerHTML);
+                    quantiteBouteille += 1;
+
+                    if (quantiteBouteille > 0){
+                      const elIcones = evt.target.closest(".icones_gauche");
+                      for (let enfant of elIcones.children) {
+                        if (enfant.classList.contains("btnBoire")) {
+                          enfant.disabled = false;
+                          if (enfant.classList.contains("disabled-svg")) {
+                            enfant.classList.remove("disabled-svg");
                           }
                         }
-
-                        enfantDescription.children[0].innerHTML = quantiteBouteille;
-                        break;
                       }
                     }
 
+                    elEnfant.children[0].innerHTML = quantiteBouteille;
+                    break;
                   }
                 }
+                
               }).catch(error => {
                 console.error(error);
               });
