@@ -233,9 +233,9 @@ class RequetesSQL extends RequetesPDO {
   /**
    * Donne les détails du catalogue et du cellier (quantité) pour une bouteille donnée.
    * 
-   * @param int $id_bouteille L'id de la bouteille
+   * @param int $id_bouteille_cellier L'id de la bouteille dans le cellier
    */
-  public function obtenirDetailsBouteilleCellier($id_bouteille) {
+  public function obtenirDetailsBouteilleCellier($id_bouteille_cellier) {
 
     //TODO  extraire colonne sucre aussi
     $this->sql = "
@@ -243,6 +243,8 @@ class RequetesSQL extends RequetesPDO {
         c.id_bouteille_cellier AS id_bouteille_cellier,
         c.quantite,
         c.idcellier AS id_cellier,
+        b.id_bouteille AS id_bouteille_catalogue,
+        b.idmembre,
         b.nom, 
         b.idtype AS type, 
         b.image_url,
@@ -253,14 +255,20 @@ class RequetesSQL extends RequetesPDO {
         b.prix_saq,
         b.region,
         b.pastille,
+        b.tauxSucre,
+        b.particularite,
+        b.appellation,
+        b.annee,
+        b.origine,
+        b.idpays,
         p.pays
       FROM bouteilles_cellier c 
       INNER JOIN bouteilles_catalogue b ON c.idbouteillecatalogue = b.id_bouteille
       INNER JOIN pays p ON b.idpays = p.id_pays
-      WHERE c.id_bouteille_cellier = :id_bouteille
+      WHERE c.id_bouteille_cellier = :id_bouteille_cellier
       ";
 
-    return $this->obtenirLignes(['id_bouteille' => $id_bouteille], RequetesPDO::UNE_SEULE_LIGNE);
+    return $this->obtenirLignes(['id_bouteille_cellier' => $id_bouteille_cellier], RequetesPDO::UNE_SEULE_LIGNE);
 
   }
 
@@ -415,6 +423,29 @@ class RequetesSQL extends RequetesPDO {
     ], RequetesPDO::UNE_SEULE_LIGNE);
     
     return $resultat['nombre'] > 0 ? true : false;
+  }
+
+  public function modifierBouteilleCatalogue($champs) {
+       
+    $this->sql = "
+      UPDATE bouteilles_catalogue 
+      SET nom = :nom,
+      prix_saq = :prix_saq,
+      annee = :annee,
+      idtype = :type,
+      origine = :origine,
+      region = :region,
+      appellation = :appellation,
+      cepage = :cepage,
+      degreAlcool = :degreAlcool,
+      particularite = :particularite,
+      format = :format,
+      producteur = :producteur,
+      idpays = :pays
+      WHERE id_bouteille = :id_bouteille_catalogue
+      ";
+        
+    return $this->CUDLigne($champs); 
   }
 
   /* GESTION DES USAGERS 

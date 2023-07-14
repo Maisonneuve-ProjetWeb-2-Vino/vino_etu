@@ -172,31 +172,7 @@ class ControleurCellier extends Routeur {
     $body = json_decode(file_get_contents('php://input'));
 
     if(!empty($body)){
-
-      // Création d'un objet Bouteille pour contrôler la saisie
-      $oBouteille = new BouteilleCellier([
-          'id_bouteille_cellier'=> $body->id_bouteille_cellier,
-          'id_bouteille'       => $body->id_bouteille_catalogue,
-          'quantite'           => $body->quantite
-      ]);
-      
-      $erreursBouteille = $oBouteille->erreurs;
-
-      if (count($erreursBouteille) === 0) {
-
-        $resultat = $this->oRequetesSQL->modifierBouteilleCellier([
-          'id_bouteille_cellier'=> $oBouteille->id_bouteille_cellier,
-          'id_bouteille'        => $oBouteille->id_bouteille,
-          'quantite'            => $oBouteille->quantite
-        ]);
-
-        echo json_encode($resultat);
-      }
-      else {
-        // Pas supposé étant donné la validation front-end
-        throw new Exception("Erreur: bouteille invalide, non insérée:" . implode($oBouteille->erreurs));
-      }
-
+      $this->traiterFormulaireModificationBouteille($body);
     }
     else{
       if (!$this->bouteille_id) {
@@ -205,13 +181,127 @@ class ControleurCellier extends Routeur {
 
       $bouteilleAModifier = $this->oRequetesSQL->obtenirDetailsBouteilleCellier($this->bouteille_id);
 
-      new Vue("/Cellier/vModificationBouteille",
-        array(
-          'titre'       => "Modification de bouteille",
-          'bouteille'   => $bouteilleAModifier
-        ),
-      "/Frontend/gabarit-frontend");
+      if ($bouteilleAModifier['idmembre']){
+
+        // Si bouteille personnalisée
+        $pays = $this->oRequetesSQL->obtenirListePays();
+        $types = $this->oRequetesSQL->obtenirListeTypes();
+
+        new Vue("/Cellier/vModificationBouteillePersonnalisee",
+          array(
+            'titre'       => "Modification de bouteille personnalisée",
+            'bouteille'   => $bouteilleAModifier,
+            'pays'        => $pays,
+            'types'       => $types
+          ),
+        "/Frontend/gabarit-frontend");
+
+      } else {
+        // Sinon bouteille de la saq
+        new Vue("/Cellier/vModificationBouteilleSAQ",
+          array(
+            'titre'       => "Modification de bouteille de la SAQ",
+            'bouteille'   => $bouteilleAModifier
+          ),
+        "/Frontend/gabarit-frontend");
+      }
+
     }
+
+  }
+
+  private function traiterFormulaireModificationBouteille($body) {
+
+    $bouteilleAModifier = $this->oRequetesSQL->obtenirDetailsBouteilleCellier($body->$body->id_bouteille_cellier);
+    
+    if ($bouteilleAModifier['idmembre']) {
+      // Si vin personnalisé
+
+      // Création d'un objet BouteilleCatalogue pour contrôler la saisie
+      $oBouteilleCatalogue = new BouteilleCatalogue([
+        'id_bouteille'  => $body->id_bouteille_catalogue,
+        'nom'           => $body->nom,
+        'pays'          => $body->pays,
+        'type'          => $body->type,
+        'annee'         => $body->annee,
+        'format'        => $body->format,
+        'cepage'        => $body->cepage,
+        'particularite' => $body->particularite,
+        'appellation'   => $body->appellation,
+        'degreAlcool'   => $body->degreAlcool,
+        'origine'       => $body->origine,
+        'producteur'    => $body->producteur,
+        'prix_saq'      => $body->prix_saq,
+        'region'        => $body->region,
+        'tauxSucre'     => $body->tauxSucre
+      ]);
+      
+      if (count($oBouteilleCatalogue->erreurs) === 0) {
+        $resultat = $this->oRequetesSQL->modifierBouteilleCatalogue([ 
+          'nom'                     => $oBouteilleCatalogue->nom,
+          'prix_saq'                => $oBouteilleCatalogue->prix_saq,
+          'annee'                   => $oBouteilleCatalogue->annee,
+          'type'                    => $oBouteilleCatalogue->type,
+          'origine'                 => $oBouteilleCatalogue->origine,
+          'region'                  => $oBouteilleCatalogue->region,
+          'appellation'             => $oBouteilleCatalogue->appellation,
+          'cepage'                  => $oBouteilleCatalogue->cepage,
+          'degreAlcool'             => $oBouteilleCatalogue->degreAlcool,
+          'particularite'           => $oBouteilleCatalogue->particularite,
+          'format'                  => $oBouteilleCatalogue->format,
+          'producteur'              => $oBouteilleCatalogue->producteur,
+          'pays'                    => $oBouteilleCatalogue->pays,
+          'id_bouteille_catalogue'  => $oBouteilleCatalogue->id_bouteille
+        ]);
+
+        // Création d'un objet BouteilleCellier pour contrôler la saisie
+        $oBouteilleCellier = new BouteilleCellier([
+          'id_bouteille_cellier'=> $body->id_bouteille_cellier,
+          'id_bouteille'        => $body->id_bouteille_catalogue,
+          'quantite'            => $body->quantite
+        ]);
+
+        if (count($oBouteilleCellier->erreurs) === 0) {
+
+          $resultat = $this->oRequetesSQL->modifierBouteilleCellier([
+            'id_bouteille_cellier'=> $oBouteilleCellier->id_bouteille_cellier,
+            'id_bouteille'        => $oBouteilleCellier->id_bouteille,
+            'quantite'            => $oBouteilleCellier->quantite
+          ]);
+
+        } else {
+          // Pas supposé étant donné la validation front-end
+          throw new Exception("Erreur: bouteille cellier invalide, non insérée:" . implode($oBouteilleCellier->erreurs));
+        }
+      } else {
+        // Pas supposé étant donné la validation front-end
+        throw new Exception("Erreur: bouteille catalogue invalide, non insérée:" . implode($oBouteilleCatalogue->erreurs));
+      }
+
+    } else {  
+      // Sinon vin de la SAQ
+
+      // Création d'un objet Bouteille pour contrôler la saisie
+      $oBouteilleCellier = new BouteilleCellier([
+          'id_bouteille_cellier'=> $body->id_bouteille_cellier,
+          'id_bouteille'       => $body->id_bouteille_catalogue,
+          'quantite'           => $body->quantite
+      ]);
+      
+      if (count($oBouteilleCellier->erreurs) === 0) {
+
+        $resultat = $this->oRequetesSQL->modifierBouteilleCellier([
+          'id_bouteille_cellier'=> $oBouteilleCellier->id_bouteille_cellier,
+          'id_bouteille'        => $oBouteilleCellier->id_bouteille,
+          'quantite'            => $oBouteilleCellier->quantite
+        ]);
+      }
+      else {
+        // Pas supposé étant donné la validation front-end
+        throw new Exception("Erreur: bouteille invalide, non insérée:" . implode($$oBouteilleCellier->erreurs));
+      }
+    }
+    echo json_encode($resultat);
 
   }
 

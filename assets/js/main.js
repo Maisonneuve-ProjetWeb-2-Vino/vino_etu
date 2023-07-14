@@ -446,7 +446,9 @@ window.addEventListener('load', function() {
         sucre : document.querySelector("[name='sucre']")
       };
 
-      inputNomBouteille.addEventListener("keyup", function(evt){
+      // Modification d'un vin de la SAQ
+      if (inputNomBouteille) {
+        inputNomBouteille.addEventListener("keyup", function(evt){
 
         let nom = inputNomBouteille.value;
         liste.innerHTML = "";
@@ -471,8 +473,8 @@ window.addEventListener('load', function() {
                 });
         }
         
-        
       });
+      }
 
 
       // Écouteur sur la liste des résultats de recherche d'une bouteille
@@ -544,6 +546,55 @@ window.addEventListener('load', function() {
         
         });
       }
+
+      let btnModifierPersonnalisee = document.querySelector("[name='modifierBouteillePersonnalisee']");
+      if(btnModifierPersonnalisee){
+        btnModifier.addEventListener("click", function(evt){
+
+          if (validerChampsBouteille(bouteille)) {
+            let param = {
+              "id_bouteille_cellier":document.querySelector("#bouteille_id").dataset.idBouteilleCellier,
+			        "id_bouteille_catalogue":bouteille.nom.dataset.id,
+              "quantite":parseInt(bouteille.quantite.value),
+              "pays":bouteille.pays.value,
+              "type":bouteille.type.value,
+              "annee":bouteille.millesime.value,
+              "format":bouteille.format.value,
+              "appellation":bouteille.appellation.value,
+              "cepage":bouteille.cepage.value,
+              "particularite":bouteille.particularite.value,
+              "degreAlcool":bouteille.degreAlcool.value,
+              "origine":bouteille.origine.value,
+              "producteur":bouteille.producteur.value,
+              "prix_saq":bouteille.prix.value,
+              "region":bouteille.region.value,
+              "tauxSucre":bouteille.sucre.value,
+            };
+            console.log(param);
+            let requete = new Request("cellier?action=m", {method: 'POST', body: JSON.stringify(param)});
+              fetch(requete)
+                  .then(response => {
+                      if (response.status === 200) {
+                        return response.json();
+                      } else {
+                        throw new Error('Erreur');
+                      }
+                    })
+                    .then(response => {
+                      console.log(response);
+                      window.location.assign("cellier");
+                    
+                    }).catch(error => {
+                      console.error(error);
+                    });
+          
+
+          }
+
+        
+        });
+      }
+
     }
 
     let cellier = {
