@@ -8,10 +8,17 @@
     margin-right: 25px;
 }
 
+.charte {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .carte_cellier {
     display: flex;
+    justify-content: space-around;
     flex-direction: row;
-    background-color: #6A6767;
+    background-color: #252525;
     padding: 10px;
     border-radius: 25px;
     flex-grow: 1;
@@ -28,13 +35,15 @@
 
 .bouton_ajout_cellier_top {
     border-radius: 25px;
+    padding: 15px;
     background-color: #772743;
+    text-align: center;
 }
 
-.bouton_ajout_cellier_top>p {
+.bouton_ajout_cellier_top>a {
     font-size: 14pt;
     color: #ffffff;
-    text-align: center;
+    text-decoration: none;
 }
 
 .texte_cellier {
@@ -47,7 +56,7 @@
     justify-content: flex-end;
 }
 
-.chevron_cellier>svg {
+.chevron_cellier>a>svg {
     height: 80px;
     width: 80px;
     fill: #ffffff;
