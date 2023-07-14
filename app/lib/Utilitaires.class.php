@@ -2,9 +2,9 @@
 
 class Utilitaires {
 
-    const COULEUR_ROUGE = "rgb(155,54,54)";
-    const COULEUR_ROSE = "rgb(255,196,196)";
-    const COULEUR_BLANC = "rgb(255,255,196)";
+    const COULEUR_ROUGE = "rgb(143,72,72)";
+    const COULEUR_ROSE = "rgb(181,112,125)";
+    const COULEUR_BLANC = "rgb(134,132,124)";
 
     /**
      * Calcule le nombre total de bouteilles pour tous types de vins.
