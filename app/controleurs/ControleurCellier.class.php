@@ -212,7 +212,7 @@ class ControleurCellier extends Routeur {
 
   private function traiterFormulaireModificationBouteille($body) {
 
-    $bouteilleAModifier = $this->oRequetesSQL->obtenirDetailsBouteilleCellier($body->$body->id_bouteille_cellier);
+    $bouteilleAModifier = $this->oRequetesSQL->obtenirDetailsBouteilleCellier($body->id_bouteille_cellier);
     
     if ($bouteilleAModifier['idmembre']) {
       // Si vin personnalisé
@@ -298,7 +298,7 @@ class ControleurCellier extends Routeur {
       }
       else {
         // Pas supposé étant donné la validation front-end
-        throw new Exception("Erreur: bouteille invalide, non insérée:" . implode($$oBouteilleCellier->erreurs));
+        throw new Exception("Erreur: bouteille invalide, non insérée:" . implode($oBouteilleCellier->erreurs));
       }
     }
     echo json_encode($resultat);

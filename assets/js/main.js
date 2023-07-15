@@ -446,67 +446,70 @@ window.addEventListener('load', function() {
       if (inputNomBouteille) {
         inputNomBouteille.addEventListener("keyup", function(evt){
 
-        let nom = inputNomBouteille.value;
-        liste.innerHTML = "";
-        if(nom){
-          let requete = new Request("cellier?action=c", {method: 'POST', body: '{"nom": "'+nom+'"}'});
-          fetch(requete)
-              .then(response => {
-                  if (response.status === 200) {
-                    return response.json();
-                  } else {
-                    throw new Error('Erreur');
-                  }
-                })
+          let nom = inputNomBouteille.value;
+          liste.innerHTML = "";
+          if(nom){
+            let requete = new Request("cellier?action=c", {method: 'POST', body: '{"nom": "'+nom+'"}'});
+            fetch(requete)
                 .then(response => {
-                  console.log(response);
-                  
-                  response.forEach(function(element){
-                    liste.innerHTML += "<li data-id='"+element.id +"'>"+element.nom+"</li>";
+                    if (response.status === 200) {
+                      return response.json();
+                    } else {
+                      throw new Error('Erreur');
+                    }
                   })
-                }).catch(error => {
-                  console.error(error);
-                });
-        }
+                  .then(response => {
+                    console.log(response);
+                    
+                    response.forEach(function(element){
+                      liste.innerHTML += "<li data-id='"+element.id +"'>"+element.nom+"</li>";
+                    })
+                  }).catch(error => {
+                    console.error(error);
+                  });
+          }
         
-      });
+        });
       }
 
 
       // Écouteur sur la liste des résultats de recherche d'une bouteille
-      liste.addEventListener("click", function(evt){
-        console.dir(evt.target)
-        if(evt.target.tagName == "LI"){
-          bouteille.nom.dataset.id = evt.target.dataset.id;
-          console.log(evt.target.innerHTML)
-          console.log(bouteille.nom)
-          bouteille.nom.innerHTML = evt.target.innerHTML;
+      if (liste) {
+        liste.addEventListener("click", function(evt){
+          console.dir(evt.target)
+          if(evt.target.tagName == "LI"){
+            bouteille.nom.dataset.id = evt.target.dataset.id;
+            console.log(evt.target.innerHTML)
+            console.log(bouteille.nom)
+            bouteille.nom.innerHTML = evt.target.innerHTML;
 
-          liste.innerHTML = "";
-          inputNomBouteille.value = "";
+            liste.innerHTML = "";
+            inputNomBouteille.value = "";
 
-          let param = {
-            "id_bouteille":bouteille.nom.dataset.id,
-          }
+            let param = {
+              "id_bouteille":bouteille.nom.dataset.id,
+            }
 
-          let requete = new Request("cellier?action=r", {method: 'POST', body: JSON.stringify(param)});
-              fetch(requete)
-                  .then(response => {
-                      if (response.status === 200) {
-                        return response.json();
-                      } else {
-                        throw new Error('Erreur');
-                      }
-                    })
+            let requete = new Request("cellier?action=r", {method: 'POST', body: JSON.stringify(param)});
+                fetch(requete)
                     .then(response => {
-                      console.log(response)
-                      //remplirChampsAjout(bouteille, response);
-                    
-                    }).catch(error => {
-                      console.error(error);
-                    });
-        }
-      });
+                        if (response.status === 200) {
+                          return response.json();
+                        } else {
+                          throw new Error('Erreur');
+                        }
+                      })
+                      .then(response => {
+                        console.log(response)
+                        //remplirChampsAjout(bouteille, response);
+                      
+                      }).catch(error => {
+                        console.error(error);
+                      });
+          }
+        });
+      }
+
 
       let btnModifier = document.querySelector("[name='modifierBouteilleCellier']");
       if(btnModifier){
@@ -545,10 +548,11 @@ window.addEventListener('load', function() {
 
       let btnModifierPersonnalisee = document.querySelector("[name='modifierBouteillePersonnalisee']");
       if(btnModifierPersonnalisee){
-        btnModifier.addEventListener("click", function(evt){
+        btnModifierPersonnalisee.addEventListener("click", function(evt){
 
           if (validerChampsBouteille(bouteille)) {
             let param = {
+              "nom":document.querySelector(".nom_bouteille").value,
               "id_bouteille_cellier":document.querySelector("#bouteille_id").dataset.idBouteilleCellier,
 			        "id_bouteille_catalogue":bouteille.nom.dataset.id,
               "quantite":parseInt(bouteille.quantite.value),
