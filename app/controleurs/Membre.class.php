@@ -113,27 +113,35 @@ public function verifConnexion($courriel, $mdp)
         $membre  = [];
         $erreurs = [];
         if (count($_POST) !== 0) {
-            if($_POST['mdp'] === $_POST['renouvelermdp']){
+            $membre = [
+                'nom'    => $_POST['nom'],
+                'prenom'  => $_POST['prenom'],
+                'courriel'   => $_POST['courriel'],
+                'mdp'  => $_POST['mdp'],
+                'idprofil'  => $_POST['idprofil']
+            ];
                 // retour de saisie du formulaire
-                $membre = $_POST;
-                var_dump($membre);
+               
                 $oMembre = new Membres($membre); // création d'un objet membre pour contrôler la saisie
                 $erreurs = $oMembre->erreurs;
+                if($_POST['mdp'] !== $_POST['renouvelermdp']){
+                    $erreurs['renouvelermdp'] = "Votre mot de passe et la confirmation ne correspondent pas";
+                }
                 if (count($erreurs) === 0) {
                     $id_membre = $this->oRequetesSQL->getInscription([
                         'nom'    => $oMembre->nom,
                         'prenom' => $oMembre->prenom,
                         'courriel' => $oMembre->courriel,
                         'mdp' => $oMembre->mdp,
-                        'renouvelermdp' => $oMembre->renouvelermdp,
+                        'renouvelermdp' => $oMembre->mdp,
                         'idprofil' => $oMembre->idprofil
                     ]);
                     if ($id_membre > 0) {
-                        header("Location: /ProjetWebDeux/PW2-Vino/accueil"); // retour sur la page du profil
+                        header("Location: accueil"); // retour sur la page du profil
                         exit;
                     }
                 }
-            }
+            
             new Vue(
                 'Frontend/vInscription',
                 array(
@@ -141,7 +149,7 @@ public function verifConnexion($courriel, $mdp)
                     'membre'   => $membre,
                     'erreurs'  => $erreurs
                 ),
-                'Frontend/gabarit-frontend'
+                'Frontend/gabarit-vide'
             );
         }
     }

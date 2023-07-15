@@ -11,7 +11,6 @@ class Membres
   private $prenom;
   private $courriel;
   private $mdp;
-  private $renouvelermdp;
   private $date_creation;
   private $idprofil;
  
@@ -68,10 +67,7 @@ class Membres
   {
     return $this->mdp;
   }
-  public function getrenouvelermdp()
-  {
-    return $this->renouvelermdp;
-  }
+  
   public function getdate_creation()
   {
     return $this->date_creation;
@@ -179,20 +175,6 @@ class Membres
     return $this;
   }
 
-  /**
-   * Mutateur de la propriété renouvelermdp
-   * @param string $renouvelermdp
-   * @return $this
-   */
-  public function setrenouvelermdp($renouvelermdp)
-  {
-    $this->renouvelermdp = $renouvelermdp;
-    unset($this->erreurs['renouvelermdp']);
-    $renouvelermdp = trim($renouvelermdp);
-  
-    $this->renouvelermdp = $renouvelermdp;
-    return $this;
-  }
 /**
      * Mutateur de la propriété date_creataion
      * @param string $date_creation
