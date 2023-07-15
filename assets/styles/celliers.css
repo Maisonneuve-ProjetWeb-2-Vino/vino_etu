@@ -78,3 +78,15 @@
     font-size: 12pt;
     color: #ffffff;
 }
+
+.cellier_vide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 100%;
+    width: 80px;
+    color: white;
+    aspect-ratio: 1;
+    background-color: #3B3333;
+}
