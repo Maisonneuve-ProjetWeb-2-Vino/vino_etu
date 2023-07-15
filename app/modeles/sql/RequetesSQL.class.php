@@ -84,15 +84,11 @@ class RequetesSQL extends RequetesPDO {
 	 */
 	public function modifierBouteilleCellier($champs)
 	{
-    $champs['millesime'] = empty($champs['millesime']) ? null : $champs['millesime'];
-    $champs['date_achat'] = empty($champs['date_achat']) ? null : $champs['date_achat'];
     $champs['quantite'] = empty($champs['quantite']) ? 0 : $champs['quantite'];
-    $champs['prix'] = empty($champs['prix']) ? 0 : $champs['prix'];
 
     $this->sql = "
-      UPDATE vino__cellier SET id_bouteille = :id_bouteille, date_achat = :date_achat,
-      garde_jusqua = :garde_jusqua, notes = :notes, prix = :prix, quantite = :quantite,
-      millesime = :millesime WHERE id = :id_bouteille_cellier
+      UPDATE bouteilles_cellier SET idbouteillecatalogue = :id_bouteille, quantite = :quantite
+      WHERE id_bouteille_cellier = :id_bouteille_cellier
       ";
         
     return $this->CUDLigne($champs); 
@@ -115,12 +111,12 @@ class RequetesSQL extends RequetesPDO {
 	}
 
   /**
-	 * Récupère les données d'une bouteille d'un cellier, à partir de son id.
+	 * Récupère les données d'une bouteille d'un cellier, à partir de son id dans le catalogue.
 	 * 
-	 * @param int $id_bouteille id de la bouteille
+	 * @param int $id_bouteille_catalogue L'id de la bouteille dans le catalogue
    * @return array|false ligne de la table, false sinon
 	 */
-	public function obtenirBouteilleCellier($id_bouteille) {
+	public function obtenirBouteilleCatalogue($id_bouteille_catalogue) {
 
 		$this->sql = "
 			SELECT *
@@ -128,7 +124,25 @@ class RequetesSQL extends RequetesPDO {
 			WHERE id_bouteille = :id_bouteille
       ";
 
-		return $this->obtenirLignes(['id_bouteille' => $id_bouteille], RequetesPDO::UNE_SEULE_LIGNE);
+		return $this->obtenirLignes(['id_bouteille' => $id_bouteille_catalogue], RequetesPDO::UNE_SEULE_LIGNE);
+	}
+
+    /**
+	 * Récupère les données d'une bouteille d'un cellier, à partir de son id dans le cellier.
+	 * 
+	 * @param int $id_bouteille_cellier L'id de la bouteille dans le cellier
+   * @return array|false ligne de la table, false sinon
+	 */
+	public function obtenirBouteilleCellier($id_bouteille_cellier) {
+
+		$this->sql = "
+			SELECT *
+      FROM bouteilles_catalogue
+      JOIN bouteilles_cellier ON bouteilles_catalogue.id_bouteille = bouteilles_cellier.idbouteillecatalogue
+			WHERE bouteilles_cellier.id_bouteille_cellier = :id_bouteille_cellier
+      ";
+
+		return $this->obtenirLignes(['id_bouteille_cellier' => $id_bouteille_cellier], RequetesPDO::UNE_SEULE_LIGNE);
 	}
 
  /**
@@ -219,16 +233,18 @@ class RequetesSQL extends RequetesPDO {
   /**
    * Donne les détails du catalogue et du cellier (quantité) pour une bouteille donnée.
    * 
-   * @param int $id_bouteille L'id de la bouteille
+   * @param int $id_bouteille_cellier L'id de la bouteille dans le cellier
    */
-  public function obtenirDetailsBouteilleCellier($id_bouteille) {
+  public function obtenirDetailsBouteilleCellier($id_bouteille_cellier) {
 
     //TODO  extraire colonne sucre aussi
     $this->sql = "
       SELECT 
-        c.id_bouteille_cellier,
+        c.id_bouteille_cellier AS id_bouteille_cellier,
         c.quantite,
         c.idcellier AS id_cellier,
+        b.id_bouteille AS id_bouteille_catalogue,
+        b.idmembre,
         b.nom, 
         b.idtype AS type, 
         b.image_url,
@@ -239,14 +255,20 @@ class RequetesSQL extends RequetesPDO {
         b.prix_saq,
         b.region,
         b.pastille,
+        b.tauxSucre,
+        b.particularite,
+        b.appellation,
+        b.annee,
+        b.origine,
+        b.idpays,
         p.pays
       FROM bouteilles_cellier c 
       INNER JOIN bouteilles_catalogue b ON c.idbouteillecatalogue = b.id_bouteille
       INNER JOIN pays p ON b.idpays = p.id_pays
-      WHERE c.id_bouteille_cellier = :id_bouteille
+      WHERE c.id_bouteille_cellier = :id_bouteille_cellier
       ";
 
-    return $this->obtenirLignes(['id_bouteille' => $id_bouteille], RequetesPDO::UNE_SEULE_LIGNE);
+    return $this->obtenirLignes(['id_bouteille_cellier' => $id_bouteille_cellier], RequetesPDO::UNE_SEULE_LIGNE);
 
   }
 
@@ -281,6 +303,56 @@ class RequetesSQL extends RequetesPDO {
   }
 
   /**
+   * Supprime une bouteille du cellier.
+   * 
+   * @param int $id_bouteille L'id de la bouteille à supprimer
+   * @return string|boolean clé primaire de la ligne modifiée, false sinon
+   */
+    public function supprimerBouteille($id_bouteille) {
+
+    $this->sql = "
+      DELETE FROM bouteilles_cellier WHERE id_bouteille_cellier = :id_bouteille
+      ";
+
+    return $this->CUDLigne(['id_bouteille' => $id_bouteille]);
+  }
+
+  /**
+   * Retourne l'id du membre pour un cellier donné.
+   * 
+   * @param int $id_cellier L'id du cellier
+   * @return int L'id du membre
+   */
+  public function obtenirMembreCellier($id_cellier) {
+    
+    $this->sql = "
+      SELECT idmembre
+      FROM celliers
+      WHERE id_cellier = :id_cellier
+      ";
+
+    return $this->obtenirLignes(['id_cellier' => $id_cellier], RequetesPDO::UNE_SEULE_LIGNE)['idmembre'];
+  }
+
+  /**
+   * Retourne l'id du membre pour une bouteille donnée.
+   * 
+   * @param int $id_bouteille L'id de la bouteille
+   * @return int L'id du membre
+   */
+  public function obtenirMembreBouteille($id_bouteille) {
+    
+    $this->sql = "
+      SELECT idmembre, id_cellier
+      FROM bouteilles_cellier
+      JOIN celliers ON bouteilles_cellier.idcellier = celliers.id_cellier
+      WHERE bouteilles_cellier.id_bouteille_cellier = :id_bouteille
+      ";
+
+    return $this->obtenirLignes(['id_bouteille' => $id_bouteille], RequetesPDO::UNE_SEULE_LIGNE);
+  }
+
+  /**
    * Retourne la liste de tous les pays.
    * 
    * @return array Tableau avec les pays.
@@ -310,6 +382,70 @@ class RequetesSQL extends RequetesPDO {
       ";
 
     return $this->obtenirLignes($champs);
+  }
+
+  /**
+   * Ajoute une bouteille personnalisée au catalogue.
+   * 
+   * @param array $champs tableau des champs de la bouteille
+   * @return string|boolean clé primaire de la ligne ajoutée, false sinon
+   */
+  public function ajouterBouteilleCatalogue($champs) {
+
+    $this->sql = "
+      INSERT INTO bouteilles_catalogue SET nom = :nom, prix_saq = :prix_saq, annee = :annee,
+      idtype = :type, origine = :origine, region = :region, appellation = :appellation,
+      cepage = :cepage, degreAlcool = :degreAlcool, particularite = :particularite,
+      format = :format, producteur = :producteur, idpays = :pays, tauxSucre = :tauxSucre,
+      idmembre = :idmembre
+      ";
+
+    return $this->CUDLigne($champs);
+  }
+
+  /**
+   * Vérifie si une bouteille du catalogue se trouve déjà dans un cellier.
+   * 
+   * @param int $id_bouteille L'id de la bouteille (catalogue)
+   * @param int $id_cellier L'id du cellier
+   * @return bool Vrai si la bouteille se trouve dans le cellier, faux sinon
+   */
+  public function verifierBouteilleDansCellier($id_bouteille, $id_cellier) {
+        
+    $this->sql = "
+      SELECT COUNT(*) AS nombre FROM bouteilles_cellier
+      WHERE idcellier = :id_cellier AND idbouteillecatalogue = :id_bouteille
+      ";
+
+    $resultat = $this->obtenirLignes([
+      'id_cellier' => $id_cellier,
+      'id_bouteille' => $id_bouteille
+    ], RequetesPDO::UNE_SEULE_LIGNE);
+    
+    return $resultat['nombre'] > 0 ? true : false;
+  }
+
+  public function modifierBouteilleCatalogue($champs) {
+       
+    $this->sql = "
+      UPDATE bouteilles_catalogue 
+      SET nom = :nom,
+      prix_saq = :prix_saq,
+      annee = :annee,
+      idtype = :type,
+      origine = :origine,
+      region = :region,
+      appellation = :appellation,
+      cepage = :cepage,
+      degreAlcool = :degreAlcool,
+      particularite = :particularite,
+      format = :format,
+      producteur = :producteur,
+      idpays = :pays
+      WHERE id_bouteille = :id_bouteille_catalogue
+      ";
+        
+    return $this->CUDLigne($champs); 
   }
 
   /* GESTION DES USAGERS 

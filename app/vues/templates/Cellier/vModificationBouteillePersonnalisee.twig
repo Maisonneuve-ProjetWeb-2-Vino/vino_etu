@@ -1,35 +1,19 @@
-<div class="ajouter">
+<div class="modifier">
 
-    <div class="nouvelleBouteille" vertical layout>
-        <label for="cellier">Cellier:</label>
-        <select id="cellier_id" name="cellier">
-        {% for cellier in celliers %}
-            <option value="{{ cellier.id }}" {% if cellier.id == cellier_preferentiel %} selected {% endif %}>{{ cellier.nom }}</option>
-        {% endfor %}
-        </select>
-        <br>
-        <br>
-        <div>
-            <label for="nom_bouteille">Recherche</label>
-            <input type="text" name="nom_bouteille">
-            <span> ou </span>
-            <button name="entrerBouteillePersonnalisee">Entrer une bouteille personnalisée</button>
-        </div>
-        
-        <ul class="listeAutoComplete">
+    <div class="modificationBouteille" vertical layout>
 
-        </ul>
-            <div >
+            <div>
+
                 <label for="nom">Nom</label>
-                <input span data-id="" class="nom_bouteille"> </input> <span class="erreur_champ erreur_nom_bouteille"></span>
+                <input span data-id="{{ bouteille.id_bouteille_catalogue }}" class="nom_bouteille" value="{{ bouteille.nom }}"> </input> <span class="erreur_champ erreur_nom_bouteille"></span>
                 <br>
-                <label for="quantite">Quantité</label> <input name="quantite" value="1"><span class="erreur_champ erreur_quantite"></span>
+                <p>Quantite dans le cellier : <input type="text" name="quantite" value="{{ bouteille.quantite }}"><span class="erreur_champ erreur_quantite"></span></p>
                 <br>
                 <br>
                 <label for="pays">Pays</label>
                 <select id="pays_id" name="pays">
                 {% for unPays in pays %}
-                    <option value="{{ unPays.id }}">{{ unPays.pays }}</option>
+                    <option value="{{ unPays.id }}" {% if bouteille.idpays == unPays.id %} selected {% endif %}>{{ unPays.pays }}</option>
                 {% endfor %}
                 </select>
                 <br>
@@ -37,15 +21,13 @@
                 <label for="type">Type</label>
                 <select id="type_id" name="type">
                 {% for type in types %}
-                    <option value="{{ type.type }}">{{ type.type }}</option>
+                    <option value="{{ type.type }}"  {% if bouteille.type == type.type %} selected {% endif %}>{{ type.type }}</option>
                 {% endfor %}
                 </select>
                 <br>
                 <label for="millesime">Millésime</label>
-                <input name="millesime" value="{{ bouteille.millesime }}"></input>
+                <input name="millesime" value="{{ bouteille.annee }}"></input>
                 <br>
-                <label for="pastille">Pastille SAQ</label>
-                <input name="pastille" value="{{ bouteille.pastille }}" disabled></input>
                 <br>
                 <label for="appellation">Appellation</label>
                 <input name="appellation" value="{{ bouteille.appellation }}"></input>
@@ -75,12 +57,13 @@
                 <input name="region" value="{{ bouteille.region }}"></input>
                 <br>
                 <label for="sucre">Taux de sucre</label>
-                <input name="sucre" value="{{ bouteille.sucre }}"></input>
+                <input name="sucre" value="{{ bouteille.tauxSucre }}"></input>
                 <br>
 
+                <input id="bouteille_id" type="hidden" data-id-bouteille-cellier="{{ bouteille.id_bouteille_cellier }}">
             </div>
-            <input id="cellier_id" type="hidden" value="{{ cellier_id }}">
-            <button name="ajouterBouteilleCellier">Ajouter la bouteille</button>
+            <button name="modifierBouteillePersonnalisee">Modifier la bouteille</button>
+            <li><a href="accueil">Annuler</a></li>
         </div>
     </div>
 </div>

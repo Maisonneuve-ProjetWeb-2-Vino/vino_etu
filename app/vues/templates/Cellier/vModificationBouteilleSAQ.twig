@@ -1,0 +1,17 @@
+<div class="modifier">
+
+    <div class="modificationBouteille" vertical layout>
+        Recherche : <input type="text" name="nom_bouteille">
+        <ul class="listeAutoComplete">
+
+        </ul>
+            <div >
+                <p>Nom : <span data-id="{{ bouteille.id_bouteille_catalogue }}" class="nom_bouteille">{{ bouteille.nom }}</span></p>
+                <p>Quantite : <input type="text" name="quantite" value="{{ bouteille.quantite }}"><span class="erreur_champ erreur_quantite"></span></p>
+                <input id="bouteille_id" type="hidden" data-id-bouteille-cellier="{{ bouteille.id_bouteille_cellier }}">
+            </div>
+            <button name="modifierBouteilleCellier">Modifier la bouteille</button>
+            <li><a href="accueil">Annuler</a></li>
+        </div>
+    </div>
+</div>
