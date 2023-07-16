@@ -20,7 +20,8 @@ class Routeur {
     ['inscription',           'Membre', 'inscription'],
     ['validationInscription', 'Membre', 'validationInscription'],
     ['bouteilles',            'ControleurCellier', 'listeBouteilleTemporaire'],
-    ['celliers',              'ControleurCellier', 'listeCellierTemporaire']
+    ['celliers',              'ControleurCellier', 'listeCellierTemporaire'],
+    ['profil',                'Membre', 'profil'],
   ];
 
   protected $oRequetesSQL; // objet RequetesSQL utilisé par tous les contrôleurs

@@ -491,7 +491,7 @@ class RequetesSQL extends RequetesPDO {
       FROM membres
       WHERE courriel = :courriel";
 
-    return $this->CUDLigne($champs);
+    return $this->obtenirLignes($champs, RequetesPDO::UNE_SEULE_LIGNE);
   }
 
   /* GESTION DES USAGERS 
@@ -507,11 +507,27 @@ class RequetesSQL extends RequetesPDO {
   {
     //var_dump($champs);
     $this->sql = "
-      SELECT id_membre, nom, prenom, courriel, idprofil
+      SELECT id_membre, nom, prenom, courriel, idprofil, date_creation
       FROM membres
       WHERE courriel = :courriel AND mdp = SHA2(:mdp, 512)";
 
-    return $this->getLignes($champs, RequetesPDO::UNE_SEULE_LIGNE);
+    return $this->obtenirLignes($champs, RequetesPDO::UNE_SEULE_LIGNE);
   }
+
+  /**
+   * Récupération d'un membre de la table membres
+   * @param int $id_membre 
+   * @return array|false tableau associatif de la ligne produite par la select, false si aucune ligne
+   */
+  public function infoMembre($id_membre)
+  {
+    $this->sql = '
+      SELECT *
+      FROM membres
+      WHERE id_membre = :id_membre';
+    return $this->obtenirLignes(['id_membre' => $id_membre], RequetesPDO::UNE_SEULE_LIGNE);
+    
+  }
+
 
 }
