@@ -43,7 +43,7 @@ public function connexion() {
     if ($membre !== false) {
         $_SESSION['oConnexion'] = new Membres($membre);
         // Rediriger l'utilisateur vers une page après la connexion réussie
-        header("Location: accueil"); // retour sur la page du profil
+        header("Location: cellier"); // retour sur la page du profil
                             exit;
     }
     else{
