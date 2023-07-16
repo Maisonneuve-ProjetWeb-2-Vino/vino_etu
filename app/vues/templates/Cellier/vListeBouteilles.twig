@@ -1,17 +1,13 @@
 <div class="cellier contenu">
     <div class="conteneur_celliers">
-    <a href="cellier">Retour aux celliers</a>
-    <br>
-    <h1>{{ cellier.nom }}</h1>
 
+    <div class="bouton_ajout_cellier_top">
     <a href="cellier?action=n&cellier_id={{ cellier.id }}">Ajouter une bouteille</a>
-    <br>
-    <br>
+    </div>
+    <div class="bouton_ajout_cellier_top">
     <a href="cellier?action=q&cellier_id={{ cellier.id }}">Modifier le cellier</a>
-    <br>
-    <button class="confirmer" data-href="cellier?action=s&cellier_id={{ cellier.id }}">Supprimer le cellier</button>
-    <br>
-    <br>
+    </div>
+    <button class="confirmer bouton_supprimer_cellier" data-href="cellier?action=s&cellier_id={{ cellier.id }}">Supprimer le cellier</button>
     {% for bouteille in bouteilles %}
 
     <section class="bouteille carte_bouteille {% if bouteille.type == "Rouge" %} bouteille_rouge {% elseif bouteille.type ==  "Rosé"%} bouteille_rose {% elseif bouteille.type == "Blanc"%} bouteille_blanche {% endif %}" data-quantite="">
