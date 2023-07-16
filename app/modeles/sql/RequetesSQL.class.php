@@ -472,10 +472,26 @@ class RequetesSQL extends RequetesPDO {
    * @param array $champs tableau des champs du membre
    * @return string|boolean clé primaire de la ligne ajoutée, false sinon
    */
-  public function getInscription($champs)
+  public function inscriptionMembre($champs)
   {
     $this->sql = '
       INSERT INTO membres SET nom = :nom, prenom = :prenom, courriel = :courriel, mdp = SHA2(:mdp, 512), renouvelermdp = SHA2(:renouvelermdp, 512),idprofil = :idprofil, date_creation = NOW()';
     return $this->CUDLigne($champs);
   }
+
+  /**
+   * Controler si un mail existe dans la base
+   * @param array $champs, tableau avec le champs courriel  
+   * @return array|false ligne de la table, false sinon 
+   */
+  public function controleMail($champs)
+  {
+    $this->sql = "
+      SELECT *
+      FROM membres
+      WHERE courriel = :courriel";
+
+    return $this->CUDLigne($champs);
+  }
+
 }
