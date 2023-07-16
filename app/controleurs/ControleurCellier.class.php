@@ -135,9 +135,6 @@ class ControleurCellier extends Routeur {
       $celliers = $this->oRequetesSQL->obtenirListeCelliers($utilisateur_id);
       $pays = $this->oRequetesSQL->obtenirListePays();
       $types = $this->oRequetesSQL->obtenirListeTypes();
-
-      //$cellier = $this->oRequetesSQL->obtenirNomCellier($this->cellier_id);
-      //$id_cellier = $cellier["id"];
       $lien = "cellier?action=l&cellier_id=".$this->cellier_id;
 
       new Vue("/Cellier/vAjoutBouteille",
