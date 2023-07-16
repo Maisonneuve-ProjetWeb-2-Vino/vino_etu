@@ -1,0 +1,39 @@
+<!-- Template Profil -->
+
+{% if oUtilConn %}
+
+
+	<div>
+		<h2>Informations de {{ oUtilConn.prenom }} {{ oUtilConn.nom }}</h2>
+        <p>{{ oUtilConn.mail }}</p>
+        <p> Depuis le {{ oUtilConn.date_creation }}</p>
+        <p> {{ oUtilConn.idprofil }}</p>
+
+
+		<a href="modifierMembre">Modifier mes coordonnées</a>
+	</div>
+	
+
+		 <br>
+
+
+
+
+
+	
+	
+
+{% else %}
+	<br><br>
+	<br>
+	<br>
+
+	<p>Connectez-vous pour voir votre profil</p>
+	<br>
+	<br>
+	<br>
+	<br>
+
+{% endif %}</section>
+
+<!-- fin template Profil -->
