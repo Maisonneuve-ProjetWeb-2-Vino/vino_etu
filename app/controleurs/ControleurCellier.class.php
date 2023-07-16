@@ -97,10 +97,9 @@ class ControleurCellier extends Routeur {
    * @return void
    */
   public function ajouterNouvelleBouteilleCellier() {
-    $cellier = $this->oRequetesSQL->obtenirNomCellier($this->cellier_id);
+
     $utilisateur_id = $this->oUtilConn->id_membre;
-    $id_cellier = $cellier["id"];
-    $lien = "cellier?action=l&cellier_id=".$id_cellier;
+
     $body = json_decode(file_get_contents('php://input'));
 
     if(!empty($body)){
@@ -136,6 +135,10 @@ class ControleurCellier extends Routeur {
       $celliers = $this->oRequetesSQL->obtenirListeCelliers($utilisateur_id);
       $pays = $this->oRequetesSQL->obtenirListePays();
       $types = $this->oRequetesSQL->obtenirListeTypes();
+
+      //$cellier = $this->oRequetesSQL->obtenirNomCellier($this->cellier_id);
+      //$id_cellier = $cellier["id"];
+      $lien = "cellier?action=l&cellier_id=".$this->cellier_id;
 
       new Vue("/Cellier/vAjoutBouteille",
         array(
