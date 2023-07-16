@@ -4,6 +4,7 @@ export default class Cellier {
 
     #elBoireBouteille;
     #elAjouterBouteille;
+    #elAjouterNouvelleBouteille;
     #elModifierBouteille;
     #elInputNomBouteille;
     #liste;
@@ -22,6 +23,7 @@ export default class Cellier {
         this.#inputNomBouteille = document.querySelector("[name='nom_bouteille']");
         this.#liste = document.querySelector('.listeAutoComplete');
         this.#nouvelleBouteille = document.querySelector(".nouvelleBouteille");
+        this.#elAjouterNouvelleBouteille = document.querySelector("[name='ajouterBouteilleCellier']");
 
         this.initialiser();
     }
@@ -58,6 +60,7 @@ export default class Cellier {
 
             this.#inputNomBouteille.addEventListener("keyup", this.rechercherBouteille.bind(this));
             this.#liste.addEventListener("click", this.selectionnerBouteille.bind(this));
+            this.#btnAjouter.addEventListener("click", 
         }
     }
 
