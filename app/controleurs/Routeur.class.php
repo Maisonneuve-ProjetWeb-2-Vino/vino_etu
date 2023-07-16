@@ -15,10 +15,11 @@ class Routeur {
     ['accueil',               'Membre', 'connecter'],
     ['cellier',               'ControleurCellier', 'gererCellier'],
     ['connecter',             'Membre', 'connecter'],
+    ['connexion',             'Membre', 'connexion'],
     ['deconnecter',           'Membre', 'deconnecter'],
     ['inscription',           'Membre', 'inscription'],
     ['validationInscription', 'Membre', 'validationInscription'],
-    ['bouteilles',     'ControleurCellier', 'listeBouteilleTemporaire'],
+    ['bouteilles',            'ControleurCellier', 'listeBouteilleTemporaire'],
     ['celliers',              'ControleurCellier', 'listeCellierTemporaire']
   ];
 
