@@ -403,6 +403,7 @@ class ControleurCellier extends Routeur {
 
     new Vue("/Cellier/vListeCelliers",
       array(
+        'oUtilConn' => $this->oUtilConn,
         'lien'        => $lien,
         'titre'     => "Vos celliers",
         'celliers'  => $celliers_details,
