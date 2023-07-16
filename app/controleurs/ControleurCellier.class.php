@@ -9,6 +9,7 @@ class ControleurCellier extends Routeur {
   private $action;
   private $bouteille_id;
   private $cellier_id;
+  private $oUtilConn;
 
   private $methodes = [
     'a' => 'ajouterBouteilleCellier',
@@ -36,6 +37,7 @@ class ControleurCellier extends Routeur {
     $this->action = $_GET['action'] ?? 'o';
     $this->bouteille_id = $_GET['bouteille_id'] ?? null;
     $this->cellier_id = $_GET['cellier_id'] ?? null;
+    $this->oUtilConn = $_SESSION['oConnexion'] ?? null;
     $this->oRequetesSQL = new RequetesSQL;
   }
 
@@ -74,8 +76,14 @@ class ControleurCellier extends Routeur {
   public function gererCellier() {
 
     if (isset($this->methodes[$this->action])) {
-      $methode = $this->methodes[$this->action];
-      $this->$methode();
+      if ($this->oUtilConn) {
+        $methode = $this->methodes[$this->action];
+        $this->$methode();
+      }
+      else {
+        header("Location: accueil"); // retour sur la page de connexion
+        exit;
+      }
     } else {
       throw new Exception("L'action $this->action n'existe pas.");
     }
@@ -90,8 +98,7 @@ class ControleurCellier extends Routeur {
    */
   public function ajouterNouvelleBouteilleCellier() {
 
-    //TODO remplacer par vrai id de l'utilisateur
-    $utilisateur_id = 1;
+    $utilisateur_id = $this->oUtilConn->id_membre;
 
     $body = json_decode(file_get_contents('php://input'));
 
@@ -150,8 +157,7 @@ class ControleurCellier extends Routeur {
    */
   public function autocompleteBouteille() {
 
-    #TODO utilisateur id hardcodé à 1
-    $utilisateur_id = 1;
+    $utilisateur_id = $this->oUtilConn->id_membre;
 
     $body = json_decode(file_get_contents('php://input'));
           
@@ -367,8 +373,7 @@ class ControleurCellier extends Routeur {
    */
   public function listeCellier() {
 
-    //TODO Codé en dur pour le moment, à remplacer
-    $utilisateur_id = 1;
+    $utilisateur_id = $this->oUtilConn->id_membre;
 
     // Extraction nom et id de tous les celliers de l'utilisateur
     $celliers = $this->oRequetesSQL->obtenirListeCelliers($utilisateur_id);
@@ -435,8 +440,7 @@ class ControleurCellier extends Routeur {
    */
   public function ajouterCellier() {
 
-    //TODO Codé en dur pour le moment, à remplacer
-    $utilisateur_id = 1;
+    $utilisateur_id = $this->oUtilConn->id_membre;
 
     $oCellier = [];
     $erreursCellier = [];
@@ -553,8 +557,7 @@ class ControleurCellier extends Routeur {
    */
   public function supprimerCellier() {
 
-    //TODO Obtenir l'id de l'utilisateur, hardcodé à 1
-    $utilisateur_id = 1;
+    $utilisateur_id = $this->oUtilConn->id_membre;
 
     if (!$this->cellier_id) {
       throw new Exception(self::ERROR_BAD_REQUEST);
@@ -582,8 +585,7 @@ class ControleurCellier extends Routeur {
    */
   public function supprimerBouteille() {
 
-    //TODO Obtenir l'id de l'utilisateur, hardcodé à 1
-    $utilisateur_id = 1;
+    $utilisateur_id = $this->oUtilConn->id_membre;
 
     if (!$this->bouteille_id) {
       throw new Exception(self::ERROR_BAD_REQUEST);
@@ -632,8 +634,7 @@ class ControleurCellier extends Routeur {
    */
   public function ajouterBouteillePersonnaliseeCellier() {
         
-    //TODO remplacer par vrai id de l'utilisateur
-    $utilisateur_id = 1;
+    $utilisateur_id = $this->oUtilConn->id_membre;
 
     $body = json_decode(file_get_contents('php://input'));
 
@@ -717,8 +718,7 @@ class ControleurCellier extends Routeur {
    */
   public function verifierBouteilleCellier() {
 
-    //TODO remplacer par vrai id de l'utilisateur
-    $utilisateur_id = 1;
+    $utilisateur_id = $this->oUtilConn->id_membre;
 
     $body = json_decode(file_get_contents('php://input'));
 
