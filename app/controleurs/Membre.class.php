@@ -13,9 +13,9 @@ class Membre extends Routeur {
    * 
    */
   public function __construct() {
-     $this->oConnexion = $_SESSION['oConnexion'] ?? null;
-        $this->id_membre = $_GET['id_membre'] ?? null;
-        $this->oRequetesSQL = new RequetesSQL;
+    $this->oConnexion = $_SESSION['oConnexion'] ?? null;
+    $this->id_membre = $_GET['id_membre'] ?? null;
+    $this->oRequetesSQL = new RequetesSQL;
   }
 
 
@@ -35,31 +35,31 @@ class Membre extends Routeur {
         );
 }
 
-
+/**
+     * Connecter un membre
+     */
 public function connexion() {
-        // Récupérer les données du formulaire
-        $courriel = $_POST['courriel'];
-        $mdp = $_POST['mdp'];
-        // Vérifier les identifiants
-        $membre = new Membre();
-        $oConnexion = $membre->verifConnexion($courriel, $mdp);
-
-        if ($oConnexion) {
-            // Les identifiants sont corrects, créer une session
-            session_start();
-            $_SESSION['id_membre'] = $membre['id_membre'];
-            $_SESSION['courriel'] = $membre['email'];
-            $_SESSION['nom'] = $membre['nom'];
-            $_SESSION['prenom'] = $membre['prenom'];
-
-            // Rediriger l'utilisateur vers une page après la connexion réussie
-            header('Location: accueil.twig');
-            exit;
-        } else {
-            // Les identifiants sont incorrects, afficher un message d'erreur
-            echo "Identifiants incorrects";
-        }
+    $membre = $this->oRequetesSQL->connecter($_POST);
+    if ($membre !== false) {
+        $_SESSION['oConnexion'] = new Membres($membre);
+        // Rediriger l'utilisateur vers une page après la connexion réussie
+        header("Location: accueil"); // retour sur la page du profil
+                            exit;
     }
+    else{
+         $erreurs['connexion'] = "Votre courriel ou votre mot de passe ne sont pas bons.";
+    }
+    new Vue(
+                'Frontend/vConnexion',
+                array(
+                    'titre'    => 'Se connecter',
+                    'membre'   => $membre,
+                    'erreurs'  => $erreurs
+                ),
+                'Frontend/gabarit-vide'
+            );
+    
+}
 
 
 /**
