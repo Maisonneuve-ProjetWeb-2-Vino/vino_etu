@@ -511,7 +511,7 @@ class RequetesSQL extends RequetesPDO {
       FROM membres
       WHERE courriel = :courriel AND mdp = SHA2(:mdp, 512)";
 
-    return $this->getLignes($champs, RequetesPDO::UNE_SEULE_LIGNE);
+    return $this->obtenirLignes($champs, RequetesPDO::UNE_SEULE_LIGNE);
   }
 
   /**
