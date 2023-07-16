@@ -6,14 +6,14 @@
 
 class Membre extends Routeur {
   private $id_membre;
-  private $oConnexion;
+  private $oUtilConn;
 
   /**
    * Constructeur qui initialise la propriété oRequetesSQL déclarée dans la classe Routeur.
    * 
    */
   public function __construct() {
-    $this->oConnexion = $_SESSION['oConnexion'] ?? null;
+    $this->oUtilConn = $_SESSION['oConnexion'] ?? null;
     $this->id_membre = $_GET['id_membre'] ?? null;
     $this->oRequetesSQL = new RequetesSQL;
   }
@@ -39,9 +39,11 @@ class Membre extends Routeur {
      * Connecter un membre
      */
 public function connexion() {
+    
     $membre = $this->oRequetesSQL->connecter($_POST);
     if ($membre !== false) {
         $_SESSION['oConnexion'] = new Membres($membre);
+        
         // Rediriger l'utilisateur vers une page après la connexion réussie
         header("Location: cellier"); // retour sur la page du profil
                             exit;
@@ -52,6 +54,7 @@ public function connexion() {
     new Vue(
                 'Frontend/vConnexion',
                 array(
+                
                     'titre'    => 'Se connecter',
                     'membre'   => $membre,
                     'erreurs'  => $erreurs
@@ -131,6 +134,34 @@ public function connexion() {
                 ),
                 'Frontend/gabarit-vide'
             );
+        }
+    }
+
+
+    /**
+     * Voir les informations d'un membre
+     */
+    public function profil()
+    {
+        $membre = false;
+        if (!is_null($this->oUtilConn->id_membre)) {
+            $membre = $this->oRequetesSQL->infoMembre($this->id_membre);
+            if (!$membre) throw new Exception("Ce membre n'existe pas");
+               
+            new Vue(
+                'Frontend/vProfil',
+                array(
+                    
+                    'oUtilConn' => $this->oUtilConn,
+                    'titre' => 'Fiche d\'un membre',
+                    'membre' => $membre
+                ),
+                'Frontend/gabarit-frontend'
+            );
+       
+        }
+         else{
+           header("Location: connecter"); 
         }
     }
 
