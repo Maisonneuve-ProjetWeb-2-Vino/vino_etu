@@ -40,8 +40,6 @@ public function connexion() {
         // Récupérer les données du formulaire
         $courriel = $_POST['courriel'];
         $mdp = $_POST['mdp'];
-        
-        var_dump($courriel);
         // Vérifier les identifiants
         $membre = new Membre();
         $oConnexion = $membre->verifConnexion($courriel, $mdp);
@@ -62,29 +60,6 @@ public function connexion() {
             echo "Identifiants incorrects";
         }
     }
-public function verifConnexion($courriel, $mdp)
-
-  {
-    
-    $this->sql = "
-      SELECT id_membre, nom, prenom, courriel, mdp, idprofil
-      FROM membres
-      WHERE courriel = :courriel AND mdp = SHA2(:mdp, 512)";
-        
-        $membre = fetch(PDO::FETCH_ASSOC);
-
-        if ($membre && password_verify($password, $membre['password'])) {
-            // Les identifiants sont corrects
-            var_dump($membre);
-            return $membre;
-        } else {
-            // Les identifiants sont incorrects
-            return false;
-  }
-
-  
-
-}
 
 
 /**
@@ -127,20 +102,25 @@ public function verifConnexion($courriel, $mdp)
                 if($_POST['mdp'] !== $_POST['renouvelermdp']){
                     $erreurs['renouvelermdp'] = "Votre mot de passe et la confirmation ne correspondent pas";
                 }
-                if (count($erreurs) === 0) {
-                    $id_membre = $this->oRequetesSQL->getInscription([
-                        'nom'    => $oMembre->nom,
-                        'prenom' => $oMembre->prenom,
-                        'courriel' => $oMembre->courriel,
-                        'mdp' => $oMembre->mdp,
-                        'renouvelermdp' => $oMembre->mdp,
-                        'idprofil' => $oMembre->idprofil
-                    ]);
-                    if ($id_membre > 0) {
-                        header("Location: accueil"); // retour sur la page du profil
-                        exit;
-                    }
+                $courrielendouble= $this->oRequetesSQL->controleMail(['courriel' => $oMembre->courriel]);
+                if($courrielendouble == true){
+                    $erreurs['courriel'] = "Votre courriel existe déjà dans la base.";
                 }
+                    if (count($erreurs) === 0) {
+                        $id_membre = $this->oRequetesSQL->inscriptionMembre([
+                            'nom'    => $oMembre->nom,
+                            'prenom' => $oMembre->prenom,
+                            'courriel' => $oMembre->courriel,
+                            'mdp' => $oMembre->mdp,
+                            'renouvelermdp' => $oMembre->mdp,
+                            'idprofil' => $oMembre->idprofil
+                        ]);
+                        if ($id_membre > 0) {
+                            header("Location: accueil"); // retour sur la page du profil
+                            exit;
+                        }
+                    }
+                
             
             new Vue(
                 'Frontend/vInscription',
