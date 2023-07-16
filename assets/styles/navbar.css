@@ -10,7 +10,7 @@ html {
     display: flex;
     justify-content: space-evenly;
     list-style: none;
-    background-color: #252525;
+    background-color: var(--brun);
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
     margin: 0;
