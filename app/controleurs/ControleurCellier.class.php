@@ -373,6 +373,7 @@ class ControleurCellier extends Routeur {
     // Extraction nom et id de tous les celliers de l'utilisateur
     $celliers = $this->oRequetesSQL->obtenirListeCelliers($utilisateur_id);
 
+    $lien = "";
     $celliers_details = [];
     foreach ($celliers as $cellier) {
 
@@ -395,8 +396,9 @@ class ControleurCellier extends Routeur {
 
     new Vue("/Cellier/vListeCelliers",
       array(
+        'lien'        => $lien,
         'titre'     => "Vos celliers",
-        'celliers'  => $celliers_details
+        'celliers'  => $celliers_details,
       ),
       "/Frontend/gabarit-frontend");
   }
@@ -411,11 +413,13 @@ class ControleurCellier extends Routeur {
     $bouteilles = $this->oRequetesSQL->obtenirListeBouteilleCellier($this->cellier_id);
 
     $cellier = $this->oRequetesSQL->obtenirNomCellier($this->cellier_id);
+    $lien = "cellier";
     $message = "Voulez-vous vraiment supprimer ce cellier avec tout son contenu ?";
 
     new Vue("/Cellier/vListeBouteilles",
       array(
-        'titre'       => "Détails du cellier",
+        'titre'       => $cellier["nom"],
+        'lien'        => $lien,
         'bouteilles'  => $bouteilles,
         'cellier'     => $cellier,
         'message'     => $message
@@ -482,7 +486,10 @@ class ControleurCellier extends Routeur {
   public function afficherFicheBouteille() {
 
     $bouteille = $this->oRequetesSQL->obtenirDetailsBouteilleCellier($this->bouteille_id);
+    
+    $id_cellier = $bouteille["id_cellier"];
 
+    $lien = "cellier?action=l&cellier_id=".$id_cellier;
     if (!$bouteille) {
       throw new Exception(self::ERROR_BAD_REQUEST);
     }
@@ -491,7 +498,8 @@ class ControleurCellier extends Routeur {
 
     new Vue("/Cellier/vFicheBouteille",
       array(
-        'titre'     => "Fiche détaillée",
+        'lien'      => $lien,
+        'titre'     => $bouteille["nom"],
         'bouteille' => $bouteille,
         'message'   => $message
       ),
