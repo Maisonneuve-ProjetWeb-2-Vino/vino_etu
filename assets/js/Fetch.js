@@ -29,9 +29,7 @@ export default class Fetch{
           }
         })
         .then(response => {
-
-
-          
+          cb();
         }).catch(error => {
           console.error(error);
         });
@@ -55,7 +53,7 @@ export default class Fetch{
           });
     }
 
-    obtenirDetailsBouteille(requete, bouteille, cb) {
+    obtenirDetailsBouteille(requete, cb) {
       fetch(requete)
         .then(response => {
             if (response.status === 200) {
@@ -66,30 +64,30 @@ export default class Fetch{
           })
           .then(response => {
             console.log(response)
-            cb(bouteille, response);
+            cb(response);
           }).catch(error => {
             console.error(error);
           });
     }
 
     verifierDuplicationBouteille(requete, cb) {
-      fetch(requeteVerification) 
-                .then(response => {
-                    if (response.status === 200) {
-                      return response.json();
-                    } else {
-                      throw new Error('Erreur');
-                    }
-                  })
-                  .then(response => {
-                    console.log(response);
-                    cb();
-                  }).catch(error => {
-                    console.error(error);
-                  });
+      fetch(requete) 
+        .then(response => {
+            if (response.status === 200) {
+              return response.json();
+            } else {
+              throw new Error('Erreur');
+            }
+          })
+          .then(response => {
+            console.log(response);
+            cb(response);
+          }).catch(error => {
+            console.error(error);
+          });
     }
 
-    ajouterNouvelleBouteille() {
+    ajouterNouvelleBouteille(requete, cb) {
       fetch(requete)
         .then(response => {
             if (response.status === 200) {
@@ -99,9 +97,8 @@ export default class Fetch{
             }
             })
             .then(response => {
-            console.log(response);
-            
-            
+              console.log(response);
+              cb();
             }).catch(error => {
             console.error(error);
             });
