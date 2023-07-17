@@ -63,6 +63,15 @@ public function connexion() {
             );
     
 }
+/**
+     * Déconnecter un membre
+     */
+    public function deconnecter()
+    {
+        session_destroy();
+        header("Location: connecter"); 
+        
+    }
 
 
 /**
