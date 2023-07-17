@@ -5,7 +5,7 @@
  */
 
 class Membre extends Routeur {
-  private $id_membre;
+  
   private $oUtilConn;
 
   /**
@@ -14,7 +14,7 @@ class Membre extends Routeur {
    */
   public function __construct() {
     $this->oUtilConn = $_SESSION['oConnexion'] ?? null;
-    $this->id_membre = $_GET['id_membre'] ?? null;
+    
     $this->oRequetesSQL = new RequetesSQL;
   }
 
@@ -86,8 +86,6 @@ public function connexion() {
 
     public function validationInscription()
     {
-        //var_dump($_POST);
-        
         $membre  = [];
         $erreurs = [];
         if (count($_POST) !== 0) {
@@ -143,11 +141,13 @@ public function connexion() {
      */
     public function profil()
     {
+        
         $membre = false;
         if (!is_null($this->oUtilConn->id_membre)) {
-            $membre = $this->oRequetesSQL->infoMembre($this->id_membre);
+            $membre = $this->oRequetesSQL->infoMembre($this->oUtilConn->id_membre);
+           
             if (!$membre) throw new Exception("Ce membre n'existe pas");
-               
+            
             new Vue(
                 'Frontend/vProfil',
                 array(
