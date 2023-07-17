@@ -12,7 +12,11 @@ export default class Cellier {
     #elCible;
     #elParent;
     #bouteille;
+    #cellier;
     #modificationBouteille;
+    #elBtnModifier;
+    #elBtnModifierPersonnalisee;
+    #elBtnModifierCellier;
 
     /**
      * Constructeur de la classe Cellier
@@ -25,15 +29,22 @@ export default class Cellier {
         this.#elModifierBouteille = document.querySelectorAll(".btnModifier");
 
         // Sur la page d'Ajout de bouteille
-        this.#inputNomBouteille = document.querySelector("[name='nom_bouteille']");
+        this.#elInputNomBouteille = document.querySelector("[name='nom_bouteille']");
         this.#liste = document.querySelector('.listeAutoComplete');
         this.#nouvelleBouteille = document.querySelector(".nouvelleBouteille");
         this.#elAjouterNouvelleBouteille = document.querySelector("[name='ajouterBouteilleCellier']");
         this.#elBtnEntrerBouteillePersonnalisee = document.querySelector("[name='entrerBouteillePersonnalisee']");
         
-        // Sur la page de Modification de bouteille
+        // Sur la page de Modification de bouteille de la SAQ
         this.modificationBouteille = document.querySelector(".modificationBouteille");
+        this.#elBtnModifier = document.querySelector("[name='modifierBouteilleCellier']");
 
+        // Sur la page de modification de bouteille personnalisée
+        this.#elBtnModifierPersonnalisee = document.querySelector("[name='modifierBouteillePersonnalisee']");
+        
+        // Sur la page de modification de cellier
+        this.#elBtnModifierCellier = document.querySelector("[name='modifierCellier']");
+    
         this.initialiser();
     }
 
@@ -62,22 +73,93 @@ export default class Cellier {
             sucre : document.querySelector("[name='sucre']")
         };
 
+        
+        this.#cellier = {
+            nom : document.querySelector(".nom_cellier")
+        }
+
         // Si on est sur la page d'ajout de bouteille
-        if (this.#inputNomBouteille) {
+        if (this.#elInputNomBouteille) {
 
             // Bloquer les champs des détails
             changerStatutInterfaceAjout(bouteille, true);
 
             // Ajout des écouteurs sur les boutons
-            this.#inputNomBouteille.addEventListener("keyup", this.rechercherBouteille.bind(this));
-            this.#liste.addEventListener("click", this.selectionnerBouteille.bind(this));
+            this.#elInputNomBouteille.addEventListener("keyup", this.rechercherBouteille.bind(this));
+            this.#liste.addEventListener("click", this.selectionnerBouteilleAjout.bind(this));
             this.#btnAjouter.addEventListener("click", this.verifierNouvelleBouteille.bind(this));
             this.#elBtnEntrerBouteillePersonnalisee.addEventListener("click", this.preparerChampsDetails.bind(this));
         }
 
         // Si on est sur la page de modification de bouteille
         if (this.modificationBouteille) {
-            this.#elInputNomBouteille.addEventListener
+            this.#elInputNomBouteille.addEventListener("keyup", this.rechercherBouteille.bind(this));
+            this.#liste.addEventListener("click", this.selectionnerBouteilleModification.bind(this));
+            this.#elBtnModifier.addEventListener("click", this.modifierBouteille.bind(this));
+        }
+
+        // Si on est sur la page de modification de bouteille personnalisée
+        if (this.#elBtnModifierPersonnalisee) {
+            this.#elBtnModifierPersonnalisee.addEventListener("click", this.modifierBouteillePersonnalisee.bind(this));
+        }
+
+        // Si on est sur la page de modification de cellier
+        if (this.#elBtnModifierCellier) {
+            this.#elBtnModifierCellier.addEventListener("click", this.modifierCellier.bind(this));
+        }
+    }
+
+    modifierCellier(evt) {
+
+        if (validerChampsCellier(cellier)) {
+          let param = {
+            "cellier_id":document.querySelector("#cellier_id").value,
+            "nom": this.#cellier.nom.value,
+          };
+          console.log(param);
+          const oFetch = new Fetch();
+          oFetch.modifierCellier(param, this.redirigerPageCellier.bind(this));
+    
+        }
+    }
+
+    modifierBouteillePersonnalisee(evt) {
+        if (validerChampsBouteille(bouteille)) {
+            let param = {
+              "nom":document.querySelector(".nom_bouteille").value,
+              "id_bouteille_cellier":document.querySelector("#bouteille_id").dataset.idBouteilleCellier,
+			        "id_bouteille_catalogue":bouteille.nom.dataset.id,
+              "quantite":parseInt(bouteille.quantite.value),
+              "pays":bouteille.pays.value,
+              "type":bouteille.type.value,
+              "annee":bouteille.millesime.value,
+              "format":bouteille.format.value,
+              "appellation":bouteille.appellation.value,
+              "cepage":bouteille.cepage.value,
+              "particularite":bouteille.particularite.value,
+              "degreAlcool":bouteille.degreAlcool.value,
+              "origine":bouteille.origine.value,
+              "producteur":bouteille.producteur.value,
+              "prix_saq":bouteille.prix.value,
+              "region":bouteille.region.value,
+              "tauxSucre":bouteille.sucre.value,
+            };
+            console.log(param);
+            const oFetch = new Fetch();
+            oFetch.modifierBouteille(param, this.redirigerPageCellier.bind(this));
+        }
+    }
+
+    modifierBouteille(evt) {
+        if (validerChampsBouteille(bouteille)) {
+            let param = {
+                "id_bouteille_cellier":document.querySelector("#bouteille_id").dataset.idBouteilleCellier,
+                    "id_bouteille_catalogue":bouteille.nom.dataset.id,
+                "quantite":parseInt(bouteille.quantite.value),
+            };
+            console.log(param);
+            const oFetch = new Fetch();
+            oFetch.modifierBouteille(param, this.redirigerPageCellier.bind(this));
         }
     }
 
@@ -161,28 +243,46 @@ export default class Cellier {
         window.location.assign("cellier");
     }
 
-    selectionnerBouteille(evt) {
-        if(evt.target.tagName == "LI"){
-          bouteille.nom.dataset.id = evt.target.dataset.id;
-          bouteille.nom.value = evt.target.innerHTML;
-          
-          liste.innerHTML = "";
-          inputNomBouteille.value = "";
+    selectionnerBouteilleAjout(evt) {
+        if(evt.target.tagName == "LI") {
+            changerStatutInterfaceAjout(bouteille, true);
+            this.selectionnerBouteille(evt);
 
-          const erreur_nom = document.querySelector(".erreur_nom_bouteille");
-          erreur_nom.innerHTML = "";
-          changerStatutInterfaceAjout(bouteille, true)
-
-          let param = {
-            "id_bouteille":bouteille.nom.dataset.id,
-          }
-
-          let requete = new Request("cellier?action=r", {method: 'POST', body: JSON.stringify(param)});
-          const oFetch = new Fetch();
-          oFetch.obtenirDetailsBouteille(requete, this.remplirChampsAjout.bind(this));
-
+            let param = {
+                "id_bouteille":bouteille.nom.dataset.id,
+            }
+            let requete = new Request("cellier?action=r", {method: 'POST', body: JSON.stringify(param)});
+            const oFetch = new Fetch();
+            oFetch.obtenirDetailsBouteille(requete, this.remplirChampsAjout.bind(this));
         }
+    }
 
+    selectionnerBouteilleModification(evt) {
+        if(evt.target.tagName == "LI") {
+            this.selectionnerBouteille(evt);
+
+            let param = {
+                "id_bouteille":bouteille.nom.dataset.id,
+            }
+            let requete = new Request("cellier?action=r", {method: 'POST', body: JSON.stringify(param)});
+            const oFetch = new Fetch();
+            oFetch.obtenirDetailsBouteille(requete, this.afficheConsole.bind(this));
+        }
+    }
+
+    afficheConsole(resultat) {
+        console.log(resultat);
+    }
+
+    selectionnerBouteille(evt) {
+        bouteille.nom.dataset.id = evt.target.dataset.id;
+        bouteille.nom.value = evt.target.innerHTML;
+        
+        liste.innerHTML = "";
+        inputNomBouteille.value = "";
+
+        const erreur_nom = document.querySelector(".erreur_nom_bouteille");
+        erreur_nom.innerHTML = "";
     }
 
     rechercherBouteille(evt) {
