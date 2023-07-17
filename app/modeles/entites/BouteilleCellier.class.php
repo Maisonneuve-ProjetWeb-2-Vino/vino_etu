@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Classe de l'entité Bouteille
+ * Classe de l'entité BouteilleCellier
  *
  */
-class Bouteille
+class BouteilleCellier
 {
     private $id_bouteille;
     private $id_bouteille_cellier;

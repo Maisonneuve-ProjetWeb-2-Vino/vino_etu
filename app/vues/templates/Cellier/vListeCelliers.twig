@@ -1,43 +1,45 @@
 <!-- Template Liste Celliers -->
 
-<h1>Mes celliers</h1>
-
-<div> 
+<div class="contenu">
+    <div class="conteneur_celliers">
+<div class="bouton_ajout_cellier_top"> 
     <a href="cellier?action=p">Ajouter un cellier</a>
-    <hr>
 </div>
 
-<div>
     {% for cellier in celliers %}
 
-    <div>
+    <section class="carte_cellier">
         <div class="charte">
         {% if cellier.quantite > 0 %}
             <div style="
                 border-radius: 100%;
-                width: 150px;
+                width: 80px;
                 aspect-ratio: 1;
                 background: conic-gradient({{ cellier.pourcentages }});
              "></div>
+             </div>
         {% else %}
-            <div style="
-                border-radius: 100%;
-                width: 150px;
-                aspect-ratio: 1;
-                background-color: gray
-             "></div>
-        {% endif %}
-        <div class="description_cellier">
-            <p class="nom">{{ cellier.nom }}</p>
-            <p class="quantite">{{ cellier.quantite }} bouteilles</p>
-            <p><a href="cellier?action=l&cellier_id={{ cellier.id }}">Voir Cellier</a></p>
+            <div class="cellier_vide">Aucune bouteille</div>
         </div>
-    </div>
-    <hr>
+        {% endif %}
+        <div class="texte_cellier">
+            <p class="cellier_gros_texte">{{ cellier.nom }}</p>
+            <p class="cellier_petit_texte">{{ cellier.quantite }} bouteilles</p>
+        </div>
+        <div class="chevron_cellier">
+        <a href="cellier?action=l&cellier_id={{ cellier.id }}">
+        <svg width="53" height="101" viewBox="0 0 53 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0.896708 99.2267C1.42597 99.7603 2.14516 100.062 2.89671 100.067C3.2697 100.07 3.63947 99.9975 3.98338 99.8531C4.32728 99.7086 4.63807 99.4955 4.89671 99.2267L52.0567 52.0667C52.3216 51.8053 52.5319 51.4939 52.6754 51.1506C52.8189 50.8073 52.8929 50.4388 52.8929 50.0667C52.8929 49.6946 52.8189 49.3262 52.6754 48.9828C52.5319 48.6395 52.3216 48.3281 52.0567 48.0667L4.89671 0.896708C4.6374 0.619505 4.32498 0.3973 3.97803 0.243317C3.63108 0.0893345 3.25671 0.00672096 2.87718 0.000393277C2.49765 -0.0059344 2.12072 0.0641531 1.76884 0.206485C1.41695 0.348816 1.09729 0.560483 0.828886 0.828888C0.560481 1.09729 0.348816 1.41695 0.206484 1.76884C0.0641526 2.12072 -0.0059344 2.49765 0.000393279 2.87718C0.00672096 3.25671 0.0893342 3.63108 0.243317 3.97803C0.3973 4.32498 0.619505 4.6374 0.896708 4.89671L46.0567 50.0667L0.896708 95.2267C0.633057 95.4888 0.423826 95.8004 0.28105 96.1436C0.138275 96.4869 0.064772 96.855 0.064772 97.2267C0.064772 97.5985 0.138275 97.9665 0.28105 98.3098C0.423826 98.653 0.633057 98.9646 0.896708 99.2267Z"/>
+</svg>
+        </a>
+        </div>
+    </section>
     {% else %}
-        <p>Aucun cellier pour cet usager</p>
+        <section class="carte_cellier">
+        <p  class="cellier_gros_texte">Aucun cellier pour cet usager</p>
+        </section>
     {% endfor %}
 </div>
-
+</div>
 
 <!-- fin template Liste Celliers -->

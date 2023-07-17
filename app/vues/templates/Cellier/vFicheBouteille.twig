@@ -1,7 +1,5 @@
 <div class="cellier">
 
-    <a href="cellier?action=l&cellier_id={{ bouteille.id_cellier }}">Retour au cellier</a>
-    <br>
     <h1>Fiche détaillée</h1>
 
     <div>
@@ -16,7 +14,9 @@
             <p class="format">Format : {{ bouteille.format }}</p>
         </div>
         <details>
+            <p>Appellation : {{ bouteille.appellation }}</p>
             <p>Cépage(s) : {{ bouteille.cepage }}</p>
+            <p>Particularité : {{ bouteille.particularite }}</p>
             <p>Degré d'alcool : {{ bouteille.degreAlcool }}</p>
             <p>Producteur : {{ bouteille.producteur }}</p>
             <p>Prix : {{ bouteille.prix_saq }}</p>
@@ -28,8 +28,9 @@
 
     </div>
 
-    <a href="">Modifier la bouteille</a>
+    <button class="btnModifier" data-id="{{ bouteille.id_bouteille_cellier }}">Modifier la bouteille</button>
     <br>
-    <a href="">Supprimer la bouteille</a>
-
+    <button class="confirmer" data-href="cellier?action=t&bouteille_id={{ bouteille.id_bouteille_cellier }}">Supprimer la bouteille</button>
 </div>
+
+{{ include("/Cellier/modaleSuppression.twig") }}

@@ -5,7 +5,7 @@
 html,
 body {
 	margin: 0;
-	background-color: #3B3333;
+	background-color: var(--fonce);
 
 	font-family: 'Roboto', 'RobotoDraft', sans-serif;
 	/* font-size: 95%; */

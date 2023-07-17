@@ -1,12 +1,20 @@
-.container_header{
-    text-align:center;
- 
-
+.container_header {
+    display: flex;
+    font-family: 'Space Mono', monospace;
+    font-size: 18pt;
+    color: var(--blanc);
+    font-weight: 400;
+    min-height: 15vh;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    background-color:var(--fonce);
 }
 
-.container_header>h1{
-    font-family:'Space Mono', monospace;
-    font-size:18pt;
-    color:#ffffff;
-    font-weight:400;
+.titre_header {
+    flex: 9;
+}
+
+.fleche_header {
+    flex: 1;
 }

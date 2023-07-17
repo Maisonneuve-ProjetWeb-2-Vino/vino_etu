@@ -6,16 +6,16 @@
 
 class Membre extends Routeur {
   private $id_membre;
-  private $oConnexion;
+  private $oUtilConn;
 
   /**
    * Constructeur qui initialise la propriété oRequetesSQL déclarée dans la classe Routeur.
    * 
    */
   public function __construct() {
-     $this->oConnexion = $_SESSION['oConnexion'] ?? null;
-        $this->id_membre = $_GET['id_membre'] ?? null;
-        $this->oRequetesSQL = new RequetesSQL;
+    $this->oUtilConn = $_SESSION['oConnexion'] ?? null;
+    $this->id_membre = $_GET['id_membre'] ?? null;
+    $this->oRequetesSQL = new RequetesSQL;
   }
 
 
@@ -35,55 +35,33 @@ class Membre extends Routeur {
         );
 }
 
-
+/**
+     * Connecter un membre
+     */
 public function connexion() {
-        // Récupérer les données du formulaire
-        $courriel = $_POST['courriel'];
-        $mdp = $_POST['mdp'];
-        
-        var_dump($courriel);
-        // Vérifier les identifiants
-        $membre = new Membre();
-        $oConnexion = $membre->verifConnexion($courriel, $mdp);
-
-        if ($oConnexion) {
-            // Les identifiants sont corrects, créer une session
-            session_start();
-            $_SESSION['id_membre'] = $membre['id_membre'];
-            $_SESSION['courriel'] = $membre['email'];
-            $_SESSION['nom'] = $membre['nom'];
-            $_SESSION['prenom'] = $membre['prenom'];
-
-            // Rediriger l'utilisateur vers une page après la connexion réussie
-            header('Location: accueil.twig');
-            exit;
-        } else {
-            // Les identifiants sont incorrects, afficher un message d'erreur
-            echo "Identifiants incorrects";
-        }
-    }
-public function verifConnexion($courriel, $mdp)
-
-  {
     
-    $this->sql = "
-      SELECT id_membre, nom, prenom, courriel, mdp, idprofil
-      FROM membres
-      WHERE courriel = :courriel AND mdp = SHA2(:mdp, 512)";
+    $membre = $this->oRequetesSQL->connecter($_POST);
+    if ($membre !== false) {
+        $_SESSION['oConnexion'] = new Membres($membre);
         
-        $membre = fetch(PDO::FETCH_ASSOC);
-
-        if ($membre && password_verify($password, $membre['password'])) {
-            // Les identifiants sont corrects
-            var_dump($membre);
-            return $membre;
-        } else {
-            // Les identifiants sont incorrects
-            return false;
-  }
-
-  
-
+        // Rediriger l'utilisateur vers une page après la connexion réussie
+        header("Location: cellier"); // retour sur la page du profil
+                            exit;
+    }
+    else{
+         $erreurs['connexion'] = "Votre courriel ou votre mot de passe ne sont pas bons.";
+    }
+    new Vue(
+                'Frontend/vConnexion',
+                array(
+                
+                    'titre'    => 'Se connecter',
+                    'membre'   => $membre,
+                    'erreurs'  => $erreurs
+                ),
+                'Frontend/gabarit-vide'
+            );
+    
 }
 
 
@@ -113,27 +91,40 @@ public function verifConnexion($courriel, $mdp)
         $membre  = [];
         $erreurs = [];
         if (count($_POST) !== 0) {
-            if($_POST['mdp'] === $_POST['renouvelermdp']){
+            $membre = [
+                'nom'    => $_POST['nom'],
+                'prenom'  => $_POST['prenom'],
+                'courriel'   => $_POST['courriel'],
+                'mdp'  => $_POST['mdp'],
+                'idprofil'  => $_POST['idprofil']
+            ];
                 // retour de saisie du formulaire
-                $membre = $_POST;
-                var_dump($membre);
+               
                 $oMembre = new Membres($membre); // création d'un objet membre pour contrôler la saisie
                 $erreurs = $oMembre->erreurs;
-                if (count($erreurs) === 0) {
-                    $id_membre = $this->oRequetesSQL->getInscription([
-                        'nom'    => $oMembre->nom,
-                        'prenom' => $oMembre->prenom,
-                        'courriel' => $oMembre->courriel,
-                        'mdp' => $oMembre->mdp,
-                        'renouvelermdp' => $oMembre->renouvelermdp,
-                        'idprofil' => $oMembre->idprofil
-                    ]);
-                    if ($id_membre > 0) {
-                        header("Location: /ProjetWebDeux/PW2-Vino/accueil"); // retour sur la page du profil
-                        exit;
-                    }
+                if($_POST['mdp'] !== $_POST['renouvelermdp']){
+                    $erreurs['renouvelermdp'] = "Votre mot de passe et la confirmation ne correspondent pas";
                 }
-            }
+                $courrielendouble= $this->oRequetesSQL->controleMail(['courriel' => $oMembre->courriel]);
+                if($courrielendouble == true){
+                    $erreurs['courriel'] = "Votre courriel existe déjà dans la base.";
+                }
+                    if (count($erreurs) === 0) {
+                        $id_membre = $this->oRequetesSQL->inscriptionMembre([
+                            'nom'    => $oMembre->nom,
+                            'prenom' => $oMembre->prenom,
+                            'courriel' => $oMembre->courriel,
+                            'mdp' => $oMembre->mdp,
+                            'renouvelermdp' => $oMembre->mdp,
+                            'idprofil' => $oMembre->idprofil
+                        ]);
+                        if ($id_membre > 0) {
+                            header("Location: accueil"); // retour sur la page du profil
+                            exit;
+                        }
+                    }
+                
+            
             new Vue(
                 'Frontend/vInscription',
                 array(
@@ -143,6 +134,34 @@ public function verifConnexion($courriel, $mdp)
                 ),
                 'Frontend/gabarit-vide'
             );
+        }
+    }
+
+
+    /**
+     * Voir les informations d'un membre
+     */
+    public function profil()
+    {
+        $membre = false;
+        if (!is_null($this->oUtilConn->id_membre)) {
+            $membre = $this->oRequetesSQL->infoMembre($this->id_membre);
+            if (!$membre) throw new Exception("Ce membre n'existe pas");
+               
+            new Vue(
+                'Frontend/vProfil',
+                array(
+                    
+                    'oUtilConn' => $this->oUtilConn,
+                    'titre' => 'Fiche d\'un membre',
+                    'membre' => $membre
+                ),
+                'Frontend/gabarit-frontend'
+            );
+       
+        }
+         else{
+           header("Location: connecter"); 
         }
     }
 
