@@ -137,11 +137,11 @@ public function verifConnexion($courriel, $mdp)
             new Vue(
                 'Frontend/vInscription',
                 array(
-                    'titre'    => 'Ajouter un Membre',
+                    'titre'  => 'Inscription membre',
                     'membre'   => $membre,
                     'erreurs'  => $erreurs
                 ),
-                'Frontend/gabarit-frontend'
+                'Frontend/gabarit-vide'
             );
         }
     }

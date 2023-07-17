@@ -7,13 +7,13 @@
 	<!-- Champ courriel -->	
 	<input class="form_connexion_input" aria-label="Courriel" type="email" id="courriel" placeholder="Courriel" name="courriel" value="">
 	<div class="error">
-		<span>Format incorrect</span>
-	</div>		
+        <span>{{ erreurs.courriel }}</span>
+    </div>		
 
 	<!-- Champ mot de passe -->	
 	<input class="form_connexion_input" aria-label="Mot de passe" type="password" id="mdp" placeholder="Mot de passe" name="mdp" value="">
     <div class="error">
-        <span>Au moins 10 caractères, une majuscule, une minuscule et un chiffre</span>
+        <span>{{ erreurs.mdp }}</span>
     </div>
 
 	<a href="">Mot de passe oublié?</a>	
