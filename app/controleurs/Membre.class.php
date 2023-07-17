@@ -24,7 +24,7 @@ class Membre extends Routeur {
    * @return void
    */  
   public function connecter() {
-
+    if(!$_SESSION['oConnexion'])
      new Vue(
             '/Frontend/vConnexion',
             array(
@@ -33,6 +33,9 @@ class Membre extends Routeur {
             ),
             'Frontend/gabarit-vide'
         );
+    else{
+        header("Location: accueil"); 
+    }
 }
 
 /**
@@ -79,7 +82,7 @@ public function connexion() {
      */
     public function inscription()
     {
-
+         if(!$_SESSION['oConnexion'])
         new Vue(
             '/Frontend/vInscription',
             array(
@@ -88,7 +91,10 @@ public function connexion() {
             ),
             'Frontend/gabarit-vide'
         );
+        else{
+        header("Location: accueil"); 
     }
+}
     /**
      * Inscription d'un nouveau membre
      */
