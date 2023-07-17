@@ -246,14 +246,20 @@ export default class Cellier {
         }
     }
     
+    /**
+     * Fonction de rappel de la vérification de duplicat de bouteille. Ajoute une nouvelle
+     * bouteille s'il n'y a pas de duplication, et un message d'erreur sinon.
+     * @param {Object} reponse Le statut d'erreur
+     */
     ajouterNouvelleBouteille(reponse) {
+
+        // Si la bouteille ne se trouve pas déjà dans le cellier
         if (!reponse.statut) {
             const param = {
                 "id_bouteille":this.#bouteille.nom.dataset.id,
                 "quantite":this.#bouteille.quantite.value,
                 "id_cellier":document.querySelector("#cellier_id").value
             };
-            // La bouteille ne se trouve pas déjà dans le cellier
             
             const oFetch = new Fetch();
             oFetch.ajouterNouvelleBouteille(param, this.redirigerPageCellier.bind(this))
@@ -265,10 +271,17 @@ export default class Cellier {
 
     }
 
+    /**
+     * Redirige vers la page des celliers.
+     */
     redirigerPageCellier() {
         window.location.assign("cellier");
     }
 
+    /**
+     * Sélectionne une bouteille avec ses détails lors de l'opération d'ajout de bouteille.
+     * @param {Event} evt 
+     */
     selectionnerBouteilleAjout(evt) {
         if(evt.target.tagName == "LI") {
             this.changerStatutInterfaceAjout(true);
@@ -282,6 +295,10 @@ export default class Cellier {
         }
     }
 
+    /**
+     * Sélectionne une bouteille avec ses détails lors de l'opération de modification de bouteille.
+     * @param {Event} evt 
+     */
     selectionnerBouteilleModification(evt) {
         if(evt.target.tagName == "LI") {
             this.selectionnerBouteille(evt);
@@ -294,10 +311,18 @@ export default class Cellier {
         }
     }
 
+    /**
+     * Pour afficher en console le résultat d'un Fetch.
+     * @param {Object} resultat 
+     */
     afficheConsole(resultat) {
         console.log(resultat);
     }
 
+    /**
+     * Obtient l'id de la bouteille lors d'une sélection par l'usager.
+     * @param {Event} evt 
+     */
     selectionnerBouteille(evt) {
         this.#bouteille.nom.dataset.id = evt.target.dataset.id;
         this.#bouteille.nom.value = evt.target.innerHTML;
@@ -312,6 +337,10 @@ export default class Cellier {
         }
     }
 
+    /**
+     * Obtient le nom de la bouteille et le recherche dans le catalogue.
+     * @param {Event} evt 
+     */
     rechercherBouteille(evt) {
         let nom = this.#elInputNomBouteille.value;
         this.#liste.innerHTML = "";
@@ -321,18 +350,25 @@ export default class Cellier {
             }
             const oFetch = new Fetch();
             oFetch.rechercherBouteille(param, this.afficherResultatsRecherche.bind(this));
-
         }
     }
 
+    /**
+     * Insère les résultats de recherche dans la liste des résultats proposés à l'usager pour la sélection.
+     * @param {Array} listeResultats 
+     */
     afficherResultatsRecherche(listeResultats) {
         listeResultats.forEach(function(element){
             this.#liste.innerHTML += "<li data-id='"+element.id +"'>"+element.nom+"</li>";
         }, this);
     }
 
-
+    /**
+     * Obtient l'id de la bouteille bue et fait la requête de diminution de quantité.
+     * @param {Event} evt 
+     */
     boireBouteille(evt) {
+
         // Aller chercher l'id de la bouteille du cellier
         let id = evt.target.closest(".options").dataset.id;
         this.#elCible = evt.currentTarget;
@@ -346,6 +382,10 @@ export default class Cellier {
         oFetch.boireBouteille(param, this.diminuerQuantiteBouteille.bind(this));
     }
 
+    /**
+     * Obtient l'id de la bouteille à ajouter et fait la requête d'augmentation de quantité.
+     * @param {Event} evt 
+     */
     ajouterBouteille(evt) {
         // Aller chercher l'id de la bouteille du cellier
         let id = evt.target.closest(".options").dataset.id;
@@ -380,6 +420,11 @@ export default class Cellier {
         return validation;
     }
 
+    /**
+     * Valide les champs lors de l'ajout ou modification de cellier.
+     * @param {Object} cellier 
+     * @returns 
+     */
     validerChampsCellier(cellier) {
 
         let validation = true;
@@ -395,7 +440,11 @@ export default class Cellier {
         return validation;
     }
 
-     
+    
+    /**
+     * Active ou désactive l'interface des détails d'une bouteille.
+     * @param {boolean} statut 
+     */
     changerStatutInterfaceAjout(statut) {
         this.#bouteille.nom.disabled = statut;
         this.#bouteille.pays.disabled = statut;
@@ -413,7 +462,10 @@ export default class Cellier {
         this.#bouteille.sucre.disabled = statut;
     }
 
-
+    /**
+     * Rempli les champs détaillés d'une bouteille.
+     * @param {Object} details 
+     */
     remplirChampsAjout(details) {
         this.#bouteille.pays.value = details.idpays;
         this.#bouteille.type.value = details.idtype;
@@ -430,6 +482,9 @@ export default class Cellier {
         this.#bouteille.sucre.value = details.sucre;
     }
 
+    /**
+     * Vide les champs détaillés d'une bouteille.
+     */
     viderChampsAjout() {
         this.#bouteille.nom.value = "";
         this.#bouteille.pays.value = 1;
@@ -448,6 +503,9 @@ export default class Cellier {
         this.#bouteille.sucre.value = "";
     }
 
+    /**
+     * Diminue la quantité de bouteille de 1 pour une bouteille donnée.
+     */
     diminuerQuantiteBouteille() {
         for (let elEnfant of this.#elParent.children) {
             if (elEnfant.classList.contains("quantite")) {
@@ -467,6 +525,9 @@ export default class Cellier {
         }
     }
 
+    /**
+     * Augmente la quantité de bouteille de 1 pour une bouteille donnée.
+     */
     augmenterQuantiteBouteille() {
 
         for (let elEnfant of this.#elParent.children) {
@@ -492,6 +553,10 @@ export default class Cellier {
         }
     }
 
+    /**
+     * Affiche la page de modification de bouteille.
+     * @param {Event} evt 
+     */
     afficherPageModificationBouteille(evt) {
         let id = evt.target.dataset.id;
         console.log(`cellier?action=m&bouteille_id=${id}`);
