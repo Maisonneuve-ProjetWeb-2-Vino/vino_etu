@@ -16,60 +16,11 @@
 window.addEventListener('load', function() {
     console.log("load");
 
-   
-
     // Si on est sur la page de modification de bouteille
     let modificationBouteille = document.querySelector(".modificationBouteille");
     if(modificationBouteille){
 
-      let bouteille = {
-        nom : document.querySelector(".nom_bouteille"),
-        quantite : document.querySelector("[name='quantite']"),
-        pays : document.querySelector("[name='pays']"),
-        type : document.querySelector("[name='type']"),
-        millesime : document.querySelector("[name='millesime']"),
-        pastille : document.querySelector("[name='pastille']"),
-        appellation : document.querySelector("[name='appellation']"),
-        format : document.querySelector("[name='format']"),
-        cepage : document.querySelector("[name='cepage']"),
-        particularite : document.querySelector("[name='particularite']"),
-        degreAlcool : document.querySelector("[name='degreAlcool']"),
-        origine : document.querySelector("[name='origine']"),
-        producteur : document.querySelector("[name='producteur']"),
-        prix : document.querySelector("[name='prix']"),
-        region : document.querySelector("[name='region']"),
-        sucre : document.querySelector("[name='sucre']")
-      };
 
-      // Modification d'un vin de la SAQ
-      if (inputNomBouteille) {
-        inputNomBouteille.addEventListener("keyup", function(evt){
-
-          let nom = inputNomBouteille.value;
-          liste.innerHTML = "";
-          if(nom){
-            let requete = new Request("cellier?action=c", {method: 'POST', body: '{"nom": "'+nom+'"}'});
-            fetch(requete)
-                .then(response => {
-                    if (response.status === 200) {
-                      return response.json();
-                    } else {
-                      throw new Error('Erreur');
-                    }
-                  })
-                  .then(response => {
-                    console.log(response);
-                    
-                    response.forEach(function(element){
-                      liste.innerHTML += "<li data-id='"+element.id +"'>"+element.nom+"</li>";
-                    })
-                  }).catch(error => {
-                    console.error(error);
-                  });
-          }
-        
-        });
-      }
 
 
       // Écouteur sur la liste des résultats de recherche d'une bouteille

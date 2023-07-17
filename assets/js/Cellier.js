@@ -12,24 +12,28 @@ export default class Cellier {
     #elCible;
     #elParent;
     #bouteille;
+    #modificationBouteille;
 
     /**
      * Constructeur de la classe Cellier
      */
     constructor() {
 
-        // Sur Page Liste des bouteilles
+        // Sur la page Liste des bouteilles
         this.elBoireBouteille = document.querySelectorAll(".btnBoire");
         this.elAjouterBouteille = document.querySelectorAll(".btnAjouter");
         this.#elModifierBouteille = document.querySelectorAll(".btnModifier");
 
-        // Sur Page Ajout de bouteille
+        // Sur la page d'Ajout de bouteille
         this.#inputNomBouteille = document.querySelector("[name='nom_bouteille']");
         this.#liste = document.querySelector('.listeAutoComplete');
         this.#nouvelleBouteille = document.querySelector(".nouvelleBouteille");
         this.#elAjouterNouvelleBouteille = document.querySelector("[name='ajouterBouteilleCellier']");
         this.#elBtnEntrerBouteillePersonnalisee = document.querySelector("[name='entrerBouteillePersonnalisee']");
         
+        // Sur la page de Modification de bouteille
+        this.modificationBouteille = document.querySelector(".modificationBouteille");
+
         this.initialiser();
     }
 
@@ -39,34 +43,41 @@ export default class Cellier {
         this.#elAjouterBouteille.forEach(function(element){element.addEventListener("click",this.ajouterBouteille.bind(this))});
         this.#elModifierBouteille.forEach(function(element){element.addEventListener("click",this.afficherPageModificationBouteille.bind(this))});
 
+        this.#bouteille = {
+            nom : document.querySelector(".nom_bouteille"),
+            quantite : document.querySelector("[name='quantite']"),
+            pays : document.querySelector("[name='pays']"),
+            type : document.querySelector("[name='type']"),
+            millesime : document.querySelector("[name='millesime']"),
+            pastille : document.querySelector("[name='pastille']"),
+            appellation : document.querySelector("[name='appellation']"),
+            format : document.querySelector("[name='format']"),
+            cepage : document.querySelector("[name='cepage']"),
+            particularite : document.querySelector("[name='particularite']"),
+            degreAlcool : document.querySelector("[name='degreAlcool']"),
+            origine : document.querySelector("[name='origine']"),
+            producteur : document.querySelector("[name='producteur']"),
+            prix : document.querySelector("[name='prix']"),
+            region : document.querySelector("[name='region']"),
+            sucre : document.querySelector("[name='sucre']")
+        };
+
         // Si on est sur la page d'ajout de bouteille
         if (this.#inputNomBouteille) {
-            this.#bouteille = {
-                nom : document.querySelector(".nom_bouteille"),
-                quantite : document.querySelector("[name='quantite']"),
-                pays : document.querySelector("[name='pays']"),
-                type : document.querySelector("[name='type']"),
-                millesime : document.querySelector("[name='millesime']"),
-                pastille : document.querySelector("[name='pastille']"),
-                appellation : document.querySelector("[name='appellation']"),
-                format : document.querySelector("[name='format']"),
-                cepage : document.querySelector("[name='cepage']"),
-                particularite : document.querySelector("[name='particularite']"),
-                degreAlcool : document.querySelector("[name='degreAlcool']"),
-                origine : document.querySelector("[name='origine']"),
-                producteur : document.querySelector("[name='producteur']"),
-                prix : document.querySelector("[name='prix']"),
-                region : document.querySelector("[name='region']"),
-                sucre : document.querySelector("[name='sucre']")
-            };
 
             // Bloquer les champs des détails
             changerStatutInterfaceAjout(bouteille, true);
 
+            // Ajout des écouteurs sur les boutons
             this.#inputNomBouteille.addEventListener("keyup", this.rechercherBouteille.bind(this));
             this.#liste.addEventListener("click", this.selectionnerBouteille.bind(this));
             this.#btnAjouter.addEventListener("click", this.verifierNouvelleBouteille.bind(this));
             this.#elBtnEntrerBouteillePersonnalisee.addEventListener("click", this.preparerChampsDetails.bind(this));
+        }
+
+        // Si on est sur la page de modification de bouteille
+        if (this.modificationBouteille) {
+            this.#elInputNomBouteille.addEventListener
         }
     }
 
