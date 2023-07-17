@@ -5,7 +5,7 @@
  */
 
 class Membre extends Routeur {
-  private $id_membre;
+  
   private $oUtilConn;
 
   /**
@@ -14,7 +14,7 @@ class Membre extends Routeur {
    */
   public function __construct() {
     $this->oUtilConn = $_SESSION['oConnexion'] ?? null;
-    $this->id_membre = $_GET['id_membre'] ?? null;
+    
     $this->oRequetesSQL = new RequetesSQL;
   }
 
@@ -24,7 +24,9 @@ class Membre extends Routeur {
    * @return void
    */  
   public function connecter() {
-
+    
+    if (is_null($this->oUtilConn)) {
+    
      new Vue(
             '/Frontend/vConnexion',
             array(
@@ -33,6 +35,11 @@ class Membre extends Routeur {
             ),
             'Frontend/gabarit-vide'
         );
+    }
+    else{
+        header("Location: accueil");
+    }
+    
 }
 
 /**
@@ -63,6 +70,15 @@ public function connexion() {
             );
     
 }
+/**
+     * Déconnecter un membre
+     */
+    public function deconnecter()
+    {
+        session_destroy();
+        header("Location: connecter"); 
+        
+    }
 
 
 /**
@@ -70,7 +86,7 @@ public function connexion() {
      */
     public function inscription()
     {
-
+         if (is_null($this->oUtilConn)) {
         new Vue(
             '/Frontend/vInscription',
             array(
@@ -79,15 +95,17 @@ public function connexion() {
             ),
             'Frontend/gabarit-vide'
         );
+         }
+        else{
+        header("Location: accueil"); 
     }
+}
     /**
      * Inscription d'un nouveau membre
      */
 
     public function validationInscription()
     {
-        //var_dump($_POST);
-        
         $membre  = [];
         $erreurs = [];
         if (count($_POST) !== 0) {
@@ -143,11 +161,13 @@ public function connexion() {
      */
     public function profil()
     {
+        
         $membre = false;
         if (!is_null($this->oUtilConn->id_membre)) {
-            $membre = $this->oRequetesSQL->infoMembre($this->id_membre);
+            $membre = $this->oRequetesSQL->infoMembre($this->oUtilConn->id_membre);
+           
             if (!$membre) throw new Exception("Ce membre n'existe pas");
-               
+            
             new Vue(
                 'Frontend/vProfil',
                 array(

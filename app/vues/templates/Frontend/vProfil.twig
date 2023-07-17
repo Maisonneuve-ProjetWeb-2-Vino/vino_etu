@@ -5,13 +5,25 @@
 
 	<div>
 		<h2>Informations de {{ oUtilConn.prenom }} {{ oUtilConn.nom }}</h2>
-        <p>{{ oUtilConn.mail }}</p>
-        <p> Depuis le {{ oUtilConn.date_creation }}</p>
+        <p>{{ oUtilConn.courriel }}</p>
+        <p> membre depuis le {{ oUtilConn.date_creation }}</p>
         <p> {{ oUtilConn.idprofil }}</p>
 
 
-		<a href="modifierMembre">Modifier mes coordonnées</a>
-	</div>
+		<p><a href="modifierMembre" style="color:white">Modifier mes coordonnées</a></p>
+        <p><a href="deconnecter" style="color:white">Me déconnecter</a></p>
+        <p><a href="supprimerCompte" style="color:white">Supprimer mon compte</a></p>
+	
+    <br><br>
+    
+		<h2>Statistiques</h2>
+        <p>Nombre de celliers : </p>
+        <p>Nombre de bouteilles :</p>
+       
+
+</div>
+
+	
 	
 
 		 <br>

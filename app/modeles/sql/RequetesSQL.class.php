@@ -460,7 +460,7 @@ class RequetesSQL extends RequetesPDO {
     
     //var_dump($champs);
     $this->sql = "
-      SELECT id_membre, nom, prenom, courriel, idprofil
+      SELECT id_membre, nom, prenom, courriel, idprofil, date_creation, mdp
       FROM membres
       WHERE courriel = :courriel AND mdp = SHA2(:mdp, 512)";
 
