@@ -22,12 +22,12 @@ class Frontend extends Routeur {
    */  
   public function voirAccueil() {
 
-    $bouteilles = $this->oRequetesSQL->obtenirListeBouteilleCellier();
+   
 
     new Vue("/Frontend/vAccueil",
       array(
         'titre'     => "Un petit verre de vino",
-        'bouteilles'  => $bouteilles
+        
       ),
       "/Frontend/gabarit-frontend");
   }
