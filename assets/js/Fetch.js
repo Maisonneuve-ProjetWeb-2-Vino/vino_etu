@@ -1,8 +1,8 @@
 export default class Fetch{
 
 
-    boireBouteille(requete, cb) {
-
+    boireBouteille(param, cb) {
+        let requete = new Request("cellier?action=b", {method: 'POST', body:JSON.stringify(param)});
         fetch(requete)
           .then(response => {
               if (response.status === 200) {
@@ -19,7 +19,8 @@ export default class Fetch{
     }
 
 
-    ajouterBouteille(requete, cb) {
+    ajouterBouteille(param, cb) {
+      let requete = new Request("cellier?action=a", {method: 'POST', body:JSON.stringify(param)});
       fetch(requete)
         .then(response => {
           if (response.status === 200) {
@@ -36,7 +37,8 @@ export default class Fetch{
                           
     }
 
-    rechercherBouteille(requete, cb) {
+    rechercherBouteille(param, cb) {
+      let requete = new Request("cellier?action=c", {method: 'POST', body:JSON.stringify(param)});
       fetch(requete)
         .then(response => {
             if (response.status === 200) {
@@ -53,7 +55,8 @@ export default class Fetch{
           });
     }
 
-    obtenirDetailsBouteille(requete, cb) {
+    obtenirDetailsBouteille(param, cb) {
+      let requete = new Request("cellier?action=r", {method: 'POST', body: JSON.stringify(param)});
       fetch(requete)
         .then(response => {
             if (response.status === 200) {
@@ -70,7 +73,8 @@ export default class Fetch{
           });
     }
 
-    verifierDuplicationBouteille(requete, cb) {
+    verifierDuplicationBouteille(param, cb) {
+      let requete = new Request("cellier?action=v", {method: 'POST', body: JSON.stringify(param)});
       fetch(requete) 
         .then(response => {
             if (response.status === 200) {
@@ -87,7 +91,8 @@ export default class Fetch{
           });
     }
 
-    ajouterNouvelleBouteille(requete, cb) {
+    ajouterNouvelleBouteille(param, cb) {
+      let requete = new Request("cellier?action=n", {method: 'POST', body: JSON.stringify(param)});
       fetch(requete)
         .then(response => {
             if (response.status === 200) {
@@ -104,7 +109,8 @@ export default class Fetch{
             });
     }
 
-    ajouterBouteillePersonnalisee(requete, cb) {
+    ajouterBouteillePersonnalisee(param, cb) {
+      let requete = new Request("cellier?action=e", {method: 'POST', body: JSON.stringify(param)});
       fetch(requete)
         .then(response => {
             if (response.status === 200) {

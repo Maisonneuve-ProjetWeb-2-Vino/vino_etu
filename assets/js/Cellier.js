@@ -4,7 +4,6 @@ export default class Cellier {
 
     #elBoireBouteille;
     #elAjouterBouteille;
-    #elAjouterNouvelleBouteille;
     #elModifierBouteille;
     #elInputNomBouteille;
     #elBtnEntrerBouteillePersonnalisee;
@@ -38,7 +37,7 @@ export default class Cellier {
         this.#elBtnEntrerBouteillePersonnalisee = document.querySelector("[name='entrerBouteillePersonnalisee']");
         
         // Sur la page de Modification de bouteille de la SAQ
-        this.modificationBouteille = document.querySelector(".modificationBouteille");
+        this.#modificationBouteille = document.querySelector(".modificationBouteille");
         this.#elBtnModifier = document.querySelector("[name='modifierBouteilleCellier']");
 
         // Sur la page de modification de bouteille personnalisée
@@ -50,12 +49,16 @@ export default class Cellier {
         this.initialiser();
     }
 
+    /**
+     * Initialisation des écouteurs d'événements sur les différentes pages.
+     */
     initialiser() {
         // Lier les écouteurs d'événements aux boutons
         this.#elBoireBouteille.forEach(function(element){element.addEventListener("click",this.boireBouteille.bind(this))}, this);
         this.#elAjouterBouteille.forEach(function(element){element.addEventListener("click",this.ajouterBouteille.bind(this))}, this);
         this.#elModifierBouteille.forEach(function(element){element.addEventListener("click",this.afficherPageModificationBouteille.bind(this))}, this);
 
+        // Utilisé pour les requêtes de gestion de bouteilles
         this.#bouteille = {
             nom : document.querySelector(".nom_bouteille"),
             quantite : document.querySelector("[name='quantite']"),
@@ -75,7 +78,7 @@ export default class Cellier {
             sucre : document.querySelector("[name='sucre']")
         };
 
-        
+        // Utilisé pour les requêtes de gestion de celliers
         this.#cellier = {
             nom : document.querySelector(".nom_cellier")
         }
@@ -94,7 +97,7 @@ export default class Cellier {
         }
 
         // Si on est sur la page de modification de bouteille
-        if (this.modificationBouteille) {
+        if (this.#modificationBouteille) {
             this.#elInputNomBouteille.addEventListener("keyup", this.rechercherBouteille.bind(this));
             this.#liste.addEventListener("click", this.selectionnerBouteilleModification.bind(this));
             this.#elBtnModifier.addEventListener("click", this.modifierBouteille.bind(this));
@@ -111,6 +114,10 @@ export default class Cellier {
         }
     }
 
+    /**
+     * Valider les champs pour la modification de cellier et faire la requête de modification.
+     * @param {Event} evt 
+     */
     modifierCellier(evt) {
 
         if (this.validerChampsCellier(this.#cellier)) {
@@ -118,13 +125,16 @@ export default class Cellier {
             "cellier_id":document.querySelector("#cellier_id").value,
             "nom": this.#cellier.nom.value,
           };
-          console.log(param);
           const oFetch = new Fetch();
           oFetch.modifierCellier(param, this.redirigerPageCellier.bind(this));
-    
         }
     }
 
+    /**
+     * Valider les champs pour la modification de bouteille personnalisée et faire la requête de
+     * modification.
+     * @param {Event} evt 
+     */
     modifierBouteillePersonnalisee(evt) {
         if (this.validerChampsBouteille()) {
             let param = {
@@ -146,12 +156,15 @@ export default class Cellier {
                 "region":this.#bouteille.region.value,
                 "tauxSucre":this.#bouteille.sucre.value,
             };
-            console.log(param);
             const oFetch = new Fetch();
             oFetch.modifierBouteille(param, this.redirigerPageCellier.bind(this));
         }
     }
 
+    /**
+     * Valider les champs pour la requête de modification d'un vin SAQ et faire la requête de modification.
+     * @param {Event} evt 
+     */
     modifierBouteille(evt) {
         if (this.validerChampsBouteille()) {
             let param = {
@@ -165,6 +178,10 @@ export default class Cellier {
         }
     }
 
+    /**
+     * Active et vide les champs détaillés pour l'ajout d'un vin personnalisé.
+     * @param {Event} evt 
+     */
     preparerChampsDetails(evt) {
         this.changerStatutInterfaceAjout(false);
         this.viderChampsAjout();
@@ -173,7 +190,11 @@ export default class Cellier {
         erreur_nom.innerHTML = "";
     }
 
-
+    /**
+     * Valide les champs pour l'ajout d'une bouteille et vérifie si une bouteille existe 
+     * déjà dans le cellier, puis fait la requête d'ajout s'il n'y a pas d'erreurs.
+     * @param {Event} evt 
+     */
     verifierNouvelleBouteille(evt) {
         let validation = this.validerChampsBouteille();
 
@@ -194,9 +215,8 @@ export default class Cellier {
                 "id_cellier":document.querySelector("#cellier_id").value
               };
 
-              let requeteVerification = new Request("cellier?action=v", {method: 'POST', body: JSON.stringify(param)});
               const oFetch = new Fetch();
-              oFetch.verifierDuplicationBouteille(requeteVerification, this.ajouterNouvelleBouteille.bind(this));
+              oFetch.verifierDuplicationBouteille(param, this.ajouterNouvelleBouteille.bind(this));
 
             } else { // Vin personnalisé
              
@@ -218,9 +238,9 @@ export default class Cellier {
                 "region":this.#bouteille.region.value,
                 "tauxSucre":this.#bouteille.sucre.value,
               };
-              let requete = new Request("cellier?action=e", {method: 'POST', body: JSON.stringify(param)});
+              
               const oFetch = new Fetch();
-              oFetch.ajouterBouteillePersonnalisee(requete, this.redirigerPageCellier.bind(this))
+              oFetch.ajouterBouteillePersonnalisee(param, this.redirigerPageCellier.bind(this))
             }
 
         }
@@ -234,9 +254,9 @@ export default class Cellier {
                 "id_cellier":document.querySelector("#cellier_id").value
             };
             // La bouteille ne se trouve pas déjà dans le cellier
-            let requete = new Request("cellier?action=n", {method: 'POST', body: JSON.stringify(param)});
+            
             const oFetch = new Fetch();
-            oFetch.ajouterNouvelleBouteille(requete, this.redirigerPageCellier.bind(this))
+            oFetch.ajouterNouvelleBouteille(param, this.redirigerPageCellier.bind(this))
         } else 
         {
             const erreur_nom = document.querySelector(".erreur_nom_bouteille");
@@ -254,12 +274,11 @@ export default class Cellier {
             this.changerStatutInterfaceAjout(true);
             this.selectionnerBouteille(evt);
 
-            let param = {
+            const param = {
                 "id_bouteille": this.#bouteille.nom.dataset.id,
             }
-            let requete = new Request("cellier?action=r", {method: 'POST', body: JSON.stringify(param)});
             const oFetch = new Fetch();
-            oFetch.obtenirDetailsBouteille(requete, this.remplirChampsAjout.bind(this));
+            oFetch.obtenirDetailsBouteille(param, this.remplirChampsAjout.bind(this));
         }
     }
 
@@ -267,12 +286,11 @@ export default class Cellier {
         if(evt.target.tagName == "LI") {
             this.selectionnerBouteille(evt);
 
-            let param = {
+            const param = {
                 "id_bouteille":bouteille.nom.dataset.id,
             }
-            let requete = new Request("cellier?action=r", {method: 'POST', body: JSON.stringify(param)});
             const oFetch = new Fetch();
-            oFetch.obtenirDetailsBouteille(requete, this.afficheConsole.bind(this));
+            oFetch.obtenirDetailsBouteille(param, this.afficheConsole.bind(this));
         }
     }
 
@@ -298,9 +316,11 @@ export default class Cellier {
         let nom = this.#elInputNomBouteille.value;
         this.#liste.innerHTML = "";
         if(nom){
-            let requete = new Request("cellier?action=c", {method: 'POST', body: '{"nom": "'+nom+'"}'});
+            const param = {
+                "nom":nom
+            }
             const oFetch = new Fetch();
-            oFetch.rechercherBouteille(requete, this.afficherResultatsRecherche.bind(this));
+            oFetch.rechercherBouteille(param, this.afficherResultatsRecherche.bind(this));
 
         }
     }
@@ -319,9 +339,11 @@ export default class Cellier {
         this.#elParent = evt.currentTarget.parentElement;
 
         // Faire la requête et ajuster la quantité
-        let requete = new Request("cellier?action=b", {method: 'POST', body: '{"id": '+id+'}'});
+        const param = {
+            "id":parseInt(id)
+        };
         const oFetch = new Fetch();
-        oFetch.boireBouteille(requete, this.diminuerQuantiteBouteille.bind(this));
+        oFetch.boireBouteille(param, this.diminuerQuantiteBouteille.bind(this));
     }
 
     ajouterBouteille(evt) {
@@ -331,9 +353,11 @@ export default class Cellier {
         this.#elParent = evt.currentTarget.parentElement;
 
         // Faire la requête et ajuster la quantité
-        let requete = new Request("cellier?action=a", {method: 'POST', body: '{"id": '+id+'}'});
+        const param = {
+            "id":parseInt(id)
+        };
         const oFetch = new Fetch();
-        oFetch.ajouterBouteille(requete, this.augmenterQuantiteBouteille.bind(this));
+        oFetch.ajouterBouteille(param, this.augmenterQuantiteBouteille.bind(this));
     }
 
 
