@@ -18,16 +18,14 @@
         </div>
         <button class="bouton_supprimer_cellier" name="entrerBouteillePersonnalisee">Entrer une bouteille personnalisée</button>
         
-        <ul class="listeAutoComplete"></ul>
-        
-        <div>
-            <div class="form_champ_ajout">
-    <label for="nom">Nom*:</label>
-    <input id="nom" class="form_ajout_input nom_bouteille" data-id="" name="nom" value="{{ bouteille.nom }}" placeholder="Nom" aria-label="Nom">
-    <span class="error">
-        <span class="erreur_champ erreur_nom_bouteille">{{ erreurs.nom }}</span>
-    </span>
-</div>
+        <ul class="listeAutoComplete">
+
+        </ul>
+            <div >
+                <input class="form_connexion_input nom_bouteille" data-id="" name="nom" value="{{ bouteille.nom }}" placeholder="Nom" aria-label="Nom">
+<span class="error">
+    <span class="erreur_champ erreur_nom_bouteille">{{ erreurs.nom }}</span>
+</span>
 
 <div class="form_champ_ajout">
     <label for="quantite">Quantité:</label>
@@ -117,9 +115,10 @@
 
 <input id="cellier_id" type="hidden" value="{{ cellier_id }}">
 
-<button class="bouton_supprimer_cellier" name="ajouterBouteilleCellier">Ajouter la bouteille</button>
-
+<button  class="bouton_supprimer_cellier"  name="ajouterBouteilleCellier">Ajouter la bouteille</button>
+        </div>
     </div>
+</div>
 </div>
 </div>
 </div>

@@ -18,6 +18,7 @@ export default class Cellier {
     #elBtnModifierPersonnalisee;
     #elBtnModifierCellier;
     #elBtnAjouter;
+    #elConteneurDetails;
 
     /**
      * Constructeur de la classe Cellier
@@ -35,7 +36,8 @@ export default class Cellier {
         this.#elNouvelleBouteille = document.querySelector(".nouvelleBouteille");
         this.#elBtnAjouter = document.querySelector("[name='ajouterBouteilleCellier']");
         this.#elBtnEntrerBouteillePersonnalisee = document.querySelector("[name='entrerBouteillePersonnalisee']");
-        
+        this.#elConteneurDetails = document.querySelector(".conteneur_details");
+
         // Sur la page de Modification de bouteille de la SAQ
         this.#modificationBouteille = document.querySelector(".modificationBouteille");
         this.#elBtnModifier = document.querySelector("[name='modifierBouteilleCellier']");
@@ -188,6 +190,7 @@ export default class Cellier {
         this.#bouteille.nom.dataset.id = "";
         const erreur_nom = document.querySelector(".erreur_nom_bouteille");
         erreur_nom.innerHTML = "";
+        this.montrerDetailsAjoutBouteille();
     }
 
     /**
@@ -477,9 +480,23 @@ export default class Cellier {
         this.#bouteille.particularite.value = details.particularite;
         this.#bouteille.degreAlcool.value = details.degreAlcool;
         this.#bouteille.origine.value = details.origine;
+        this.#bouteille.producteur.value = details.producteur;
         this.#bouteille.prix.value = details.prix_saq;
         this.#bouteille.region.value = details.region;
-        this.#bouteille.sucre.value = details.sucre;
+        this.#bouteille.sucre.value = details.tauxSucre;
+
+        this.montrerDetailsAjoutBouteille();
+    }
+
+    /**
+     * Affiche le bloc de détails dans la page d'ajout de bouteille.
+     */
+    montrerDetailsAjoutBouteille() {
+
+        if (this.#elConteneurDetails.classList.contains("conteneur_details_cache")) {
+            this.#elConteneurDetails.classList.remove("conteneur_details_cache");
+            this.#elConteneurDetails.classList.add("conteneur_details_affiche");
+        }
     }
 
     /**
