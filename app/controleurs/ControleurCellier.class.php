@@ -541,9 +541,11 @@ class ControleurCellier extends Routeur {
       }
 
       $cellier = $this->oRequetesSQL->obtenirNomCellier($this->cellier_id);
+      $lien = "cellier?action=l&cellier_id=".$this->cellier_id;
 
       new Vue("/Cellier/vModificationCellier",
         array(
+          'lien'        => $lien,
           'titre'       => "Modification du cellier",
           'cellier'     => $cellier
       ),
