@@ -543,6 +543,20 @@ class RequetesSQL extends RequetesPDO {
     return $this->CUDLigne($champs);
   } 
 
+ /*  /**
+   * Récupération du nombre de cellier
+   * @param int $id_membre
+   * @return array|false tableau associatif de la ligne produite par la select, false si aucune ligne
+   */
+  /* public function nombreCellierParMembre($id_membre)
+  {
+    
+    $this->sql =
+      '
+      SELECT *, COUNT(id_cellier) as NbreCelliers
+      FROM celliers
+      WHERE idmembre = :id_membre';
+    return $this->obtenirLignes(['idmembre' => $id_membre], RequetesPDO::UNE_SEULE_LIGNE);
 
-
+}  */
 }
