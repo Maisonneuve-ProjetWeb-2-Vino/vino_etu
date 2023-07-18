@@ -2,70 +2,123 @@
     <div class="conteneur_celliers">
 
 <div class="ajouter">
-
     <div class="nouvelleBouteille" vertical layout>
-        <select class="form_connexion_input" id="cellier_id" name="cellier" aria-label="Nom de cellier">
-        {% for cellier in celliers %}
-            <option value="{{ cellier.id }}" {% if cellier.id == cellier_preferentiel %} selected {% endif %}>{{ cellier.nom }}</option>
-        {% endfor %}
+    <div class="form_champ_ajout">
+    <label for="cellier_id">Nom du cellier:</label>
+        <select class="form_ajout_input" id="cellier_id" name="cellier" aria-label="Nom de cellier">
+            {% for cellier in celliers %}
+                <option value="{{ cellier.id }}" {% if cellier.id == cellier_preferentiel %} selected {% endif %}>{{ cellier.nom }}</option>
+            {% endfor %}
         </select>
-        <input class="form_connexion_input" type="text" name="nom_bouteille" placeholder="Recherche" aria-label="Recherche">
-        <button  class="bouton_supprimer_cellier" name="entrerBouteillePersonnalisee">Entrer une bouteille personnalisée</button>
+    </div>
         
-        <ul class="listeAutoComplete">
+        <div class="form_champ_ajout">
+        <label for="recherche">Recherche:</label>
+        <input class="form_ajout_input" id="recherche" type="text" name="nom_bouteille" placeholder="Recherche" aria-label="Recherche">
+        </div>
+        <button class="bouton_supprimer_cellier" name="entrerBouteillePersonnalisee">Entrer une bouteille personnalisée</button>
+        
+        <ul class="listeAutoComplete"></ul>
+        
+        <div>
+            <div class="form_champ_ajout">
+    <label for="nom">Nom*:</label>
+    <input id="nom" class="form_ajout_input nom_bouteille" data-id="" name="nom" value="{{ bouteille.nom }}" placeholder="Nom" aria-label="Nom">
+    <span class="error">
+        <span class="erreur_champ erreur_nom_bouteille">{{ erreurs.nom }}</span>
+    </span>
+</div>
 
-        </ul>
-            <div >
-                <input class="form_connexion_input nom_bouteille" data-id="" name="nom" value="{{ bouteille.nom }}" placeholder="Nom" aria-label="Nom">
-<span class="error">
-    <span class="erreur_champ erreur_nom_bouteille">{{ erreurs.nom }}</span>
-</span>
+<div class="form_champ_ajout">
+    <label for="quantite">Quantité:</label>
+    <input id="quantite" class="form_ajout_input" name="quantite" value="1" placeholder="Quantité" aria-label="Quantité">
+    <span class="error">
+        <span class="erreur_champ erreur_quantite">{{ erreurs.quantite }}</span>
+    </span>
+</div>
 
-<input class="form_connexion_input" name="quantite" value="1" placeholder="Quantité" aria-label="Quantité">
-<span class="error">
-    <span class="erreur_champ erreur_quantite">{{ erreurs.quantite }}</span>
-</span>
+<div class="form_champ_ajout">
+    <label for="pays_id">Pays:</label>
+    <select id="pays_id" class="form_ajout_input" name="pays" aria-label="Pays">
+        {% for unPays in pays %}
+            <option value="{{ unPays.id }}">{{ unPays.pays }}</option>
+        {% endfor %}
+    </select>
+</div>
 
-<select class="form_connexion_input" id="pays_id" name="pays" aria-label="Pays">
-    {% for unPays in pays %}
-    <option value="{{ unPays.id }}">{{ unPays.pays }}</option>
-    {% endfor %}
-</select>
+<div class="form_champ_ajout">
+    <label for="type_id">Type:</label>
+    <select id="type_id" class="form_ajout_input" name="type" aria-label="Type">
+        {% for type in types %}
+            <option value="{{ type.type }}">{{ type.type }}</option>
+        {% endfor %}
+    </select>
+</div>
 
-<select class="form_connexion_input" id="type_id" name="type" aria-label="Type">
-    {% for type in types %}
-    <option value="{{ type.type }}">{{ type.type }}</option>
-    {% endfor %}
-</select>
+<div class="form_champ_ajout">
+    <label for="millesime">Millésime:</label>
+    <input id="millesime" class="form_ajout_input" name="millesime" value="{{ bouteille.millesime }}" placeholder="Millésime" aria-label="Millésime">
+</div>
 
-<input class="form_connexion_input" name="millesime" value="{{ bouteille.millesime }}" placeholder="Millésime" aria-label="Millésime">
+<div class="form_champ_ajout">
+    <label for="pastille">Pastille SAQ:</label>
+    <input id="pastille" class="form_ajout_input" name="pastille" value="{{ bouteille.pastille }}" placeholder="Pastille SAQ" aria-label="Pastille SAQ">
+</div>
 
-<input class="form_connexion_input" name="pastille" value="{{ bouteille.pastille }}" disabled placeholder="Pastille SAQ" aria-label="Pastille SAQ">
+<div class="form_champ_ajout">
+    <label for="appellation">Appellation:</label>
+    <input id="appellation" class="form_ajout_input" name="appellation" value="{{ bouteille.appellation }}" placeholder="Appellation" aria-label="Appellation">
+</div>
 
-<input class="form_connexion_input" name="appellation" value="{{ bouteille.appellation }}" placeholder="Appellation" aria-label="Appellation">
+<div class="form_champ_ajout">
+    <label for="format">Format:</label>
+    <input id="format" class="form_ajout_input" name="format" value="{{ bouteille.format }}" placeholder="Format" aria-label="Format">
+</div>
 
-<input class="form_connexion_input" name="format" value="{{ bouteille.format }}" placeholder="Format" aria-label="Format">
+<div class="form_champ_ajout">
+    <label for="cepage">Cépage(s):</label>
+    <input id="cepage" class="form_ajout_input" name="cepage" value="{{ bouteille.cepage }}" placeholder="Cépage(s)" aria-label="Cépage(s)">
+</div>
 
-<input class="form_connexion_input" name="cepage" value="{{ bouteille.cepage }}" placeholder="Cépage(s)" aria-label="Cépage(s)">
+<div class="form_champ_ajout">
+    <label for="particularite">Particularité:</label>
+    <input id="particularite" class="form_ajout_input" name="particularite" value="{{ bouteille.particularite }}" placeholder="Particularité" aria-label="Particularité">
+</div>
 
-<input class="form_connexion_input" name="particularite" value="{{ bouteille.particularite }}" placeholder="Particularité" aria-label="Particularité">
+<div class="form_champ_ajout">
+    <label for="degreAlcool">Degré d'alcool:</label>
+    <input id="degreAlcool" class="form_ajout_input" name="degreAlcool" value="{{ bouteille.degreAlcool }}" placeholder="Degré d'alcool" aria-label="Degré d'alcool">
+</div>
 
-<input class="form_connexion_input" name="degreAlcool" value="{{ bouteille.degreAlcool }}" placeholder="Degré d'alcool" aria-label="Degré d'alcool">
+<div class="form_champ_ajout">
+    <label for="origine">Origine:</label>
+    <input id="origine" class="form_ajout_input" name="origine" value="{{ bouteille.origine }}" placeholder="Origine" aria-label="Origine">
+</div>
 
-<input class="form_connexion_input" name="origine" value="{{ bouteille.origine }}" placeholder="Origine" aria-label="Origine">
+<div class="form_champ_ajout">
+    <label for="producteur">Producteur:</label>
+    <input id="producteur" class="form_ajout_input" name="producteur" value="{{ bouteille.producteur }}" placeholder="Producteur" aria-label="Producteur">
+</div>
 
-<input class="form_connexion_input" name="producteur" value="{{ bouteille.producteur }}" placeholder="Producteur" aria-label="Producteur">
+<div class="form_champ_ajout">
+    <label for="prix">Prix:</label>
+    <input id="prix" class="form_ajout_input" name="prix" value="{{ bouteille.prix_saq }}" placeholder="Prix" aria-label="Prix">
+</div>
 
-<input class="form_connexion_input" name="prix" value="{{ bouteille.prix_saq }}" placeholder="Prix" aria-label="Prix">
+<div class="form_champ_ajout">
+    <label for="region">Région:</label>
+    <input id="region" class="form_ajout_input" name="region" value="{{ bouteille.region }}" placeholder="Région" aria-label="Région">
+</div>
 
-<input class="form_connexion_input" name="region" value="{{ bouteille.region }}" placeholder="Région" aria-label="Région">
-
-<input class="form_connexion_input" name="sucre" value="{{ bouteille.sucre }}" placeholder="Taux de sucre" aria-label="Taux de sucre">
+<div class="form_champ_ajout">
+    <label for="sucre">Taux de sucre:</label>
+    <input id="sucre" class="form_ajout_input" name="sucre" value="{{ bouteille.sucre }}" placeholder="Taux de sucre" aria-label="Taux de sucre">
+</div>
 
 <input id="cellier_id" type="hidden" value="{{ cellier_id }}">
 
-<button  class="bouton_supprimer_cellier"  name="ajouterBouteilleCellier">Ajouter la bouteille</button>
-        </div>
+<button class="bouton_supprimer_cellier" name="ajouterBouteilleCellier">Ajouter la bouteille</button>
+
     </div>
 </div>
 </div>

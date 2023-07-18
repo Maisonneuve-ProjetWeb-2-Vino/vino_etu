@@ -5,39 +5,36 @@
 * {
     box-sizing: border-box;
     margin: 0;
-    padding: 0;    
+    padding: 0;
 }
 
-input, button{
+input,
+button {
     border-style: none;
 }
 
-a{
+a {
     text-decoration: none;
 }
 
-html{
+html {
     /* height: 100%;     */
     scroll-behavior: smooth;
 }
 
-body{
+body {
     height: 100%;
     width: 100%;
     font-family: var(--police-principale);
     color: var(--blanc);
 }
 
-main{
-    background-color: var(--fonce);    
-    min-height: 100vh;     
+main {
+    background-color: var(--fonce);
+    min-height: 100vh;
 }
 
-::placeholder {
-    color:white;
-}
-
-.content_wrapper{
+.content_wrapper {
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -48,22 +45,22 @@ main{
 /*                     RACINE                     */
 /**************************************************/
 
-:root{
-    --vin: #772743; 
-    --vin-hover: #8d3051; 
-    --rose: #f5558d; 
+:root {
+    --vin: #772743;
+    --vin-hover: #8d3051;
+    --rose: #f5558d;
     --blanc: white;
     --erreur-formulaire: #ff8585;
-    --fonce: #252525;   
+    --fonce: #252525;
     --brun_pale: #4D4545;
-    --brun:#3B3333;
+    --brun: #3B3333;
     --vert-pale: #98DD8D;
     --beige: #F4D9BC;
     --gris-pale: #919191;
     --gris-fonce: #272222;
-    --gris-medium: #252525;     
+    --gris-medium: #252525;
     --police-principale: 'Roboto', sans-serif;
-    --police-secondaire:  'Space Mono', monospace;
+    --police-secondaire: 'Space Mono', monospace;
 }
 
 /**************************************************/
