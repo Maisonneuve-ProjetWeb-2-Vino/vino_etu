@@ -16,8 +16,9 @@
 .vin_image_wrapper{
     display: flex;
     flex-direction: column;
-    width: 150px;
-    align-items: center
+    width: 80px;
+    align-items: center;
+    flex-shrink: 0;
 }
 
 .vin_image img{
@@ -28,6 +29,8 @@
 .vin_rating{    
     width: 100%;   
     margin: 10px 0; 
+    display: flex;
+    justify-content: space-between;
 }
 
 .vin_rating img{
@@ -161,7 +164,8 @@ label[for="accordion"] {
 .pastille_texte{
     font-size: 14px;    
     margin: 7px; 
-    font-weight: 500;         
+    font-weight: 500;   
+    text-align: center;      
 }
 
 .pastille_texte_fonce{

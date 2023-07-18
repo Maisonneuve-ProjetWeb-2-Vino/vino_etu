@@ -52,8 +52,7 @@ main {
 
 :root {
     --vin: #772743;
-    --vin-hover: #8d3051;
-    --rose: #f5558d;
+    --vin-hover: #8d3051;    
     --blanc: white;
     --erreur-formulaire: #ff8585;
     --fonce: #252525;
@@ -84,10 +83,10 @@ main {
 
     --vin-rouge: #8F4848;
     --vin-rouge-fonce: #653232;
-    --vin-rose: #91567D;
-    --vin-rose-fonce: #693e5a;
-    --vin-blanc: #86847C;
-    --vin-blanc-fonce: #6a6963;
+    --vin-rose: #9f606b;
+    --vin-rose-fonce: #6d3f48;
+    --vin-blanc: #666663;
+    --vin-blanc-fonce: #4d4d4a;
 }
 
 /**************************************************/
@@ -95,5 +94,5 @@ main {
 /**************************************************/
 
 .invisible {
-    visibility: hidden;
+    display: none;
 }

@@ -112,7 +112,8 @@ class Membres
     $this->nom = $nom;
     unset($this->erreurs['nom']);
     $nom = trim($nom);
-    $regExp = '/^[a-zÀ-ÖØ-öø-ÿ]{2,}( [a-zÀ-ÖØ-öø-ÿ]{2,})*$/i';
+    
+    $regExp = '/^[a-zÀ-ÖØ-öø-ÿ-]{2,}( [a-zÀ-ÖØ-öø-ÿ-]{2,})*$/i';
     if (!preg_match($regExp, $nom)) {
       $this->erreurs['nom'] = "Au moins 2 caractères alphabétiques pour chaque nom.";
     }
@@ -130,7 +131,7 @@ class Membres
     $this->prenom = $prenom;
     unset($this->erreurs['prenom']);
     $prenom = trim($prenom);
-    $regExp = '/^[a-zÀ-ÖØ-öø-ÿ]{2,}( [a-zÀ-ÖØ-öø-ÿ]{2,})*$/i';
+    $regExp = '/^[a-zÀ-ÖØ-öø-ÿ-]{2,}( [a-zÀ-ÖØ-öø-ÿ-]{2,})*$/i';
     if (!preg_match($regExp, $prenom)) {
       $this->erreurs['prenom'] = "Au moins 2 caractères alphabétiques pour chaque prénom.";
     }
