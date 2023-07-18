@@ -40,8 +40,8 @@
     background-color: var(--vin);
     text-align: center;
     border-style: none;
-    width:100%;
-    margin-top:10px;
+    width: 100%;
+    margin-top: 10px;
 }
 
 .bouton_ajout_cellier_top>a,
@@ -62,26 +62,26 @@
 }
 
 .chevron_cellier>a>svg {
-    height: 80px;
-    width: 80px;
+    height: 40px;
+    width: 40px;
     fill: var(--blanc);
 }
 
 .cercle_cellier>div {
     height: 80px;
     width: 80px;
-    background-color:var(--blanc);
+    background-color: var(--blanc);
     border-radius: 200px;
 }
 
 .cellier_gros_texte {
     font-size: 16pt;
-    color:  var(--blanc);
+    color: var(--blanc);
 }
 
 .cellier_petit_texte {
     font-size: 12pt;
-    color:var(--blanc);
+    color: var(--blanc);
 }
 
 .cellier_vide {
@@ -91,7 +91,7 @@
     text-align: center;
     border-radius: 100%;
     width: 80px;
-    color:var(--blanc);
+    color: var(--blanc);
     aspect-ratio: 1;
     background-color: #3B3333;
 }
