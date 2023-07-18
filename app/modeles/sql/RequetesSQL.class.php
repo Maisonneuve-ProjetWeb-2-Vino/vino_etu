@@ -27,7 +27,7 @@ class RequetesSQL extends RequetesPDO {
         p.pays
       FROM bouteilles_cellier c 
       INNER JOIN bouteilles_catalogue b ON c.idbouteillecatalogue = b.id_bouteille
-      INNER JOIN pays p ON b.idpays = p.id_pays
+      LEFT OUTER JOIN pays p ON b.idpays = p.id_pays
       WHERE c.idcellier = :id_cellier
       ";
       
@@ -264,7 +264,7 @@ class RequetesSQL extends RequetesPDO {
         p.pays
       FROM bouteilles_cellier c 
       INNER JOIN bouteilles_catalogue b ON c.idbouteillecatalogue = b.id_bouteille
-      INNER JOIN pays p ON b.idpays = p.id_pays
+      LEFT OUTER JOIN pays p ON b.idpays = p.id_pays
       WHERE c.id_bouteille_cellier = :id_bouteille_cellier
       ";
 
@@ -391,6 +391,7 @@ class RequetesSQL extends RequetesPDO {
    * @return string|boolean clé primaire de la ligne ajoutée, false sinon
    */
   public function ajouterBouteilleCatalogue($champs) {
+    $champs['pays'] = empty($champs['pays']) ? null : $champs['pays'];
 
     $this->sql = "
       INSERT INTO bouteilles_catalogue SET nom = :nom, prix_saq = :prix_saq, annee = :annee,

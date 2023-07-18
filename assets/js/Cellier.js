@@ -416,6 +416,7 @@ export default class Cellier {
         // On enlève les erreur par défaut
         document.querySelector(".erreur_quantite").innerHTML = "";
         document.querySelector(".erreur_prix").innerHTML = "";
+        document.querySelector(".erreur_type").innerHTML = "";
 
         // Validation de la quantité
         if (this.#bouteille.quantite) {
@@ -437,6 +438,13 @@ export default class Cellier {
             }
         }
 
+        //Validation du type
+        if (this.#bouteille.type) {
+            if (!this.#bouteille.type.value) {
+                document.querySelector(".erreur_type").innerHTML = "Veuillez choisir un type de vin.";
+                validation = false;
+            }
+        }
         return validation;
     }
 
@@ -520,8 +528,8 @@ export default class Cellier {
      */
     viderChampsAjout() {
         this.#bouteille.nom.value = "";
-        this.#bouteille.pays.value = 1;
-        this.#bouteille.type.value = "Blanc";
+        this.#bouteille.pays.value = "";
+        this.#bouteille.type.value = "";
         this.#bouteille.millesime.value = "";
         this.#bouteille.appellation.value = "";
         this.#bouteille.format.value = "";
