@@ -10,7 +10,8 @@
 		
 		<link rel="stylesheet" href="./assets/styles/root.css" type="text/css">       
         <link rel="stylesheet" href="./assets/styles/btn.css" type="text/css"> 
-        <link rel="stylesheet" href="./assets/styles/inputs_forms.css" type="text/css">        
+        <link rel="stylesheet" href="./assets/styles/inputs_forms.css" type="text/css">      
+		  <link rel="stylesheet" href="./assets/styles/header.css" type="text/css">      
 		<link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -20,13 +21,13 @@
 	<body >       
 
 		<main>
-            <section class="content_wrapper">
-                <div class="auth_form_wrapper">	
-                    <h1>{{ titre }}</h1>
-
+     
+					<div class="container_header container_header_connexion_inscription"
+                    <div class="titre_header_connexion_inscription"><p>{{ titre }}</p></div>
+					</div>
                     {{ include(templateMain) }}
-                </div>                  
-            </section>     
+               
+            
 		</main>
 		
 	</body>

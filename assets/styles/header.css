@@ -8,7 +8,12 @@
     align-items: center;
     padding: 20px;
     text-align: center;
-    background-color:var(--fonce);
+    background-color: var(--fonce);
+    justify-content: center;
+}
+
+.container_header_connexion_inscription {
+    margin-top: auto;
 }
 
 .titre_header {

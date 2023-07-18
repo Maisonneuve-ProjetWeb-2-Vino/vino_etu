@@ -14,16 +14,6 @@ body {
 	flex-direction: column;
 }
 
-main {
-	display: flex;
-}
-
-.contenu {
-
-	min-height: 100vh;
-	width: 100%;
-}
-
 .liste {
 	display: block;
 	border-top: 1px solid #ccc;
