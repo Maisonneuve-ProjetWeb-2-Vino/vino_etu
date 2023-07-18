@@ -13,7 +13,7 @@
     <section class="bouteille carte_bouteille {% if bouteille.type == "Rouge" %} bouteille_rouge {% elseif bouteille.type ==  "Rosé"%} bouteille_rose {% elseif bouteille.type == "Blanc"%} bouteille_blanche {% endif %}" data-quantite="">
     <div class="carte_bouteille_top">
         <div class="image_bouteille">
-            <img class="img_bouteille" {% if bouteille.image_url %} src="{{ bouteille.image_url }}" {% else %} src="assets/img/bouteille_generique.png" {% endif %}>
+            <img class="img_bouteille" {% if bouteille.image_url %} src="{{ bouteille.image_url }}" {% else %} src="assets/img/default-bottle-img.png" {% endif %}>
         </div>
         <div  class="texte_bouteille">
             <p class="bouteille_gros_texte">{{ bouteille.nom }}</p>
