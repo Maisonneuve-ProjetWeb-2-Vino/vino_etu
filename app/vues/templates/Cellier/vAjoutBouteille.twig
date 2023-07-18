@@ -56,6 +56,9 @@
             <option value="{{ type.type }}">{{ type.type }}</option>
         {% endfor %}
     </select>
+    <span class="error">
+        <span class="erreur_champ erreur_type">{{ erreurs.type }}</span>
+    </span>
 </div>
 
 <div class="form_champ_ajout">
