@@ -1,11 +1,11 @@
-.btn{
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;    
+.btn{  
+    margin-top:15px;
+    margin-bottom:15px;
 }
 
 .btn_connexion,
 .btn_inscription,
 .btn_ajouter_commentaire{
-    
     height: 40px;
     width: 100%;
     border-radius: 20px;
