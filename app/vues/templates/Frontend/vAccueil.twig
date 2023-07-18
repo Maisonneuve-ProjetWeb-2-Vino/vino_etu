@@ -1,4 +1,21 @@
+
+
+
 <div class="accueil">
-    <p><a href="connecter" style="color:white">Se connecter</a></p>
-    <p><a href="inscription" style="color:white">S'inscrire</a></p>
+{% if oUtilConn %}
+<p>
+	Bonjour {{ oUtilConn.prenom }}
+</p>
+{% else %}
+
+<p>
+	<a href="connecter" style="color:white">Se connecter</a>
+</p>
+<p>
+	<a href="inscription" style="color:white">S'inscrire</a>
+</p>
+
+{% endif %}
 </div>
+
+   
