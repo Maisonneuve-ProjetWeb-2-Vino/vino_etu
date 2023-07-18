@@ -95,3 +95,11 @@
     aspect-ratio: 1;
     background-color: #3B3333;
 }
+
+.conteneur_details_cache {
+    display: none;
+}
+
+.conteneur_details_affiche {
+    display: block;
+}
