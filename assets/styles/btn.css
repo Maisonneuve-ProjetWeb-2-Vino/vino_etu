@@ -1,7 +1,11 @@
+.btn{  
+    margin-top:15px;
+    margin-bottom:15px;
+}
+
 .btn_connexion,
 .btn_inscription,
 .btn_ajouter_commentaire{
-    
     height: 40px;
     width: 100%;
     border-radius: 20px;
