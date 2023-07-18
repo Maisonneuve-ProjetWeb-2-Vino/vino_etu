@@ -191,6 +191,7 @@ export default class Cellier {
         const erreur_nom = document.querySelector(".erreur_nom_bouteille");
         erreur_nom.innerHTML = "";
         this.montrerDetailsAjoutBouteille();
+        document.querySelector("#nom").focus();
     }
 
     /**
