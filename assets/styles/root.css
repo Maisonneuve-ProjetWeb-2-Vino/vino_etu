@@ -30,12 +30,12 @@ body {
 }
 
 
-main{
-    background-color: var(--fonce);    
-    min-height: 100vh;  
-    padding: 0 15px;    
+main {
+    background-color: var(--fonce);
+    min-height: 100vh;
+    padding: 0 15px;
     display: flex;
-    flex-direction: column;     
+    flex-direction: column;
 }
 
 .content_wrapper {
@@ -65,7 +65,7 @@ main{
     --gris-medium: #252525;
     --police-principale: 'Roboto', sans-serif;
     --police-secondaire: 'Space Mono', monospace;
-    --police-secondaire:  'Space Mono', monospace;
+    --police-secondaire: 'Space Mono', monospace;
 
     /* Couleurs de pastilles de gout */
 
@@ -74,7 +74,7 @@ main{
     --aromatique-souple: #C63439;
     --delicat-leger: #EDF0C1;
     --fruite-doux: #ADD2CB;
-    --fruite-extra-doux:#BFDCF5;
+    --fruite-extra-doux: #BFDCF5;
     --fuite-genereux: #DE951A;
     --fruite-leger: #E8C4DC;
     --fruite-vif: #FCE329;
