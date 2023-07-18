@@ -421,6 +421,8 @@ class ControleurCellier extends Routeur {
 
     $oCellier = [];
     $erreursCellier = [];
+    $lien = "cellier";
+
 
     if (count($_POST) !== 0) {
 
@@ -450,6 +452,7 @@ class ControleurCellier extends Routeur {
 
     new Vue("/Cellier/vAjoutCellier",
       array(
+        'lien'      =>$lien,
         'titre'     => "Ajouter un cellier",
         'cellier'   => $oCellier,
         'erreurs'    => $erreursCellier
