@@ -1,0 +1,223 @@
+
+.card_wrapper{
+
+    height: max-content;
+    width: 100%;
+    border-radius: 25px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.vin_contenu_wrapper{
+    display: flex;
+}
+
+.vin_image_wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    align-items: center
+}
+
+.vin_image img{
+    width: 100%;
+    object-fit: contain;
+}
+
+.vin_rating{    
+    width: 100%;   
+    margin: 10px 0; 
+}
+
+.vin_rating img{
+    width: 16%;     
+    object-fit: cover;
+}    
+
+.vin_nom{
+    color: var(--blanc);
+    font-size: 18px;
+}
+
+.vin_info{
+    margin-left: 15px;
+}
+
+.vin_info_breve{
+   display: flex; 
+   margin-left: -4px;
+   margin: 20px 0 20px;
+}
+
+.vin_pays,
+.vin_type,
+.vin_format{
+    color: var(--blanc);
+    font-size: 16px;
+    padding: 1px 5px;
+}
+
+.vin_info_breve :not(:last-child) {
+    border-right: 1px solid var(--blanc);
+}
+
+label[for="accordion"] {
+    color: var(--blanc);
+    font-size: 16px;   
+    margin: 0  0  20px;   
+    cursor: pointer;    
+    display: flex; 
+    align-items: center;
+}   
+
+.vin_info_detaillee_contenu li{
+    color: var(--blanc);
+    font-size: 14px;   
+    list-style: none;
+    line-height: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.vin_info_detaillee_contenu li span{
+    color: var(--blanc);
+    font-size: 14px;
+}
+
+#accordion{
+    display: none;
+}
+
+.caret_up{
+    transform: rotate(0deg);
+    transition: transform 0.3s ease-in-out;
+    height: 1.5em;
+    cursor: pointer;
+    margin-right: 7px;
+}
+
+#accordion:checked + label > .caret_up {
+    transform: rotate(180deg);
+}
+
+.vin_info_detaillee_contenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+}
+
+#accordion:checked ~ .vin_info_detaillee_contenu {
+    max-height: 1500px; 
+}
+
+.commentaires_titre{
+    font-family: var(--police-secondaire);
+    font-size: 18px;
+    color: var(--blanc);
+    font-weight: 400;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.commentaires_contenu{
+    background-color: var(--gris-medium);
+    padding: 15px;
+    border-radius: 25px;
+    margin-bottom: 20px;
+}
+
+.date{
+    margin-bottom: 5px;
+}
+
+.date span{
+    font-size: 12px;
+    color: var(--blanc);   
+}
+
+.commentaire_wrapper{
+    margin-bottom: 15px;
+} 
+
+.commentaire_wrapper span{
+    font-size: 14px;
+    color: var(--blanc);
+}
+
+.card_footer{
+  display: flex;
+}
+
+.pastille{
+    width: 90px;
+    height: 90px;   
+    border-radius: 45px;
+    margin-top: 20px;
+    display: flex; 
+    align-items: center;
+    justify-content: center;     
+}
+
+.pastille_texte{
+    font-size: 14px;    
+    margin: 7px; 
+    font-weight: 500;         
+}
+
+.pastille_texte_fonce{
+    color: var(--fonce);
+}
+
+
+
+/* Classes de couleurs de pastille */
+
+.charnu{
+    background-color: var(--aromatique-charnu);
+}
+
+.rond{
+    background-color: var(--aromatique-rond);
+}
+
+.souple{
+    background-color: var(--aromatique-souple);
+}
+
+.delicat{
+    background-color: var(--delicat-leger);  
+}
+
+.doux{
+    background-color: var(--fruite-doux); 
+}
+
+.extra_doux{
+    background-color: var(--fruite-extra-doux); 
+}
+
+.genereux{
+    background-color: var(--fuite-genereux); 
+}
+
+.leger{
+    background-color: var(--fruite-leger); 
+}
+
+.vif{
+    background-color: var(--fruite-vif); 
+}
+
+/* Classes de types de vin */
+
+.vin_type_rouge{
+    background: linear-gradient(var(--vin-rouge), var(--vin-rouge-fonce));
+}
+
+.vin_type_rose{
+    background: linear-gradient(var(--vin-rose), var(--vin-rose-fonce));
+}
+
+.vin_type_blanc{
+    background: linear-gradient(var(--vin-blanc), var(--vin-blanc-fonce));
+}
