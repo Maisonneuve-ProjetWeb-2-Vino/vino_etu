@@ -185,4 +185,56 @@ public function connexion() {
         }
     }
 
+
+    /**
+     * Modifier les coordonnees du membre
+     */
+    public function modifierMembre()
+  {
+    if (count($_POST) !== 0) {
+       
+      $membre =  [
+                'nom'  => $_POST['nom'],
+                'prenom'    => $_POST['prenom'],
+                'courriel'  => $_POST['courriel'],
+                'id_membre'  => $_POST['id_membre']
+            ];
+      $oMembre = new Membres($membre);
+      $erreurs = $oMembre->erreurs;
+      if (count($erreurs) === 0) {
+                  
+        if ($this->oRequetesSQL->modifiermembre([
+                    'nom'    => $oMembre->nom,
+                    'prenom' => $oMembre->prenom,
+                    'courriel' => $oMembre->courriel,
+                    'id_membre' => $oMembre->id_membre
+        ]))
+
+                    var_dump($oMembre);     
+                header(
+                    "Location: profil"
+                ); // retour sur la page du profil
+                exit;
+      }
+    } else {
+    // chargement initial du formulaire  
+    // initialisation des champs dans la vue formulaire avec les données SQL de cet utilisateur  
+         $membre  = $this->oRequetesSQL->infoMembre($this->oUtilConn->id_membre);
+            
+      $erreurs = [];
+    }
+           
+    new Vue(
+      'Frontend/vModifierMembre',
+      array(
+        'oUtilConn' => $this->oUtilConn,
+        'titre'     => "Modifier un membre",
+        'membre'    => $membre,
+        'erreurs'   => $erreurs
+      ),
+      'Frontend/gabarit-frontend'
+    );
+  }
+
+
 }
