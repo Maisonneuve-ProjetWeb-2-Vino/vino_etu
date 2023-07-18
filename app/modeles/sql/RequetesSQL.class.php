@@ -458,8 +458,7 @@ class RequetesSQL extends RequetesPDO {
    * @return array|false ligne de la table, false sinon 
    */
   public function connecter($champs) {
-    
-    //var_dump($champs);
+   
     $this->sql = "
       SELECT id_membre, nom, prenom, courriel, idprofil, date_creation, mdp
       FROM membres
