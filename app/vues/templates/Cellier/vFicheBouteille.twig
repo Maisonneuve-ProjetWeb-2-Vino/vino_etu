@@ -1,36 +1,171 @@
 <div class="cellier">
 
-    <h1>Fiche détaillée</h1>
+    <!-- Attribution de la couleur du conteneur de vin en fonction du type de vin -->
 
-    <div>
-        <div >
-            <img class="img_bouteille" src="{{ bouteille.image_url }}">
-        </div>
-        <div class="description">
-            <p class="nom">Nom : {{ bouteille.nom }}</p>
-            <p class="quantite">Quantité :<span>{{ bouteille.quantite }}</span></p>
-            <p class="pays">Pays : {{ bouteille.pays }}</p>
-            <p class="type">Type : {{ bouteille.type }}</p>
-            <p class="format">Format : {{ bouteille.format }}</p>
-        </div>
-        <details>
-            <p>Appellation : {{ bouteille.appellation }}</p>
-            <p>Cépage(s) : {{ bouteille.cepage }}</p>
-            <p>Particularité : {{ bouteille.particularite }}</p>
-            <p>Degré d'alcool : {{ bouteille.degreAlcool }}</p>
-            <p>Producteur : {{ bouteille.producteur }}</p>
-            <p>Prix : {{ bouteille.prix_saq }}</p>
-            <p>Région : {{ bouteille.region }}</p>
-            <p>Taux de sucre : {{ bouteille.sucre }}</p>
-            <br>
-            <p>{{ bouteille.pastille }}</p>
-        </details>
+    {% set vin_type = '' %}
+    {% if bouteille.type == 'Rouge' %}
+        {% set vin_type = 'vin_type_rouge' %}
+    {% elseif bouteille.type == 'Rosé' %}
+        {% set vin_type = 'vin_type_rose' %}
+    {% elseif bouteille.type == 'Blanc' %}
+        {% set vin_type = 'vin_type_blanc' %}
+    {% endif %}
+
+    <!-- Attribution de la couleur de pastille et de son texte en fonction de la pastille de goût de vin -->
+
+    {% set pastille_couleur = '' %}
+    {% set pastille_texte_couleur = '' %}
+    {% if bouteille.pastille == 'Aromatique et charnu' %}
+        {% set pastille_couleur = 'charnu' %}
+    {% elseif bouteille.pastille == 'Aromatique et rond' %}
+        {% set pastille_couleur = 'rond' %}
+        {% set pastille_texte_couleur = 'pastille_texte_fonce' %}
+    {% elseif bouteille.pastille == 'Aromatique et souple' %}
+        {% set pastille_couleur = 'souple' %}
+    {% elseif bouteille.pastille == 'Délicat et léger' %}
+        {% set pastille_couleur = 'delicat' %}
+        {% set pastille_texte_couleur = 'pastille_texte_fonce' %}
+    {% elseif bouteille.pastille == 'Fruité et doux' %}
+        {% set pastille_couleur = 'doux' %}
+        {% set pastille_texte_couleur = 'pastille_texte_fonce' %}
+    {% elseif bouteille.pastille == 'Fruité et extra-doux' %}
+        {% set pastille_couleur = 'extra_doux' %}
+        {% set pastille_texte_couleur = 'pastille_texte_fonce' %}
+    {% elseif bouteille.pastille == 'Fruité et généreux' %}
+        {% set pastille_couleur = 'genereux' %}
+        {% set pastille_texte_couleur = 'pastille_texte_fonce' %}
+    {% elseif bouteille.pastille == 'Fruité et léger' %}
+        {% set pastille_couleur = 'leger' %}
+        {% set pastille_texte_couleur = 'pastille_texte_fonce' %}
+    {% elseif bouteille.pastille == 'Fruité et vif' %}
+        {% set pastille_couleur = 'vif' %}
+        {% set pastille_texte_couleur = 'pastille_texte_fonce' %}
+    {% endif %}
+
+    <!-- Fiche détaillée du vin -->
+    <div class="card_wrapper {{vin_type}}">
+
+        <!-- Informations du vin -->
+        <div class="vin_contenu_wrapper">
+
+            <!-- L'image et l'evaluation du vin -->
+            <div class="vin_image_wrapper">
+                <div class="vin_image">                    
+                    <img src="{{ bouteille.image_url|default('assets/img/default-bottle-img.png')}}" alt="image d'une bouteille du vin">
+                </div>
+                <div class="vin_rating">
+                    <img src="assets/img/icon-star-full.png" alt="Première étoile, pleine">
+                    <img src="assets/img/icon-star-full.png" alt="Deuxième étoile, pleine">
+                    <img src="assets/img/icon-star-full.png" alt="Troisième étoile,  pleine">                    
+                    <img src="assets/img/icon-star-half-empty.png" alt="Quatrième étoile, à moitié pleine">     
+                    <img src="assets/img/icon-star-empty.png" alt="Cinquième étoile, vide">                 
+
+                </div>
+            </div>                    
+            
+            <!-- Section d'informations détaillées du vin -->
+            <div class="vin_info">   
+
+                <!-- Le nom et l'information breve du vin -->
+                <div class="vin_info_header">
+                    <div class="vin_nom">{{ bouteille.nom }}</div>
+                    <div class="vin_info_breve">
+                        <div class="vin_pays">{{ bouteille.pays }}</div>
+                        <div class="vin_type">{{ bouteille.type }}</div>
+                        <div class="vin_format">{{ bouteille.format }}</div>
+                    </div>  
+                </div>   
+                
+                <!-- Plus de details sur le vin -->
+                <div class="vin_info_detaillee">
+                    <input type="checkbox" id="accordion">                       
+                       
+                    <label for="accordion">
+                        <svg class="caret_up" aria-hidden="false" aria-label="Basculer les informations détaillées" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
+                            
+                        Informations détaillées
+                    </label>
+                          
+                    <div class="vin_info_detaillee_contenu">
+                        <li>Appellation :
+                            <span>{{ bouteille.appellation }}</span>
+                         </li>
+                        <li>Cépage(s) :
+                           <span>{{ bouteille.cepage }}</span>
+                        </li>
+                        <li>Particularité :
+                            <span>{{ bouteille.particularite }}</span>
+                         </li>
+                        <li>Degrée d’alcohol :
+                            <span>{{ bouteille.degreAlcool }}</span>
+                        </li>
+                        <li>Producteur :
+                            <span>{{ bouteille.producteur }}</span>
+                        </li>
+                        <li>Prix :
+                            <span> $ {{ bouteille.prix_saq }}</span>
+                        </li>
+                        <li>Region :
+                            <span>{{ bouteille.region }}</span>
+                        </li>
+                        <li>Sucre :
+                            <span>{{ bouteille.tauxSucre }}</span>
+                        </li>
+                        <li>Quantité :
+                            <span>{{ bouteille.quantite }}</span>
+                        </li>
+                    </div>
+                </div>
+                
+            </div>
+        </div>    
+
+        <!-- La pastille et les contrôles -->
+        <div class="card_footer">
+
+            {% if bouteille.pastille is not empty %}
+                <div class="pastille {{pastille_couleur}}">
+                    <p class="pastille_texte {{pastille_texte_couleur}}">{{ bouteille.pastille }}</p>
+                </div>
+            {% endif %}
+
+
+            <div class="controls">
+                {# <button class="btnModifier" data-id="{{ bouteille.id_bouteille_cellier }}">Modifier la bouteille</button>
+    
+                <button class="confirmer" data-href="cellier?action=t&bouteille_id={{ bouteille.id_bouteille_cellier }}">Supprimer la bouteille</button> #}
+            </div>
+        </div>         
 
     </div>
 
-    <button class="btnModifier" data-id="{{ bouteille.id_bouteille_cellier }}">Modifier la bouteille</button>
-    <br>
-    <button class="confirmer" data-href="cellier?action=t&bouteille_id={{ bouteille.id_bouteille_cellier }}">Supprimer la bouteille</button>
+    <!-- Commentaires -->
+    {# <h1 class="commentaires_titre">Commentaires</h1>
+
+     <div class="commentaires_contenu">
+
+         <div class="date">
+             <span>Date: </span>
+             <span>2023-07-07</span>
+         </div>
+         <div class="commentaire_wrapper">
+             <span>Commentaire: </span>
+             <span>Excellent vin, très doux, peu sucré</span>
+         </div>
+
+         <div class="date">
+             <span>Date: </span>
+             <span>2022-05-08</span>
+         </div>
+         <div class="commentaire_wrapper">
+             <span>Commentaire: </span>
+             <span>Très bon pour un vin abordable </span>
+         </div>
+
+     </div>
+
+     <button class="btn btn_ajouter_commentaire">Ajouter un commentaire</button> #}
+    
 </div>
 
 {{ include("/Cellier/modaleSuppression.twig") }}

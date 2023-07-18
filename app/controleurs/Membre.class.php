@@ -146,7 +146,7 @@ public function connexion() {
             new Vue(
                 'Frontend/vInscription',
                 array(
-                    'titre'    => 'Ajouter un Membre',
+                    'titre'  => 'Inscription membre',
                     'membre'   => $membre,
                     'erreurs'  => $erreurs
                 ),
