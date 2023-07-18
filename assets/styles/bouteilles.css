@@ -42,18 +42,21 @@
 }
 
 .icones_gauche {
-    padding: 10px;
+    padding: 5px;
     display: flex;
     flex: 1;
-    align-items: center;
+    align-items: center;    
 }
 
 .icones_gauche>svg {
-    padding: 5px;
+    
+    margin: 10px;
+    fill: var(--fonce);
+    opacity: 60%;
 }
 
 .icones_droite>svg {
-    padding: 5px;
+    padding: 5px;   
 }
 
 .icone_droite {
@@ -70,13 +73,13 @@
 }
 
 .bouteille_rouge {
-    background-color:#8F4848;
+    background-color: var(--vin-rouge);
 }
 
 .bouteille_blanche{
-    background-color: #86847C;
+    background-color: var(--vin-blanc);
 }
 
 .bouteille_rose{
-    background-color:#B5707D;
+    background-color: var(--vin-rose);
 }
