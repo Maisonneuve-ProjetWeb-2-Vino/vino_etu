@@ -52,7 +52,7 @@ public function connexion() {
         $_SESSION['oConnexion'] = new Membres($membre);
         
         // Rediriger l'utilisateur vers une page après la connexion réussie
-        header("Location: cellier"); // retour sur la page du profil
+        header("Location: accueil"); // retour sur la page du profil
                             exit;
     }
     else{
@@ -137,9 +137,20 @@ public function connexion() {
                             'idprofil' => $oMembre->idprofil
                         ]);
                         if ($id_membre > 0) {
-                            header("Location: accueil"); // retour sur la page du profil
+                            
+                           $membre = $this->oRequetesSQL->connecter([
+                            
+                            'courriel' => $oMembre->courriel,
+                            'mdp' => $oMembre->mdp
+                            
+                        ]);
+    if ($membre !== false) {
+        $_SESSION['oConnexion'] = new Membres($membre);
+        
+        // Rediriger l'utilisateur vers une page après la connexion réussie
+        header("Location: accueil"); // retour sur la page du profil
                             exit;
-                        }
+                        }}
                     }
                 
             
