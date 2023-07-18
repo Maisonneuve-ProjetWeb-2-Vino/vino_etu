@@ -161,12 +161,11 @@ public function connexion() {
      */
     public function profil()
     {
-        
         $membre = false;
         if (!is_null($this->oUtilConn->id_membre)) {
             $membre = $this->oRequetesSQL->infoMembre($this->oUtilConn->id_membre);
-           
-            if (!$membre) throw new Exception("Ce membre n'existe pas");
+            $nombreCellier = $this->oRequetesSQL->nombreCellierParMembre($this->oUtilConn->id_membre);
+            $nombreBouteille = $this->oRequetesSQL->nombreBouteilleParMembre($this->oUtilConn->id_membre);
             
             new Vue(
                 'Frontend/vProfil',
@@ -174,7 +173,9 @@ public function connexion() {
                     
                     'oUtilConn' => $this->oUtilConn,
                     'titre' => 'Fiche d\'un membre',
-                    'membre' => $membre
+                    'membre' => $membre,
+                    'nombreBouteille' => $nombreCellier,
+                    'nombreCellier' => $nombreBouteille
                 ),
                 'Frontend/gabarit-frontend'
             );
