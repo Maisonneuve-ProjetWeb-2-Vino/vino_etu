@@ -61,6 +61,11 @@
                     <img src="assets/img/icon-star-empty.png" alt="Cinquième étoile, vide">                 
 
                 </div>
+                {% if bouteille.pastille is not empty %}
+                <div class="pastille {{pastille_couleur}}">
+                    <p class="pastille_texte {{pastille_texte_couleur}}">{{ bouteille.pastille }}</p>
+                </div>
+            {% endif %}
             </div>                    
             
             <!-- Section d'informations détaillées du vin -->
@@ -123,11 +128,7 @@
         <!-- La pastille et les contrôles -->
         <div class="card_footer">
 
-            {% if bouteille.pastille is not empty %}
-                <div class="pastille {{pastille_couleur}}">
-                    <p class="pastille_texte {{pastille_texte_couleur}}">{{ bouteille.pastille }}</p>
-                </div>
-            {% endif %}
+            
 
 
             <div class="controls">
