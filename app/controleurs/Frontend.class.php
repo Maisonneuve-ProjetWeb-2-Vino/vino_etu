@@ -11,6 +11,8 @@ class Frontend extends Routeur {
    * 
    */
   public function __construct() {
+     $this->oUtilConn = $_SESSION['oConnexion'] ?? null;
+    
     $this->oRequetesSQL = new RequetesSQL;
   }
 
@@ -26,7 +28,9 @@ class Frontend extends Routeur {
 
     new Vue("/Frontend/vAccueil",
       array(
+        'oUtilConn' => $this->oUtilConn,
         'titre'     => "Un petit verre de vino",
+        
         
       ),
       "/Frontend/gabarit-frontend");
