@@ -65,11 +65,6 @@
 </div>
 
 <div class="form_champ_ajout">
-    <label for="pastille">Pastille SAQ:</label>
-    <input id="pastille" class="form_ajout_input" name="pastille" value="{{ bouteille.pastille }}" placeholder="Pastille SAQ" aria-label="Pastille SAQ">
-</div>
-
-<div class="form_champ_ajout">
     <label for="appellation">Appellation:</label>
     <input id="appellation" class="form_ajout_input" name="appellation" value="{{ bouteille.appellation }}" placeholder="Bordeaux" aria-label="Appellation">
 </div>
@@ -108,6 +103,9 @@ Robert Mondavi Private Selection" aria-label="Producteur">
 <div class="form_champ_ajout">
     <label for="prix">Prix:</label>
     <input id="prix" class="form_ajout_input" name="prix" value="{{ bouteille.prix_saq }}" placeholder="22,95" aria-label="Prix">
+    <span class="error">
+        <span class="erreur_champ erreur_prix">{{ erreurs.prix }}</span>
+    </span>
 </div>
 
 <div class="form_champ_ajout">
