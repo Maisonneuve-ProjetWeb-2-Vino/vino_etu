@@ -2,39 +2,59 @@
 
 <form class="form_connexion" name="frmInscription" method="POST" action="validationInscription">	
 
-	<!-- Champ nom -->	
-<input class="form_connexion_input" minlength="2" aria-label="Votre nom" type="text" id="nom" placeholder="Votre nom" name="nom" value="{{ membre.nom }}">
 
-	<div class="error">
-		<span>{{ erreurs.nom }}</span>
+	<!-- Champ nom -->
+	<div class="form_champ_inscription">	
+	<label for="nom">Nom :</label>
+<input class="form_inscription_input" minlength="2" aria-label="Votre nom" type="text" id="nom" placeholder="p. ex. Doe" name="nom" value="{{ membre.nom }}">
+
+ {% if erreurs.nom == "" %}{% else %}<div class="error">
+	<span>{{ erreurs.nom }}</span>
+</div>{% endif %}
+
 	</div>
 
-	<!-- Champ prénom -->	
-<input class="form_connexion_input" minlength="2" aria-label="Votre prénom" type="text" id="prenom" placeholder="Votre prénom" name="prenom" value="{{ membre.prenom }}">
+	
 
-	<div class="error">
+	<!-- Champ prénom -->	
+	<div class="form_champ_inscription">
+		<label for="prenom">Prénom :</label>
+<input class="form_inscription_input" minlength="2" aria-label="Votre prénom" type="text" id="prenom" placeholder="p. ex. John" name="prenom" value="{{ membre.prenom }}">
+
+	{% if erreurs.prenom == "" %}{% else %}<div class="error">
 		<span>{{ erreurs.prenom }}</span>
+	</div>{% endif %}
 	</div>
 
 	<!-- Champ courriel -->	
-	<input class="form_connexion_input" aria-label="Votre adresse courriel" type="email" id="courriel" placeholder="Votre adresse courriel" name="courriel" value="{{ membre.courriel }}">
-	<div class="error">
+	<div class="form_champ_inscription">
+	<label for="courriel">Courriel :</label>
+	<input class="form_inscription_input" aria-label="Votre adresse courriel" type="email" id="courriel" placeholder="p. ex. JohnDoe@gmail.com" name="courriel" value="{{ membre.courriel }}">
+
+	{% if erreurs.courriel == "" %}{% else %}<div class="error">
 		<span>{{ erreurs.courriel }}</span>
-	</div>	
+	</div>{% endif %}
+	</div>
 
 	<!-- Champ mot de passe -->	
-<input class="form_connexion_input" minlength="10" aria-label="Votre mot de passe" type="password" id="mdp" placeholder="Votre mot de passe" name="mdp" value="">
+	<div class="form_champ_inscription">
+	<label for="mdp">Mot de passe :</label>
+<input class="form_inscription_input" minlength="10" aria-label="Votre mot de passe" type="password" id="mdp" placeholder="p. ex. Chat12345!" name="mdp" value="">
 
-    <div class="error">
-        <span>{{ erreurs.mdp }}</span>
-    </div>
+	{% if erreurs.mdp == "" %}{% else %}<div class="error">
+		<span>{{ erreurs.mdp }}</span>
+	</div>{% endif %}
+	</div>
 
 	<!-- Champ confirmation de mot de passe -->	
-<input class="form_connexion_input" minlength="10" aria-label="Votre mot de passe" type="password" id="mdp_renouveler" placeholder="Confirmez votre mot de passe" name="renouvelermdp" value="">
+	<div class="form_champ_inscription">
+		<label for="mdp_renouveler">Confirmation du mot de passe:</label>
+<input class="form_inscription_input" minlength="10" aria-label="Votre mot de passe" type="password" id="mdp_renouveler" placeholder="p. ex. Chat12345!" name="renouvelermdp" value="">
 
-    <div class="error">
-        <span>{{ erreurs.renouvelermdp }}</span>
-    </div>	
+		{% if erreurs.renouvelermdp == "" %}{% else %}<div class="error">
+		<span>{{ erreurs.renouvelermdp }}</span>
+	</div>{% endif %}
+	</div>
 	
 	<input type="hidden" name="idprofil" value="membre">
 

@@ -6,9 +6,14 @@
     font-weight: 400;
     min-height: 15vh;
     align-items: center;
-    padding: 20px;
+    padding: 15px;
     text-align: center;
-    background-color:var(--fonce);
+    background-color: var(--fonce);
+    justify-content: center;
+}
+
+.container_header_connexion_inscription {
+    margin-top: auto;
 }
 
 .titre_header {

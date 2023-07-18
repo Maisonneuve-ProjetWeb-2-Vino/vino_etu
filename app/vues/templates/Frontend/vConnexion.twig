@@ -4,23 +4,25 @@
 
 <form
 	class="form_connexion" name="frmConnexion" method="POST" action="connexion">
-<div class="error">
+
+	 {% if erreurs.connexion == "" %}{% else %}<div class="error">
 	<span>{{ erreurs.connexion }}</span>
-</div>
+</div>{% endif %}
+
 
 
 	<!-- Champ courriel -->
 
-	<div class="form_champ_ajout">
+	<div class="form_champ_connexion">
 	<label for="courriel">Courriel:</label>
-	<input class="form_connexion_input" aria-label="Courriel" type="email" id="courriel" placeholder="Courriel" name="courriel" value="">
+	<input class="form_connexion_input" aria-label="Courriel" type="email" id="courriel" placeholder="p. ex. JohnDoe@gmail.com" name="courriel" value="">
 	</div>
 
 	<!-- Champ mot de passe -->
 
-	<div class="form_champ_ajout">
+	<div class="form_champ_connexion">
 	<label for="mdp">Mot de passe:</label>
-<input class="form_connexion_input" minlength="10" aria-label="Mot de passe" type="password" id="mdp" placeholder="Mot de passe" name="mdp" value="">
+<input class="form_connexion_input" minlength="10" aria-label="Mot de passe" type="password" id="mdp" placeholder="p. ex. Chat12345!" name="mdp" value="">
 	</div>
 	
 	<a href="">Mot de passe oublié ?</a>

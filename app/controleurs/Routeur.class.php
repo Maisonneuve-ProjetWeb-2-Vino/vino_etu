@@ -19,8 +19,6 @@ class Routeur {
     ['deconnecter',           'Membre', 'deconnecter'],
     ['inscription',           'Membre', 'inscription'],
     ['validationInscription', 'Membre', 'validationInscription'],
-    ['bouteilles',            'ControleurCellier', 'listeBouteilleTemporaire'],
-    ['celliers',              'ControleurCellier', 'listeCellierTemporaire'],
     ['profil',                'Membre', 'profil'],
     ['modifierMembre',        'Membre', 'modifierMembre'],
   ];

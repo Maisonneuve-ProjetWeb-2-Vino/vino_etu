@@ -1,17 +1,15 @@
 <!-- Template Création de cellier -->
 
- <a href="cellier">Retour aux celliers</a>
- <hr>
-<h1>Nouveau cellier</h1>
-
-<section class="">
-	<form name="frmCreationCellier" method="POST" action="cellier?action=p">
-		<input name="nom" value="{{ cellier.nom }}" placeholder="Nom du cellier">
-		<span class="erreur_champ">&nbsp;{{ erreurs.nom }}</span>
-
-		<input type="submit" value="Créer le cellier">
-
+	<form class="form_connexion" name="frmCreationCellier" method="POST" action="cellier?action=p">
+		<div class="form_champ_ajout">
+		<label for="nom_cellier">Nom du cellier</label>
+		<input class="form_connexion_input"  id="nom_cellier" name="nom" value="{{ cellier.nom }}" placeholder="p. ex. Cellier garage">
+		<div class="error">
+		<span>{{ erreurs.nom }}</span>
+		</div>
+		</div>
+		
+		<input class="btn_connexion" type="submit" value="Créer le cellier">
 	</form>
-</section>
 
 <!-- fin template Création de cellier -->
