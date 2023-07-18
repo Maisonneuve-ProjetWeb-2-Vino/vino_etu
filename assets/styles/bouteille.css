@@ -16,8 +16,9 @@
 .vin_image_wrapper{
     display: flex;
     flex-direction: column;
-    width: 150px;
-    align-items: center
+    width: 80px;
+    align-items: center;
+    flex-shrink: 0;
 }
 
 .vin_image img{

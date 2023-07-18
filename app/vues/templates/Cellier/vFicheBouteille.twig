@@ -75,61 +75,100 @@
                 <div class="vin_info_header">
                     <div class="vin_nom">{{ bouteille.nom }}</div>
                     <div class="vin_info_breve">
-                        <div class="vin_pays">{{ bouteille.pays }}</div>
-                        <div class="vin_type">{{ bouteille.type }}</div>
-                        <div class="vin_format">{{ bouteille.format }}</div>
+                        {% if bouteille.pays is not empty %}
+                            <div class="vin_pays">{{ bouteille.pays }}</div>
+                        {% endif %}
+                        {% if bouteille.type is not empty %}
+                            <div class="vin_type">{{ bouteille.type }}</div>
+                        {% endif %}
+                        {% if bouteille.format is not empty %}
+                            <div class="vin_format">{{ bouteille.format }}</div>
+                        {% endif %}                       
+                       
                     </div>  
                 </div>   
                 
                 <!-- Plus de details sur le vin -->
+                {% if 
+                    bouteille.appellation is not empty or
+                    bouteille.cepage is not empty or
+                    bouteille.particularite is not empty or
+                    bouteille.degreAlcool is not empty or
+                    bouteille.producteur is not empty or
+                    (bouteille.prix_saq is not null and bouteille.prix_saq != 0.00) or
+                    bouteille.region is not empty or
+                    bouteille.tauxSucre is not empty 
+                %}
                 <div class="vin_info_detaillee">
-                    <input type="checkbox" id="accordion">                       
-                       
+                    
+                    <input type="checkbox" id="accordion" checked>                       
+                        
                     <label for="accordion">
                         <svg class="caret_up" aria-hidden="false" aria-label="Basculer les informations détaillées" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
-                            
+                                
                         Informations détaillées
+                            
                     </label>
-                          
+                         
+
                     <div class="vin_info_detaillee_contenu">
-                        <li>Appellation :
-                            <span>{{ bouteille.appellation }}</span>
-                         </li>
+
+                        {% if bouteille.appellation is not empty %}
+                            <li>Appellation :
+                                <span>{{ bouteille.appellation }}</span>
+                            </li>
+                        {% endif %}    
+
+                        {% if bouteille.cepage is not empty %}
                         <li>Cépage(s) :
                            <span>{{ bouteille.cepage }}</span>
                         </li>
+                        {% endif %} 
+
+                        {% if bouteille.particularite is not empty %}
                         <li>Particularité :
                             <span>{{ bouteille.particularite }}</span>
-                         </li>
+                        </li>
+                        {% endif %}
+
+                        {% if bouteille.degreAlcool is not empty %}
                         <li>Degrée d’alcohol :
                             <span>{{ bouteille.degreAlcool }}</span>
                         </li>
+                        {% endif %}
+
+                        {% if bouteille.producteur is not empty %}
                         <li>Producteur :
                             <span>{{ bouteille.producteur }}</span>
                         </li>
+                        {% endif %}
+
+                        {% if bouteille.prix_saq is not null and bouteille.prix_saq != 0.00 %}
                         <li>Prix :
                             <span> $ {{ bouteille.prix_saq }}</span>
                         </li>
+                        {% endif %}
+                        
+                        {% if bouteille.region is not empty %}
                         <li>Region :
                             <span>{{ bouteille.region }}</span>
                         </li>
+                        {% endif %}
+
+                        {% if bouteille.tauxSucre is not empty %}
                         <li>Sucre :
                             <span>{{ bouteille.tauxSucre }}</span>
                         </li>
-                        <li>Quantité :
-                            <span>{{ bouteille.quantite }}</span>
-                        </li>
+                        {% endif %}
                     </div>
                 </div>
+                {% endif %}
                 
             </div>
         </div>    
 
         <!-- La pastille et les contrôles -->
         <div class="card_footer">
-
-            
-
 
             <div class="controls">
                 {# <button class="btnModifier" data-id="{{ bouteille.id_bouteille_cellier }}">Modifier la bouteille</button>

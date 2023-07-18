@@ -93,5 +93,5 @@ main {
 /**************************************************/
 
 .invisible {
-    visibility: hidden;
+    display: none;
 }
