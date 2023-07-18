@@ -4,10 +4,10 @@
 
 
 	<div>
-		<h2>Informations de {{ oUtilConn.prenom }} {{ oUtilConn.nom }}</h2>
-        <p>{{ oUtilConn.courriel }}</p>
+		<h2>Informations de {{ membre.prenom }} {{ membre.nom }}</h2>
+        <p>{{ membre.courriel }}</p>
         <p> membre depuis le {{ oUtilConn.date_creation }}</p>
-        <p> {{ oUtilConn.idprofil }}</p>
+        <p> {{ membre.idprofil }}</p>
 
 
 		<p><a href="modifierMembre" style="color:white">Modifier mes coordonnées</a></p>
@@ -31,20 +31,6 @@
 
 
 
-
-	
-	
-
-{% else %}
-	<br><br>
-	<br>
-	<br>
-
-	<p>Connectez-vous pour voir votre profil</p>
-	<br>
-	<br>
-	<br>
-	<br>
 
 {% endif %}</section>
 

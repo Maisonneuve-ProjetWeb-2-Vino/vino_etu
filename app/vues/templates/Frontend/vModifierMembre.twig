@@ -1,0 +1,36 @@
+<!-- Template Modification Membre -->
+{% if oUtilConn %}
+
+	<section >
+
+
+		<form method="POST" action="">
+			<input name="nom" value="{{ membre.nom }}" placeholder="Votre nom">
+			<span>&nbsp;{{ erreurs.nom }}</span>
+			<input name="prenom" value="{{ membre.prenom }}" placeholder="Votre prenom">
+			<span>&nbsp;{{ erreurs.prenom }}</span>
+			<input name="courriel" value="{{ membre.courriel }}" placeholder="Votre adresse mail">
+			<span>&nbsp;{{ erreurs.courriel }}</span>
+			<input type="hidden" name="mdp" value="{{ membre.mdp }}">
+			<input type="hidden" name="idprofil" value="membre">
+			<input type="hidden" name="id_membre" value="{{ membre.id_membre }}">
+
+			<input type="submit" value="Envoyer">
+
+		</form>
+	</section>
+
+{% else %}
+	<br><br>
+	<br>
+	<br>
+
+	<p>Connectez-vous pour modifier votre profil</p>
+	<br>
+	<br>
+	<br>
+	<br>
+{% endif %}
+
+<!-- fin template Modification membre -->
+
