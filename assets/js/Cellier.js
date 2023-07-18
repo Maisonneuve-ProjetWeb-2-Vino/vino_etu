@@ -67,7 +67,6 @@ export default class Cellier {
             pays : document.querySelector("[name='pays']"),
             type : document.querySelector("[name='type']"),
             millesime : document.querySelector("[name='millesime']"),
-            pastille : document.querySelector("[name='pastille']"),
             appellation : document.querySelector("[name='appellation']"),
             format : document.querySelector("[name='format']"),
             cepage : document.querySelector("[name='cepage']"),
@@ -491,7 +490,6 @@ export default class Cellier {
         this.#bouteille.pays.value = details.idpays;
         this.#bouteille.type.value = details.idtype;
         this.#bouteille.millesime.value = details.annee;
-        this.#bouteille.pastille.value = details.pastille;
         this.#bouteille.appellation.value = details.appellation;
         this.#bouteille.format.value = details.format;
         this.#bouteille.cepage.value = details.cepage;
@@ -525,7 +523,6 @@ export default class Cellier {
         this.#bouteille.pays.value = 1;
         this.#bouteille.type.value = "Blanc";
         this.#bouteille.millesime.value = "";
-        this.#bouteille.pastille.value = "";
         this.#bouteille.appellation.value = "";
         this.#bouteille.format.value = "";
         this.#bouteille.cepage.value = "";
