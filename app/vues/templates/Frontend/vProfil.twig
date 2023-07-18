@@ -6,7 +6,7 @@
 	<div>
 		<h2>Informations de {{ membre.prenom }} {{ membre.nom }}</h2>
         <p>{{ membre.courriel }}</p>
-        <p> membre depuis le {{ oUtilConn.date_creation }}</p>
+        <p> membre depuis le {{ membre.date_creation|date("d-m-Y")}}</p>
         <p> {{ membre.idprofil }}</p>
 
 
