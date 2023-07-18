@@ -480,9 +480,10 @@ export default class Cellier {
         this.#bouteille.particularite.value = details.particularite;
         this.#bouteille.degreAlcool.value = details.degreAlcool;
         this.#bouteille.origine.value = details.origine;
+        this.#bouteille.producteur.value = details.producteur;
         this.#bouteille.prix.value = details.prix_saq;
         this.#bouteille.region.value = details.region;
-        this.#bouteille.sucre.value = details.sucre;
+        this.#bouteille.sucre.value = details.tauxSucre;
 
         this.montrerDetailsAjoutBouteille();
     }
