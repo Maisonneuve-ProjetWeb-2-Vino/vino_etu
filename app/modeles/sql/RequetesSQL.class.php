@@ -460,7 +460,7 @@ class RequetesSQL extends RequetesPDO {
     
     //var_dump($champs);
     $this->sql = "
-      SELECT id_membre, nom, prenom, courriel, idprofil
+      SELECT id_membre, nom, prenom, courriel, idprofil, date_creation, mdp
       FROM membres
       WHERE courriel = :courriel AND mdp = SHA2(:mdp, 512)";
 
@@ -528,6 +528,21 @@ class RequetesSQL extends RequetesPDO {
     return $this->obtenirLignes(['id_membre' => $id_membre], RequetesPDO::UNE_SEULE_LIGNE);
     
   }
+  /**
+   * Modifier un membre
+   * @param array $champs tableau avec les champs à modifier et la clé id_membre
+   * @return boolean true si modification effectuée, false sinon
+   */
+  public function modifiermembre($champs)
+  
+  {
+    //var_dump($champs);
+    $this->sql = '
+      UPDATE membres SET nom = :nom, prenom = :prenom, courriel = :courriel
+      WHERE id_membre = :id_membre';
+    return $this->CUDLigne($champs);
+  } 
+
 
 
 }

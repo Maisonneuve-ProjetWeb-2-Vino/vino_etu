@@ -22,7 +22,7 @@
 		<link rel="stylesheet" href="./assets/styles/bouteilles.css" type="text/css" media="screen">
 		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="./assets/styles/root.css" type="text/css">  
-		<script src="./assets/js/main.js"></script>
+		<script type="module" src="./assets/js/main.js"></script>
 	</head>
 	<body >
 		<div class="container_header">	{% if lien == "" %}{% else %}
@@ -44,7 +44,7 @@
 		<nav role='navigation' class="main-nav" id="main-nav">
   <ul id="main-nav-list">
     <li>
-      <a href="connecter">
+      <a href="accueil">
 	  	<div class="container_icones_navbar">
        <svg class="icon"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 32 40" style="enable-background:new 0 0 32 32;" xml:space="preserve"><path d="M19.546875,30h8.4228516c0.5527344,0,1-0.4477539,1-1V13.9155273c0-0.8676758-0.3710938-1.6972656-1.0195312-2.2768555  l-9.9150391-8.8623047C16.875,1.7402344,15.125,1.7407227,13.9648438,2.7768555l-9.9160156,8.8623047  c-0.6474609,0.5791016-1.0185547,1.4086914-1.0185547,2.2763672V29c0,0.5522461,0.4472656,1,1,1h8.4228516  c0.5527344,0,1-0.4477539,1-1v-7.0063477h5.09375V29C18.546875,29.5522461,18.9941406,30,19.546875,30z"/></svg>
         <span>Accueil</span>
@@ -70,7 +70,7 @@
       </a>
     </li>
     <li>
-<a href="profil?id_membre={{oUtilConn.id_membre}}">
+<a href="profil">
 
 
 	  <div class="container_icones_navbar">
