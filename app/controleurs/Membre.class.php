@@ -164,8 +164,8 @@ public function connexion() {
         $membre = false;
         if (!is_null($this->oUtilConn->id_membre)) {
             $membre = $this->oRequetesSQL->infoMembre($this->oUtilConn->id_membre);
-            $nombreCellier = $this->oRequetesSQL->nombreCellierParMembre($this->oUtilConn->id_membre);
-            $nombreBouteille = $this->oRequetesSQL->nombreBouteilleParMembre($this->oUtilConn->id_membre);
+            //$nombreCellier = $this->oRequetesSQL->nombreCellierParMembre($this->oUtilConn->id_membre);
+            //$nombreBouteille = $this->oRequetesSQL->nombreBouteilleParMembre($this->oUtilConn->id_membre);
             
             new Vue(
                 'Frontend/vProfil',
@@ -174,8 +174,7 @@ public function connexion() {
                     'oUtilConn' => $this->oUtilConn,
                     'titre' => 'Fiche d\'un membre',
                     'membre' => $membre,
-                    'nombreBouteille' => $nombreCellier,
-                    'nombreCellier' => $nombreBouteille
+                    //'nombreCellier' => $nombreCellier
                 ),
                 'Frontend/gabarit-frontend'
             );
