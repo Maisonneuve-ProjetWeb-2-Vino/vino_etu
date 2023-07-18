@@ -202,11 +202,15 @@ export default class Cellier {
     verifierNouvelleBouteille(evt) {
         let validation = this.validerChampsBouteille();
 
+        const erreur_nom = document.querySelector(".erreur_nom_bouteille");
+
         // Validation supplémentaire dans le cas de l'ajout de bouteille
         if (!this.#bouteille.nom.value) {
-            const erreur_nom = document.querySelector(".erreur_nom_bouteille");
             erreur_nom.innerHTML = "Une bouteille doit être sélectionnée ou un nom entré.";
             validation = false;
+        }
+        else {
+            erreur_nom.innerHTML = "";
         }
 
         if (validation) { // Si le vin provient du catalogue
@@ -410,14 +414,27 @@ export default class Cellier {
 
         let validation = true;
 
+        // On enlève les erreur par défaut
+        document.querySelector(".erreur_quantite").innerHTML = "";
+        document.querySelector(".erreur_prix").innerHTML = "";
+
         // Validation de la quantité
-        if (this.#bouteille.quantite.value){
-            if(isNaN(this.#bouteille.quantite.value)) {
-            document.querySelector(".erreur_quantite").innerHTML = "La quantité doit être un nombre entier.";
-            validation = false;
+        if (this.#bouteille.quantite) {
+            if (this.#bouteille.quantite.value){
+                if(isNaN(this.#bouteille.quantite.value) || (this.#bouteille.quantite.value < 0)) {
+                    document.querySelector(".erreur_quantite").innerHTML = "La quantité doit être un nombre entier supérieur ou égal à 0.";
+                    validation = false;
+                }
             }
-            else {
-                document.querySelector(".erreur_quantite").innerHTML = "";
+        }
+
+        // Validation du prix
+        if(this.#bouteille.prix) {
+            if (this.#bouteille.prix.value) {
+                if(isNaN(this.#bouteille.prix.value) || (this.#bouteille.prix.value < 0)) {
+                    document.querySelector(".erreur_prix").innerHTML = "Le prix doit être un nombre supérieur ou égal à 0.";
+                    validation = false;
+                }
             }
         }
 
