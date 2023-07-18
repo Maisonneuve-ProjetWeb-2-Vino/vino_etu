@@ -1,13 +1,3 @@
-.conteneur_celliers,
-.conteneur_bouteilles {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    gap: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-}
-
 .charte {
     display: flex;
     justify-content: center;
@@ -21,7 +11,6 @@
     background-color: var(--brun_pale);
     padding: 20px;
     border-radius: 25px;
-    flex-grow: 1;
 }
 
 .cercle_cellier {
@@ -30,7 +19,6 @@
     justify-content: center;
     padding: 0;
     margin: 0;
-
 }
 
 .bouton_ajout_cellier_top,
@@ -41,7 +29,6 @@
     text-align: center;
     border-style: none;
     width: 100%;
-    margin-top: 10px;
 }
 
 .bouton_ajout_cellier_top>a,

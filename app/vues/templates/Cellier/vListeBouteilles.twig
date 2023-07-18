@@ -1,5 +1,3 @@
-<div class="cellier contenu">
-    <div class="conteneur_celliers">
 
     <div class="bouton_ajout_cellier_top">
     <a href="cellier?action=n&cellier_id={{ cellier.id }}">Ajouter une bouteille</a>
@@ -37,7 +35,5 @@
 </svg></a>
     </div>
     </div></section>{% else %}<p">Aucune bouteille dans ce cellier</p>{% endfor %}
-</div>
-</div>
 
 {{ include("/Cellier/modaleSuppression.twig") }}

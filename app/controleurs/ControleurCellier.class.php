@@ -41,32 +41,6 @@ class ControleurCellier extends Routeur {
     $this->oRequetesSQL = new RequetesSQL;
   }
 
-  
-  public function listeCellierTemporaire(){
-    
-    // TODO Enlever cette méthode lors de l'intégration de Twig et HTML/CSS
-    new Vue("/Cellier/vCelliers",
-        array(
-          'titre'       => "Cellier",
- 
-        ),
-      "/Frontend/gabarit-frontend");
-  }
-
-
-
-  public function listeBouteilleTemporaire(){
-    
-    // TODO Enlever cette méthode lors de l'intégration de Twig et HTML/CSS
-    new Vue("/Cellier/vBouteilles",
-        array(
-          'titre'       => "Bouteille",
-
-        ),
-      "/Frontend/gabarit-frontend");
-  }
-
-
   /**
    * Redirige les requêtes de l'interface Cellier vers les méthodes demandées.
    * 
@@ -447,6 +421,8 @@ class ControleurCellier extends Routeur {
 
     $oCellier = [];
     $erreursCellier = [];
+    $lien = "cellier";
+
 
     if (count($_POST) !== 0) {
 
@@ -476,6 +452,7 @@ class ControleurCellier extends Routeur {
 
     new Vue("/Cellier/vAjoutCellier",
       array(
+        'lien'      =>$lien,
         'titre'     => "Ajouter un cellier",
         'cellier'   => $oCellier,
         'erreurs'    => $erreursCellier
