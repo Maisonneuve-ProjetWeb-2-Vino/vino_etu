@@ -12,9 +12,11 @@
         <input class="form_connexion_input" type="text" name="nom_bouteille" placeholder="Recherche" aria-label="Recherche">
         <button  class="bouton_supprimer_cellier" name="entrerBouteillePersonnalisee">Entrer une bouteille personnalisée</button>
         
+
         <ul class="listeAutoComplete">
 
         </ul>
+        <div class="conteneur_details conteneur_details_cache">
             <div >
                 <input class="form_connexion_input nom_bouteille" data-id="" name="nom" value="{{ bouteille.nom }}" placeholder="Nom" aria-label="Nom">
 <span class="error">
@@ -65,6 +67,7 @@
 <input id="cellier_id" type="hidden" value="{{ cellier_id }}">
 
 <button  class="bouton_supprimer_cellier"  name="ajouterBouteilleCellier">Ajouter la bouteille</button>
+        </div>
         </div>
     </div>
 </div>
