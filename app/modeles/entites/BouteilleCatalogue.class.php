@@ -150,10 +150,13 @@ class BouteilleCatalogue
      */    
     public function setPays($pays) {
         unset($this->erreurs['pays']);
-        $regExp = '/^[1-9]\d*$/';
-        if (!preg_match($regExp, $pays)) {
-            $this->erreurs['pays'] = "Numéro de bouteille incorrect.";
+        $regExp = '/^[0-9]\d*$/';
+        if (!empty($pays)) {
+            if (!preg_match($regExp, $pays)) {
+                $this->erreurs['pays'] = "Numéro de pays incorrect.";
+            }
         }
+
         $this->pays = $pays;
         return $this;
     }
