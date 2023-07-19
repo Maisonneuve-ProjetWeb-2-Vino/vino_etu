@@ -498,8 +498,6 @@ class ControleurCellier extends Routeur {
    */
   public function modifierCellier() {
 
-    //TODO: vérifier que le cellier appartient bien à l'usager
-
     $body = json_decode(file_get_contents('php://input'));
 
     if(!empty($body)){
@@ -596,8 +594,6 @@ class ControleurCellier extends Routeur {
    * @return void
    */
   public function obtenirDetailsBouteille() {
-
-    //TODO Vérifier que l'usager a la permission pour lire cette bouteille
 
     $body = json_decode(file_get_contents('php://input'));
 

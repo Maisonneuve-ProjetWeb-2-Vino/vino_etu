@@ -237,7 +237,6 @@ class RequetesSQL extends RequetesPDO {
    */
   public function obtenirDetailsBouteilleCellier($id_bouteille_cellier) {
 
-    //TODO  extraire colonne sucre aussi
     $this->sql = "
       SELECT 
         c.id_bouteille_cellier AS id_bouteille_cellier,
