@@ -448,6 +448,27 @@ class RequetesSQL extends RequetesPDO {
     return $this->CUDLigne($champs); 
   }
 
+  /**
+   * Vérifie si un cellier avec un nom donné existe déjà pour un utilisateur.
+   * 
+   * @param int $id_utilisateur L'id du membre.
+   * @param int $nom_cellier Le nom du cellier à vérifier.
+   * @return bool Vrai si un cellier du même nom existe déjà, faux sinon
+   */
+  public function verifierNomCellier($id_utilisateur, $nom_cellier) {
+        
+    $this->sql = "
+      SELECT COUNT(*) FROM celliers WHERE idmembre = :id_utilisateur AND nom = :nom_cellier
+      ";
+
+    $resultat = $this->obtenirLignes([
+      'id_utilisateur' => $id_utilisateur,
+      'nom_cellier' => $nom_cellier
+    ], RequetesPDO::UNE_SEULE_LIGNE);
+    
+    return $resultat['nombre'] > 0 ? true : false;
+  }
+
   /* GESTION DES USAGERS 
     ======================== */
 

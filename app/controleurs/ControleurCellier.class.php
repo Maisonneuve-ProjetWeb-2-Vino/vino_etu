@@ -26,7 +26,8 @@ class ControleurCellier extends Routeur {
     'r' => 'obtenirDetailsBouteille',
     's' => 'supprimerCellier',
     't' => 'supprimerBouteille',
-    'v' => 'verifierBouteilleCellier'
+    'v' => 'verifierBouteilleCellier',
+    'u' => 'verifierNomCellier'
   ];
 
   /**
@@ -701,6 +702,23 @@ class ControleurCellier extends Routeur {
     $body = json_decode(file_get_contents('php://input'));
 
     $resultat = $this->oRequetesSQL->verifierBouteilleDansCellier($body->id_bouteille, $body->id_cellier);
+
+    $msgRetour = ['statut' =>  $resultat];
+    echo json_encode($msgRetour);
+  }
+
+  /**
+   * Vérifie si un cellier avec un nom donné existe déjà pour un utilisateur.
+   * 
+   * @return void
+   */
+  public function verifierNomCellier() {
+
+    $utilisateur_id = $this->oUtilConn->id_membre;
+
+    $body = json_decode(file_get_contents('php://input'));
+
+    $resultat = $this->oRequetesSQL->verifierNomCellier($body->id_bouteille, $body->id_cellier);
 
     $msgRetour = ['statut' =>  $resultat];
     echo json_encode($msgRetour);
