@@ -372,7 +372,7 @@ export default class Cellier {
      */
     rechercherBouteille(evt) {
         let nom = this.#elInputNomBouteille.value;
-        this.#liste.innerHTML = "";
+        
         if(nom){
             const param = {
                 "nom":nom
@@ -387,6 +387,7 @@ export default class Cellier {
      * @param {Array} listeResultats 
      */
     afficherResultatsRecherche(listeResultats) {
+        this.#liste.innerHTML = "";
         listeResultats.forEach(function(element){
             this.#liste.innerHTML += "<li data-id='"+element.id +"'>"+element.nom+"</li>";
         }, this);
