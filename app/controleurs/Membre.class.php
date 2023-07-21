@@ -210,7 +210,7 @@ public function connexion() {
       $erreurs = $oMembre->erreurs;
       $courrielendouble= $this->oRequetesSQL->controleMail(['courriel' => $oMembre->courriel]);
                 if($courrielendouble == true){
-                    $erreurs['courriel'] = "Votre courriel existe déjà dans la base.";
+                    $erreurs['courriel'] = "Votre courriel existe déjà.";
                 }
       if (count($erreurs) === 0) {
                   
