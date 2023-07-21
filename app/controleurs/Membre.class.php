@@ -206,7 +206,12 @@ public function connexion() {
                 'id_membre'  => $_POST['id_membre']
             ];
       $oMembre = new Membres($membre);
+      
       $erreurs = $oMembre->erreurs;
+      $courrielendouble= $this->oRequetesSQL->controleMail(['courriel' => $oMembre->courriel]);
+                if($courrielendouble == true){
+                    $erreurs['courriel'] = "Votre courriel existe déjà dans la base.";
+                }
       if (count($erreurs) === 0) {
                   
         if ($this->oRequetesSQL->modifiermembre([
@@ -216,7 +221,7 @@ public function connexion() {
                     'id_membre' => $oMembre->id_membre
         ]))
 
-                    var_dump($oMembre);     
+                       
                 header(
                     "Location: profil"
                 ); // retour sur la page du profil
