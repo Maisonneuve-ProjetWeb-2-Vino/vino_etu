@@ -24,7 +24,7 @@ class Frontend extends Routeur {
    */  
   public function voirAccueil() {
 
-   
+   if (!is_null($this->oUtilConn)) {
 
     new Vue("/Frontend/vAccueil",
       array(
@@ -34,6 +34,10 @@ class Frontend extends Routeur {
         
       ),
       "/Frontend/gabarit-frontend");
+    }
+        else{
+        header("Location: connecter");
+    }
   }
 
 }

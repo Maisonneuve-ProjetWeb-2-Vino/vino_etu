@@ -483,7 +483,7 @@ class ControleurCellier extends Routeur {
     new Vue("/Cellier/vFicheBouteille",
       array(
         'lien'      => $lien,
-        'titre'     => $bouteille["nom"],
+        'titre'     => 'Fiche détaillée',
         'bouteille' => $bouteille,
         'message'   => $message
       ),

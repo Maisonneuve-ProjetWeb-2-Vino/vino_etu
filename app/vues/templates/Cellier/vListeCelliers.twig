@@ -22,7 +22,13 @@
         {% endif %}
         <div class="texte_cellier">
             <p class="cellier_gros_texte">{{ cellier.nom }}</p>
-            <p class="cellier_petit_texte">{{ cellier.quantite }} bouteilles</p>
+            <p class="cellier_petit_texte">{{ cellier.quantite }} 
+            {% if cellier.quantite > 1 %}
+            bouteilles
+            {% else %}
+            bouteille
+            {% endif %}
+            </p>
         </div>
         <div class="chevron_cellier">
         <a href="cellier?action=l&cellier_id={{ cellier.id }}">

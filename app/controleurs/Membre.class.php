@@ -25,7 +25,6 @@ class Membre extends Routeur {
    */  
   public function connecter() {
     
-    if (is_null($this->oUtilConn)) {
     
      new Vue(
             '/Frontend/vConnexion',
@@ -36,11 +35,7 @@ class Membre extends Routeur {
             'Frontend/gabarit-vide'
         );
     }
-    else{
-        header("Location: accueil");
-    }
-    
-}
+
 
 /**
      * Connecter un membre
