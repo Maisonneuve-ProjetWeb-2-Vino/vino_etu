@@ -234,8 +234,8 @@ export default class Fetch{
 
     /**
      * Fait la requête pour la vérification de nom de cellier déjà existant.
-     * @param {Object} param 
-     * @param {function} cb 
+     * @param {Object} param Paramètres de la requête.
+     * @param {function} cb Fonction de rappel.
      */
     validerNomCellier(param, cb) {
       let requete = new Request("cellier?action=u", {method: 'POST', body: JSON.stringify(param)});
