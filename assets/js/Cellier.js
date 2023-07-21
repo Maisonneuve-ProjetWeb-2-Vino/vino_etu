@@ -111,24 +111,46 @@ export default class Cellier {
 
         // Si on est sur la page de modification de cellier
         if (this.#elBtnModifierCellier) {
-            this.#elBtnModifierCellier.addEventListener("click", this.modifierCellier.bind(this));
+            this.#elBtnModifierCellier.addEventListener("click", this.validerCellier.bind(this));
         }
     }
 
     /**
-     * Valider les champs pour la modification de cellier et faire la requête de modification.
-     * @param {Event} evt 
+     * Valider les champs pour la modification de cellier.
+     * @param {Event} evt
      */
-    modifierCellier(evt) {
-
+    validerCellier(evt) {
         if (this.validerChampsCellier(this.#cellier)) {
-          let param = {
-            "cellier_id":document.querySelector("#cellier_id").value,
-            "nom": this.#cellier.nom.value,
-          };
-          const oFetch = new Fetch();
-          oFetch.modifierCellier(param, this.redirigerPageCellier.bind(this));
+
+            let param = {
+                "nom": this.#cellier.nom.value,
+            };
+
+            // Validation pour éviter la duplication du nom du cellier
+            const oFetch = new Fetch();
+            oFetch.validerNomCellier(param, this.modifierCellier.bind(this));
         }
+    }
+    /**
+     * 
+     * Vérifier le statut de la requête de vérification du nom de cellier et 
+     * faire la requête de modification.
+     * @param {Object} reponse
+     */
+    modifierCellier(reponse) {
+        // Si le nom du cellier n'existe pas déjà
+        if (!reponse.statut) {
+            let param = {
+                "cellier_id":document.querySelector("#cellier_id").value,
+                "nom": this.#cellier.nom.value,
+            };
+            const oFetch = new Fetch();
+            oFetch.modifierCellier(param, this.redirigerPageCellier.bind(this));
+        } else 
+        {
+            document.querySelector(".erreur_nom").innerHTML = "Le nom du cellier existe déjà.";
+        }
+
     }
 
     /**
@@ -350,7 +372,7 @@ export default class Cellier {
      */
     rechercherBouteille(evt) {
         let nom = this.#elInputNomBouteille.value;
-        this.#liste.innerHTML = "";
+        
         if(nom){
             const param = {
                 "nom":nom
@@ -365,6 +387,7 @@ export default class Cellier {
      * @param {Array} listeResultats 
      */
     afficherResultatsRecherche(listeResultats) {
+        this.#liste.innerHTML = "";
         listeResultats.forEach(function(element){
             this.#liste.innerHTML += "<li data-id='"+element.id +"'>"+element.nom+"</li>";
         }, this);
