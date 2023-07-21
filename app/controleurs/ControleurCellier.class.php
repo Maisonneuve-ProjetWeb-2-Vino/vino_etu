@@ -26,7 +26,8 @@ class ControleurCellier extends Routeur {
     'r' => 'obtenirDetailsBouteille',
     's' => 'supprimerCellier',
     't' => 'supprimerBouteille',
-    'v' => 'verifierBouteilleCellier'
+    'v' => 'verifierBouteilleCellier',
+    'u' => 'verifierNomCellier'
   ];
 
   /**
@@ -432,8 +433,13 @@ class ControleurCellier extends Routeur {
         'id_membre' => $utilisateur_id
       ]); 
 
-
       $erreursCellier = $oCellier->erreurs;
+
+      // Vérification pour le nom déjà existant dans le cellier
+      if ($this->oRequetesSQL->verifierNomCellier($utilisateur_id, $_POST['nom'])) {
+        $erreursCellier['nom'] = "Un cellier du même nom existe déjà.";
+      }
+
 
       if (count($erreursCellier) === 0) {
         $resultat = $this->oRequetesSQL->ajouterCellier([
@@ -701,6 +707,23 @@ class ControleurCellier extends Routeur {
     $body = json_decode(file_get_contents('php://input'));
 
     $resultat = $this->oRequetesSQL->verifierBouteilleDansCellier($body->id_bouteille, $body->id_cellier);
+
+    $msgRetour = ['statut' =>  $resultat];
+    echo json_encode($msgRetour);
+  }
+
+  /**
+   * Vérifie si un cellier avec un nom donné existe déjà pour un utilisateur.
+   * 
+   * @return void
+   */
+  public function verifierNomCellier() {
+
+    $utilisateur_id = $this->oUtilConn->id_membre;
+
+    $body = json_decode(file_get_contents('php://input'));
+
+    $resultat = $this->oRequetesSQL->verifierNomCellier($utilisateur_id, $body->nom);
 
     $msgRetour = ['statut' =>  $resultat];
     echo json_encode($msgRetour);

@@ -231,4 +231,28 @@ export default class Fetch{
               console.error(error);
             });
     }
+
+    /**
+     * Fait la requête pour la vérification de nom de cellier déjà existant.
+     * @param {Object} param Paramètres de la requête.
+     * @param {function} cb Fonction de rappel.
+     */
+    validerNomCellier(param, cb) {
+      let requete = new Request("cellier?action=u", {method: 'POST', body: JSON.stringify(param)});
+        fetch(requete)
+          .then(response => {
+              if (response.status === 200) {
+                return response.json();
+              } else {
+                throw new Error('Erreur');
+              }
+            })
+            .then(response => {
+              console.log(response);
+              cb(response);
+            
+            }).catch(error => {
+              console.error(error);
+            });
+    }
 }
