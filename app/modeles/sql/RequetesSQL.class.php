@@ -458,7 +458,7 @@ class RequetesSQL extends RequetesPDO {
   public function verifierNomCellier($id_utilisateur, $nom_cellier) {
         
     $this->sql = "
-      SELECT COUNT(*) FROM celliers WHERE idmembre = :id_utilisateur AND nom = :nom_cellier
+      SELECT COUNT(*) AS nombre FROM celliers WHERE idmembre = :id_utilisateur AND nom = :nom_cellier
       ";
 
     $resultat = $this->obtenirLignes([
