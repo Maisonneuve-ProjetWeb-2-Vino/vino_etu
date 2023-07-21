@@ -24,6 +24,7 @@
 
 .texte_cellier {
     padding: 15px;
+    word-break: break-word;
 }
 
 .chevron_cellier {

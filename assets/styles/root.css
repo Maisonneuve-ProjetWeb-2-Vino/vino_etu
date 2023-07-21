@@ -4,8 +4,7 @@
 
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+
 }
 
 input,
@@ -19,7 +18,10 @@ a {
 
 html {
     /* height: 100%;     */
+    margin: 0px;
+    padding: 0px;
     scroll-behavior: smooth;
+    word-wrap: break-word;
 }
 
 body {
