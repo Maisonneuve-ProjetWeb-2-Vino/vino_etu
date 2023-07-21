@@ -1,0 +1,34 @@
+    <p>Rechercher dans</p>
+    
+    <div>
+      <input type="radio" id="catalogue" name="recherche_donnees" value="catalogue"
+             checked>
+      <label for="catalogue">Catalogue</label>
+    </div>
+
+    <div>
+      <input type="radio" id="dewey" name="recherche_donnees" value="celliers">
+      <label for="celliers">Cellier(s)</label>
+    </div>
+
+    <div>
+        <input id="" name="recherche_termes" value="">
+    </div>
+
+    <div>
+      <label for="couleur">Couleur</label>
+
+      <select name="couleur" id="couleur">
+          <option value="">--Please choose an option--</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="pays">Pays</label>
+
+      <select name="pays" id="pays">
+        {% for unPays in pays %}
+        <option value="{{ unPays.id_pays }}">{{ unPays.nom }}</option>
+        {% endfor %}
+      </select>
+    </div>

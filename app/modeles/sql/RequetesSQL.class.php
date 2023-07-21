@@ -579,4 +579,26 @@ class RequetesSQL extends RequetesPDO {
     return $this->obtenirLignes(['idmembre' => $id_membre], RequetesPDO::UNE_SEULE_LIGNE);
 
 }  */
+
+
+  /* RECHERCHE
+     ======================== */
+
+  /**
+  * Retourne la liste des pays dont les bouteilles sont dans le catalogue.
+  *
+  * @param int id_utilisateur L'id de l'utilisateur
+  */
+  public function obtenirPaysCourantsCatalogue($id_utilisateur) {
+
+    $this->sql = "
+      SELECT DISTINCT(pays) AS nom, id_pays
+      FROM bouteilles_catalogue
+      INNER JOIN pays ON bouteilles_catalogue.idpays = pays.id_pays
+      WHERE (idmembre is NULL OR idmembre = :id_utilisateur)
+      ORDER BY nom ASC
+      ";
+
+    return $this->obtenirLignes(['id_utilisateur' => $id_utilisateur]);
+  }
 }
