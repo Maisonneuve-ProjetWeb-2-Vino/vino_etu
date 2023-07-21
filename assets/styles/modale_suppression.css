@@ -22,10 +22,10 @@
   }
 
   .OK{
-    background-color:var(--erreur-formulaire);
+    background-color:var(--vert-pale);
   }
   .KO{
-    background-color:var(--vin);
+    background-color:var(--erreur-formulaire);
   }
   .flex_modale>p{
     margin:15px;
