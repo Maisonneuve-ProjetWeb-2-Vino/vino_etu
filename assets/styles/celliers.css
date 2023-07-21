@@ -9,7 +9,7 @@
     justify-content: space-around;
     flex-direction: row;
     background-color: var(--brun_pale);
-    padding: 20px;
+    padding: 15px;
     border-radius: 25px;
 }
 
@@ -21,22 +21,6 @@
     margin: 0;
 }
 
-.bouton_ajout_cellier_top,
-.bouton_supprimer_cellier {
-    border-radius: 25px;
-    padding: 15px;
-    background-color: var(--vin);
-    text-align: center;
-    border-style: none;
-    width: 100%;
-}
-
-.bouton_ajout_cellier_top>a,
-.bouton_supprimer_cellier {
-    font-size: 14pt;
-    color: var(--blanc);
-    text-decoration: none;
-}
 
 .texte_cellier {
     padding: 15px;
@@ -80,7 +64,7 @@
     width: 80px;
     color: var(--blanc);
     aspect-ratio: 1;
-    background-color: #3B3333;
+    background-color: var(--fonce);
 }
 
 .conteneur_details_cache {

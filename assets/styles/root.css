@@ -46,13 +46,21 @@ main {
     width: 100%;
 }
 
+.couleur_gris {
+    background-color: var(--vin-blanc);
+}
+
+.couleur_rouge {
+    background-color: var(--bouton-formulaire-rouge);
+}
+
 /**************************************************/
 /*                     RACINE                     */
 /**************************************************/
 
 :root {
     --vin: #772743;
-    --vin-hover: #8d3051;    
+    --vin-hover: #8d3051;
     --blanc: white;
     --erreur-formulaire: #ff8585;
     --bouton-formulaire-rouge: #da4747;

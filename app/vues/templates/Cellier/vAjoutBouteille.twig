@@ -16,7 +16,7 @@
         <input class="form_ajout_input" id="recherche" type="text" name="nom_bouteille" placeholder="Mouton Cadet Bordeaux
 " aria-label="Recherche">
         </div>
-        <button class="bouton_supprimer_cellier" name="entrerBouteillePersonnalisee">Entrer une bouteille personnalisée</button>
+        <button class="btn_action" name="entrerBouteillePersonnalisee">Entrer une bouteille personnalisée</button>
         
         <ul class="listeAutoComplete">
 
@@ -25,16 +25,16 @@
             <div class="form_champ_ajout">
                 <label for="nom">Nom:</label>
                 <input id="nom" class="form_connexion_input nom_bouteille" data-id="" name="nom" value="{{ bouteille.nom }}" placeholder="Cabernet Sauvignon Élevé en fût de bourbon Private Selection Robert Mondavi" aria-label="Nom">
-<span class="error">
-    <span class="erreur_champ erreur_nom_bouteille">{{ erreurs.nom }}</span>
-</span>
+
+    <p class="erreur_champ erreur_nom_bouteille">{{ erreurs.nom }}</p>
+
 
 <div class="form_champ_ajout">
     <label for="quantite">Quantité:</label>
     <input id="quantite" class="form_ajout_input" name="quantite" value="1" placeholder="Quantité" aria-label="Quantité">
-    <span class="error">
-        <span class="erreur_champ erreur_quantite">{{ erreurs.quantite }}</span>
-    </span>
+
+        <p class="erreur_champ erreur_quantite">{{ erreurs.quantite }}</p>
+
 </div>
 
 <div class="form_champ_ajout">
@@ -56,9 +56,7 @@
             <option value="{{ type.type }}">{{ type.type }}</option>
         {% endfor %}
     </select>
-    <span class="error">
-        <span class="erreur_champ erreur_type">{{ erreurs.type }}</span>
-    </span>
+        <p class="erreur_champ erreur_type">{{ erreurs.type }}</p>
 </div>
 
 <div class="form_champ_ajout">
@@ -105,9 +103,7 @@ Robert Mondavi Private Selection" aria-label="Producteur">
 <div class="form_champ_ajout">
     <label for="prix">Prix:</label>
     <input id="prix" class="form_ajout_input" name="prix" value="{{ bouteille.prix_saq }}" placeholder="22,95" aria-label="Prix">
-    <span class="error">
-        <span class="erreur_champ erreur_prix">{{ erreurs.prix }}</span>
-    </span>
+        <p class="erreur_champ erreur_prix">{{ erreurs.prix }}</p>
 </div>
 
 <div class="form_champ_ajout">
@@ -124,7 +120,7 @@ Robert Mondavi Private Selection" aria-label="Producteur">
 
 <input id="cellier_id" type="hidden" value="{{ cellier_id }}">
 
-<button  class="bouton_supprimer_cellier"  name="ajouterBouteilleCellier">Ajouter la bouteille</button>
+<button  class="btn_action"  name="ajouterBouteilleCellier">Ajouter la bouteille</button>
         </div>
     </div>
 </div>

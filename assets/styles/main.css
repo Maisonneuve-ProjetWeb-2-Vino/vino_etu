@@ -67,10 +67,6 @@ footer p {
 	font-size: 10px;
 }
 
-.erreur_champ {
-	color: red;
-}
-
 .img_bouteille {
 	width: 100px;
 	object-fit: contain;

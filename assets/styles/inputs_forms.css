@@ -4,7 +4,8 @@
     background-size: 100%;
 }
 
-.form_connexion {
+.form_connexion,
+.form_modification_membre {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -12,7 +13,8 @@
 
 .form_connexion_input,
 .form_ajout_input,
-.form_inscription_input {
+.form_inscription_input,
+.form_modification_membre_input {
     width: 100%;
     height: 40px;
     background-color: var(--brun_pale);
@@ -32,17 +34,23 @@
     font-weight: 300;
 }
 
-.form_connexion .error {
-    margin-top:5px;
-    margin-bottom:5px;
+.form_connexion .error,
+.form_modification_membre .error,
+.erreur_champ {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
-.form_connexion .error span {
+.form_connexion .error span,
+.form_modification_membre .error span,
+.erreur_champ {
     color: var(--erreur-formulaire);
-  
+
+
 }
 
-.form_connexion a {
+.form_connexion a,
+.form_modification_membre a {
     font-size: 16px;
     color: var(--gris-pale);
     font-weight: 500;
@@ -66,11 +74,22 @@
     text-decoration: underline;
 }
 
-.form_champ_ajout, .form_champ_connexion, .form_champ_inscription {
+.form_champ_ajout,
+.form_champ_connexion,
+.form_champ_inscription,
+.form_champ_modification {
     padding-bottom: 15px;
 }
 
-.form_champ_ajout>label, .form_champ_connexion>label, .form_champ_inscription>label {
-    display:inline-block;
-    margin-bottom:5px;
+.form_champ_ajout>label,
+.form_champ_connexion>label,
+.form_champ_inscription>label,
+.form_champ_modification>label {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+form .btn_action {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
