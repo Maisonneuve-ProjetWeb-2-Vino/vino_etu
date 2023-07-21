@@ -3,30 +3,72 @@
 {% if oUtilConn %}
 
 
-	<div>
-		<h2>Informations de {{ membre.prenom }} {{ membre.nom }}</h2>
-        <p>{{ membre.courriel }}</p>
-        <p> membre depuis le {{ membre.date_creation|date("d-m-Y")}}</p>
-        <p> {{ membre.idprofil }}</p>
+	<section class="carte_parametre">
+
+        <div class="titre_carte_parametre">
+        <p>Informations</p>
+        </div>
 
 
-		<p><a href="modifierMembre" style="color:white">Modifier mes coordonnées</a></p>
-        <p><a href="deconnecter" style="color:white">Me déconnecter</a></p>
+        <div class="prenom_membre">
+        <div class="texte_information_membre_gauche">
+        <p>Prénom</p>
+        </div>
+          <div class="texte_information_membre_droite">
+        <p>{{ membre.prenom }}</p>
+        </div>
+        </div>
+
+        <div class="nom_membre">
+            <div class="texte_information_membre_gauche">
+            <p>Nom</p>
+            </div>
+            <div class="texte_information_membre_droite">
+            <p>{{ membre.nom }}</p>
+            </div>
+        </div>
+
+        <div class="courriel_membre">
+            <div class="texte_information_membre_gauche">
+            <p>Courriel</p>
+            </div>
+            <div class="texte_information_membre_droite">
+            <p>{{ membre.courriel }}</p>
+            </div>
+        </div>
+
+        {#<div class="date_creation_membre">
+            <div class="texte_information_membre_gauche">
+            <p>Date de création</p>
+            </div>
+            <div class="texte_information_membre_droite">
+            <p>{{ membre.date_creation|date("d-m-Y")}}</p>
+            </div>
+        </div>#}
+
+        {#<p> {{ membre.idprofil }}</p>#}
+
+        <div class="bouton_modifier_membre">
+		<a class="btn_action" href="modifierMembre">Modifier mes coordonnées</a>
+        </div>
+    </section>
+    <section class="carte_compte">
+        <div class="titre_carte_compte">
+        <p>Compte</p>
+        </div>
+
+        <div class="bouton_deconnexion">
+        <a class="btn_action couleur_gris" href="deconnecter" style="color:white">Me déconnecter</a>
+        </div>
+        <div class="bouton_suppression">
+        <a class="btn_action couleur_rouge" href="" style="color:white">Supprimer mon compte</a>
+        </div>
         {# <p><a href="supprimerCompte" style="color:white">Supprimer mon compte</a></p> #}
-	
-    <br><br>
     
 		{# <h2>Statistiques</h2>
         <p>Nombre de celliers : </p>
         <p>Nombre de bouteilles :</p> #}
-       
-
-</div>
-
-	
-	
-
-		 <br>
+    </section>
 
 
 

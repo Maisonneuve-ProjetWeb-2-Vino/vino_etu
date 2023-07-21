@@ -1,11 +1,11 @@
-.btn{  
-    margin-top:15px;
-    margin-bottom:15px;
+.btn {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .btn_connexion,
 .btn_inscription,
-.btn_ajouter_commentaire{
+.btn_ajouter_commentaire {
     height: 40px;
     width: 100%;
     border-radius: 20px;
@@ -13,19 +13,30 @@
     font-size: 16px;
     color: var(--blanc);
     margin-bottom: 20px;
-    transition: 0.3s ease-in-out;    
+    transition: 0.3s ease-in-out;
 }
 
 .btn_inscription:hover,
 .btn_connexion:hover,
-.btn_ajouter_commentaire:hover{    
-   background-color: var(--vin-hover);
+.btn_ajouter_commentaire:hover {
+    background-color: var(--vin-hover);
 }
 
 .btn_inscription:active,
 .btn_connexion:active,
-.btn_ajouter_commentaire:active
-{    
+.btn_ajouter_commentaire:active {
     background-color: var(--gris-fonce);
 }
-    
+
+
+.btn_action {
+    border-radius: 25px;
+    padding: 15px;
+    background-color: var(--vin);
+    text-align: center;
+    border-style: none;
+    width: 100%;
+    font-size: 14pt;
+    color: var(--blanc);
+    text-decoration: none;
+}

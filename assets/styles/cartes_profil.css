@@ -1,0 +1,63 @@
+.carte_parametre,
+.carte_compte {
+    background-color: var(--brun_pale);
+    border-radius: 25px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.carte_compte>a {
+    margin-bottom: 15px;
+}
+
+.titre_carte_parametre,
+.titre_carte_compte {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.titre_carte_parametre p,
+.titre_carte_compte p {
+    font-size: 16pt;
+}
+
+.prenom_membre,
+.nom_membre,
+.courriel_membre,
+.date_creation_membre {
+    display: flex;
+    flex-grow: 1;
+    border-bottom-style: solid;
+    border-width: 0.5px;
+    margin-bottom: 15px;
+}
+
+.courriel_membre {
+    margin-bottom: 25px;
+}
+
+.texte_information_membre_gauche {
+    text-align: left;
+    flex: 1;
+}
+
+.texte_information_membre_droite {
+    text-align: right;
+    flex: 1;
+}
+
+.bouton_modifier_membre,
+.bouton_deconnexion,
+.bouton_suppression {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bouton_deconnexion {
+    margin-bottom: 15px;
+}

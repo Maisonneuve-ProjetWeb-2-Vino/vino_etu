@@ -178,7 +178,7 @@ public function connexion() {
                 array(
                     
                     'oUtilConn' => $this->oUtilConn,
-                    'titre' => 'Fiche d\'un membre',
+                    'titre' => 'Profil',
                     'membre' => $membre,
                     //'nombreCellier' => $nombreCellier
                 ),
