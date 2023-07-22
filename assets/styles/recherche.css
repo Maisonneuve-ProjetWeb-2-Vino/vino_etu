@@ -1,0 +1,12 @@
+.filtre_svg  {
+    width: 20px;
+}
+
+.filtre_pays {
+    border: 1px solid white;
+    display:  flex;
+    padding: 2px;
+    margin: 0;
+    width: min-content;
+    border-radius: 25%;
+}

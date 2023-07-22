@@ -1,34 +1,50 @@
     <p>Rechercher dans</p>
-    
-    <div>
-      <input type="radio" id="catalogue" name="recherche_donnees" value="catalogue"
-             checked>
-      <label for="catalogue">Catalogue</label>
-    </div>
+    <div class="recherche">
+      <div>
+        <input type="radio" id="catalogue" name="recherche_donnees" value="catalogue"
+              checked>
+        <label for="catalogue">Catalogue</label>
+      </div>
 
-    <div>
-      <input type="radio" id="dewey" name="recherche_donnees" value="celliers">
-      <label for="celliers">Cellier(s)</label>
-    </div>
+      <div>
+        <input type="radio" id="celliers" name="recherche_donnees" value="celliers">
+        <label for="celliers">Cellier(s)</label>
+      </div>
 
-    <div>
-        <input id="" name="recherche_termes" value="">
-    </div>
+      <div>
+          <input id="recherche_termes" name="recherche_termes" value="">
+      </div>
 
-    <div>
-      <label for="couleur">Couleur</label>
+      <div>
+        <label for="couleur">Couleur</label>
 
-      <select name="couleur" id="couleur">
-          <option value="">--Please choose an option--</option>
-      </select>
-    </div>
+        <select name="couleur" id="couleur">
+            <option value="">--Please choose an option--</option>
+        </select>
+      </div>
 
-    <div>
-      <label for="pays">Pays</label>
+      <div>
+        <label for="pays">Pays</label>
 
-      <select name="pays" id="pays">
-        {% for unPays in pays %}
-        <option value="{{ unPays.id_pays }}">{{ unPays.nom }}</option>
-        {% endfor %}
-      </select>
-    </div>
+        <select name="pays" id="pays">
+          {% for unPays in pays %}
+          <option value="{{ unPays.id_pays }}">{{ unPays.nom }}</option>
+          {% endfor %}
+        </select>
+
+        <div id="pays_actifs">
+
+        </div>
+
+      </div>
+
+  </div>
+
+    <script type="tmpl" id="tmpl_pays_actifs">
+        <div class="filtre_pays">
+          <span data-js-pays-valeur="[[[ id_pays ]]]">[[[ pays ]]]</span>
+          <div class="filtre_svg">
+            <svg xmlns:x="http://ns.adobe.com/Extensibility/1.0/" xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/" xmlns:graph="http://ns.adobe.com/Graphs/1.0/" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" style="enable-background:new 0 0 100 100;" xml:space="preserve"><switch><foreignObject requiredExtensions="http://ns.adobe.com/AdobeIllustrator/10.0/" x="0" y="0" width="1" height="1"/><g i:extraneous="self"><path d="M60.5,50l34.8-34.8c2.9-2.9,2.9-7.6,0-10.5c-2.9-2.9-7.6-2.9-10.5,0L50,39.5L15.2,4.7c-2.9-2.9-7.6-2.9-10.5,0    c-2.9,2.9-2.9,7.6,0,10.5L39.5,50L4.7,84.8c-2.9,2.9-2.9,7.6,0,10.5c1.4,1.4,3.3,2.2,5.2,2.2s3.8-0.7,5.2-2.2L50,60.5l34.8,34.8    c1.4,1.4,3.3,2.2,5.2,2.2c1.9,0,3.8-0.7,5.2-2.2c2.9-2.9,2.9-7.6,0-10.5L60.5,50z"/></g></switch></svg>
+          </div>
+        </div>
+    </script>
