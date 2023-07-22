@@ -1,5 +1,3 @@
-<div class="cellier">
-
     <!-- Attribution de la couleur du conteneur de vin en fonction du type de vin -->
 
     {% set vin_type = '' %}
@@ -45,28 +43,17 @@
     <!-- Fiche détaillée du vin -->
     <div class="card_wrapper {{vin_type}}">
 
-        <!-- Informations du vin -->
-        <div class="vin_contenu_wrapper">
-
             <!-- L'image et l'evaluation du vin -->
             <div class="vin_image_wrapper">
-                <div class="vin_image">                    
+       
                     <img src="{{ bouteille.image_url|default('assets/img/default-bottle-img.png')}}" alt="image d'une bouteille du vin">
-                </div>
-                <div class="vin_rating">
-                    <img src="assets/img/icon-star-full.png" alt="Première étoile, pleine">
-                    <img src="assets/img/icon-star-full.png" alt="Deuxième étoile, pleine">
-                    <img src="assets/img/icon-star-full.png" alt="Troisième étoile,  pleine">                    
-                    <img src="assets/img/icon-star-half-empty.png" alt="Quatrième étoile, à moitié pleine">     
-                    <img src="assets/img/icon-star-empty.png" alt="Cinquième étoile, vide">                 
-
-                </div>
+                
                 {% if bouteille.pastille is not empty %}
                 <div class="pastille {{pastille_couleur}}">
                     <p class="pastille_texte {{pastille_texte_couleur}}">{{ bouteille.pastille }}</p>
                 </div>
-            {% endif %}
-            </div>                    
+            {% endif %}   
+            </div>            
             
             <!-- Section d'informations détaillées du vin -->
             <div class="vin_info">   
@@ -168,16 +155,25 @@
         </div>    
 
         <!-- La pastille et les contrôles -->
-        <div class="card_footer">
+        {#<div class="card_footer">
 
             <div class="controls">
-                {# <button class="btnModifier" data-id="{{ bouteille.id_bouteille_cellier }}">Modifier la bouteille</button>
+                <button class="btnModifier" data-id="{{ bouteille.id_bouteille_cellier }}">Modifier la bouteille</button>
     
-                <button class="confirmer" data-href="cellier?action=t&bouteille_id={{ bouteille.id_bouteille_cellier }}">Supprimer la bouteille</button> #}
+                <button class="confirmer" data-href="cellier?action=t&bouteille_id={{ bouteille.id_bouteille_cellier }}">Supprimer la bouteille</button> 
             </div>
-        </div>         
+        </div>#}         
 
     </div>
+
+    <div class="vin_rating">
+                    <img src="assets/img/icon-star-full.png" alt="Première étoile, pleine">
+                    <img src="assets/img/icon-star-full.png" alt="Deuxième étoile, pleine">
+                    <img src="assets/img/icon-star-full.png" alt="Troisième étoile,  pleine">                    
+                    <img src="assets/img/icon-star-half-empty.png" alt="Quatrième étoile, à moitié pleine">     
+                    <img src="assets/img/icon-star-empty.png" alt="Cinquième étoile, vide">                 
+
+                </div>
 
     <!-- Commentaires -->
     {# <h1 class="commentaires_titre">Commentaires</h1>
@@ -205,7 +201,5 @@
      </div>
 
      <button class="btn btn_ajouter_commentaire">Ajouter un commentaire</button> #}
-    
-</div>
 
 {{ include("/Cellier/modaleSuppression.twig") }}
