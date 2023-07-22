@@ -8,7 +8,7 @@
 			<label for="nom">Nom :</label>
 			<input id="nom" class="form_modification_membre_input" name="nom" value="{{ membre.nom }}" placeholder="Votre nom">
 			
-			 {% if erreurs.nom == "" %}{% else %}<div class="error">
+			 {% if erreurs.nom != "" %}<div class="error">
 				<span>{{ erreurs.nom }}</span>
 			</div>{% endif %}
 
@@ -17,7 +17,7 @@
 			<div class="form_champ_modification">
 			<label for="prenom">Prenom :</label>
 			<input id="prenom" class="form_modification_membre_input" name="prenom" value="{{ membre.prenom }}" placeholder="Votre prenom">
-			 {% if erreurs.prenom == "" %}{% else %}<div class="error">
+			 {% if erreurs.prenom != "" %}<div class="error">
 				<span>{{ erreurs.prenom }}</span>
 			</div>{% endif %}
 			</div>
@@ -26,7 +26,7 @@
 			<div class="form_champ_modification">
 			<label for="courriel">Courriel :</label>
 			<input id="courriel" class="form_modification_membre_input" name="courriel" value="{{ membre.courriel }}" placeholder="Votre adresse mail">
-			{% if erreurs.courriel == "" %}{% else %}<div class="error">
+			{% if erreurs.courriel != "" %}<div class="error">
 				<span>{{ erreurs.courriel }}</span>
 			</div>{% endif %}
 			</div>
