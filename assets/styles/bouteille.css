@@ -1,68 +1,87 @@
-
-.card_wrapper{
+.card_wrapper {
     /* width: 100%; */
     border-radius: 25px;
     padding: 15px;
     display: flex;
 }
 
-.vin_image_wrapper{
-    position:relative;
+.vin_image_wrapper {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex:1.5;
+    flex: 2;
 }
 
-.vin_image_wrapper img{
-    height:100%;
-    width:100%;
-    object-fit:cover;
+.vin_image_wrapper img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    margin-left: 15px;
+    margin-right: 15px;
 }
-.vin_image img{
-    height:100%;
-    width:100%;
+
+.vin_image img {
+    height: 100%;
+    width: 100%;
     object-fit: cover;
 }
 
-.vin_rating{    
-    width: 100%;   
-    margin: 10px 0; 
+.vin_rating {
+    width: 100%;
+    margin: 10px 0;
     display: flex;
     justify-content: space-between;
 }
 
-.vin_rating img{
-    width: 16%;     
+.vin_rating img {
+    width: 16%;
     object-fit: cover;
-}    
+}
 
-.vin_nom{
+.vin_nom {
     color: var(--blanc);
     font-size: 18px;
     word-break: break-word;
 
 }
 
-.vin_info{
-    display:flex;
-    flex-direction:column;
-    flex:3;
+.vin_info {
+    display: flex;
+    flex-direction: column;
+    flex: 3;
     margin-left: 15px;
 }
 
-.vin_info_breve{
-   display: flex; 
-   margin-left: -4px;
-   margin: 20px 0 20px;
+.vin_info_breve {
+    display: flex;
+    margin-left: -4px;
+    margin: 20px 0 20px;
 }
 
 .vin_pays,
 .vin_type,
-.vin_format{
+.vin_format {
     color: var(--blanc);
     font-size: 16px;
+    /* padding: 1px 5px; */
+}
+
+.vin_pays {
+    padding-right: 5px;
+}
+
+.titre_info {
+    padding-bottom: 15px;
+    text-decoration: underline;
+}
+
+.vin_type {
     padding: 1px 5px;
+}
+
+.vin_format {
+    padding-left: 5px;
 }
 
 .vin_info_breve :not(:last-child) {
@@ -71,31 +90,31 @@
 
 label[for="accordion"] {
     color: var(--blanc);
-    font-size: 16px;   
-    margin: 0  0  20px;   
-    cursor: pointer;    
-    display: flex; 
+    font-size: 16px;
+    margin: 0 0 20px;
+    cursor: pointer;
+    display: flex;
     align-items: center;
-}   
+}
 
-.vin_info_detaillee_contenu li{
+.vin_info_detaillee_contenu li {
     color: var(--blanc);
-    font-size: 14px;   
+    font-size: 14px;
     list-style: none;
-    line-height: 1.5rem;
+    line-height: 1.25rem;
     margin-bottom: 5px;
 }
 
-.vin_info_detaillee_contenu li span{
+.vin_info_detaillee_contenu li span {
     color: var(--blanc);
     font-size: 14px;
 }
 
-#accordion{
+/* #accordion {
     display: none;
-}
+} */
 
-.caret_up{
+.caret_up {
     transform: rotate(0deg);
     transition: transform 0.3s ease-in-out;
     height: 1.5em;
@@ -103,21 +122,21 @@ label[for="accordion"] {
     margin-right: 7px;
 }
 
-#accordion:checked + label > .caret_up {
+#accordion:checked+label>.caret_up {
     transform: rotate(180deg);
 }
 
 .vin_info_detaillee_contenu {
-    max-height: 0;
+    /* max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-in-out;
+    transition: max-height 0.3s ease-in-out; */
 }
 
-#accordion:checked ~ .vin_info_detaillee_contenu {
-    max-height: 1500px; 
+#accordion:checked~.vin_info_detaillee_contenu {
+    max-height: 1500px;
 }
 
-.commentaires_titre{
+.commentaires_titre {
     font-family: var(--police-secondaire);
     font-size: 18px;
     color: var(--blanc);
@@ -126,56 +145,58 @@ label[for="accordion"] {
     margin: 20px 0;
 }
 
-.commentaires_contenu{
+.commentaires_contenu {
     background-color: var(--gris-medium);
     padding: 15px;
     border-radius: 25px;
     margin-bottom: 20px;
 }
 
-.date{
+.date {
     margin-bottom: 5px;
 }
 
-.date span{
+.date span {
     font-size: 12px;
-    color: var(--blanc);   
+    color: var(--blanc);
 }
 
-.commentaire_wrapper{
+.commentaire_wrapper {
     margin-bottom: 15px;
-} 
+}
 
-.commentaire_wrapper span{
+.commentaire_wrapper span {
     font-size: 14px;
     color: var(--blanc);
 }
 
-.card_footer{
-  display: flex;
+.card_footer {
+    display: flex;
 }
 
-.pastille{
-    width: 75px;
-    height: 75px;   
+.pastille {
+    width: 80px;
+    height: 80px;
     border-radius: 45px;
     /* margin-top: 20px; */
-    display:flex;
-    position:absolute;
-    justify-content:center;
-    align-items:center;
-    top:-25px;
-    left:-25px; 
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    top: -25px;
+    left: -25px;
+    /* bottom: 0px;
+    left: 0px; */
 }
 
-.pastille_texte{
-    font-size: 14px;    
-    margin: 7px; 
-    font-weight: 500;   
-    text-align: center;      
+.pastille_texte {
+    font-size: 14px;
+    margin: 7px;
+    font-weight: 500;
+    text-align: center;
 }
 
-.pastille_texte_fonce{
+.pastille_texte_fonce {
     color: var(--fonce);
 }
 
@@ -183,52 +204,52 @@ label[for="accordion"] {
 
 /* Classes de couleurs de pastille */
 
-.charnu{
+.charnu {
     background-color: var(--aromatique-charnu);
 }
 
-.rond{
+.rond {
     background-color: var(--aromatique-rond);
 }
 
-.souple{
+.souple {
     background-color: var(--aromatique-souple);
 }
 
-.delicat{
-    background-color: var(--delicat-leger);  
+.delicat {
+    background-color: var(--delicat-leger);
 }
 
-.doux{
-    background-color: var(--fruite-doux); 
+.doux {
+    background-color: var(--fruite-doux);
 }
 
-.extra_doux{
-    background-color: var(--fruite-extra-doux); 
+.extra_doux {
+    background-color: var(--fruite-extra-doux);
 }
 
-.genereux{
-    background-color: var(--fuite-genereux); 
+.genereux {
+    background-color: var(--fuite-genereux);
 }
 
-.leger{
-    background-color: var(--fruite-leger); 
+.leger {
+    background-color: var(--fruite-leger);
 }
 
-.vif{
-    background-color: var(--fruite-vif); 
+.vif {
+    background-color: var(--fruite-vif);
 }
 
 /* Classes de types de vin */
 
-.vin_type_rouge{
+.vin_type_rouge {
     background: linear-gradient(var(--vin-rouge), var(--vin-rouge-fonce));
 }
 
-.vin_type_rose{
+.vin_type_rose {
     background: linear-gradient(var(--vin-rose), var(--vin-rose-fonce));
 }
 
-.vin_type_blanc{
+.vin_type_blanc {
     background: linear-gradient(var(--vin-blanc), var(--vin-blanc-fonce));
 }

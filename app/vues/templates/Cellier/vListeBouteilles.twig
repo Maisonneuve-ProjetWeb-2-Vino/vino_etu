@@ -15,7 +15,7 @@
         
         <div  class="texte_bouteille">
             <p class="bouteille_gros_texte">{{ bouteille.nom }}</p>
-            <p class="bouteille_petit_texte">{% if bouteille.pays == "" %}{% else %}{{ bouteille.pays }} | {% endif %}{{ bouteille.type }} {% if bouteille.format == "" %}{% else %} | {{ bouteille.format }}{% endif %}</p>
+            <p class="bouteille_petit_texte espacement">{% if bouteille.pays == "" %}{% else %}{{ bouteille.pays }} | {% endif %}{{ bouteille.type }} {% if bouteille.format == "" %}{% else %} | {{ bouteille.format }}{% endif %}</p>
         </div>
     </div>
         <div class="options description carte_bouteille_bottom" data-id="{{ bouteille.id_bouteille_cellier }} ">

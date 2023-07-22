@@ -52,6 +52,7 @@
 }
 
 .cellier_petit_texte {
+    margin-top: 15px;
     font-size: 12pt;
     color: var(--blanc);
 }
