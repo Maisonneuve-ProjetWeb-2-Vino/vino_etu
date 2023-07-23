@@ -1,0 +1,59 @@
+.filtre_svg  {
+    width: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.bulle_filtre_neutre {
+    display:  flex;
+    align-items: center;
+    padding: 4px;
+    margin-top: 10px;
+    width: min-content;
+    border-radius: 20px;
+}
+
+.bulle_filtre_blanche {
+    background-color: white;
+    color: black;
+}
+
+.bulle_filtre_vin_blanc {
+    background-color: var(--vin-blanc);
+    color: white;
+}
+
+.bulle_filtre_vin_rose {
+    background-color: var(--vin-rose);
+    color: white;
+}
+
+.bulle_filtre_vin_rouge {
+    background-color: var(--vin-rouge);
+    color: white;
+}
+
+.bulle_filtre_neutre span {
+    font-size: 16px;
+    white-space: pre;
+}
+
+.source_donnees {
+    display:flex;
+    justify-content: space-between;
+}
+
+.conteneur_bulles {
+    display: flex;
+    gap: 10px;
+}
+
+.titre_resultats {
+    font-size: 24px;
+}
+
+.resultats{
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}

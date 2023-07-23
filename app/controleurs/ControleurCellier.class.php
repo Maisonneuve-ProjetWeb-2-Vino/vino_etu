@@ -26,8 +26,8 @@ class ControleurCellier extends Routeur {
     'r' => 'obtenirDetailsBouteille',
     's' => 'supprimerCellier',
     't' => 'supprimerBouteille',
-    'v' => 'verifierBouteilleCellier',
-    'u' => 'verifierNomCellier'
+    'u' => 'verifierNomCellier',
+    'v' => 'verifierBouteilleCellier'
   ];
 
   /**
@@ -728,4 +728,5 @@ class ControleurCellier extends Routeur {
     $msgRetour = ['statut' =>  $resultat];
     echo json_encode($msgRetour);
   }
+
 }
