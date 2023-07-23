@@ -9,6 +9,7 @@ export default class Recherche {
     #elExpression;
     #elCatalogue;
     #elCelliers;
+    #select;
 
     /**
      * Constructeur de la classe Recherche
@@ -42,7 +43,12 @@ export default class Recherche {
                 "pays":[]
             }
 
-         }
+        }
+
+        this.#select = {
+            'couleur':this.#elCouleur,
+            'pays':this.#elPays
+        }
     }
 
     changerSourceDonnees(evt) {
@@ -82,8 +88,11 @@ export default class Recherche {
     ajouterFiltre(nomFiltre, elSelect, elDomInsertion, classesCSS) {
 
         const valeurAfficheeFiltre = elSelect.options[elSelect.selectedIndex].text;
-        //elSelect.options[elSelect.selectedIndex].style.display = "none";
         const valeurFiltre = elSelect.value;
+
+        // On cache l'élément sélectionné et on affiche l'option par défaut
+        elSelect.options[elSelect.selectedIndex].style.display = "none";
+        elSelect.value = "";
 
         const noeudEnfant = document.createElement("div");
 
@@ -140,24 +149,26 @@ export default class Recherche {
     }
 
     enleverFiltre(evt) {
+        // Enlever la bulle du filtre
         const noeudFiltre = evt.currentTarget;
         const filtre = noeudFiltre.dataset.filtre;
         const filtreValeur = noeudFiltre.dataset.filtreValeur;
         noeudFiltre.parentNode.removeChild(noeudFiltre);
 
+        // Enlever la valeur du filtre de la requête
+        let tableauFiltre = this.#requete['filtre'][filtre];
+        const index = tableauFiltre.indexOf(filtreValeur);
+        if (index > -1) {
+            tableauFiltre.splice(index, 1);
+        } else {
+            throw new Error('Erreur: valeur de filtre non trouvée');
+        }
 
-        //console.log(filtre_valeur);
+        // On réaffiche le filtre dans la Sélect
+        const elSelect = this.#select[filtre];
+        elSelect.querySelector(`option[value="${filtreValeur}"]`).style.display = "block";
+
+        this.faireRequeteRecherche();
     }
-    //const domParent = document.querySelector("main");
-    //const gabaritDetails = document.querySelector("#tmpl_detail").innerHTML;
-    //Affichage.afficher(oeuvreSelectionnee, gabaritDetails, domParent);
 
-    // Get the dropdown list element
-    //const dropdown = document.getElementById("vehicles");
-
-// Get the option to hide
-//const optionToHide = dropdown.querySelector("option[value='bike']");
-
-// Hide the option by setting its "display" style property to "none"
-//optionToHide.style.display = "none";
 }
