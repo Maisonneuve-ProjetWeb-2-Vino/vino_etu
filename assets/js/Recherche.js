@@ -6,6 +6,7 @@ export default class Recherche {
     #elPays;
     #elCouleur;
     #requete;
+    #elExpression;
 
     /**
      * Constructeur de la classe Recherche
@@ -15,6 +16,7 @@ export default class Recherche {
         this.#elRecherche = document.querySelector(".recherche");
         this.#elPays = document.querySelector("#pays");
         this.#elCouleur = document.querySelector("#couleur");
+        this.#elExpression = document.querySelector("#recherche_termes");
 
         this.initialiser();
     }
@@ -23,14 +25,26 @@ export default class Recherche {
         if (this.#elRecherche) {
             this.#elPays.addEventListener('change', this.ajouterFiltrePays.bind(this));
             this.#elCouleur.addEventListener('change', this.ajouterFiltreCouleur.bind(this));
+            this.#elExpression.addEventListener('keypress', this.entrerRechercheClavier.bind(this))
         }
 
         this.#requete = {
-            "donnee":"catalogue",
+            "donnees":"catalogue",
             "recherche":"",
             "couleur":[],
             "pays":[]
          }
+    }
+
+    entrerRechercheClavier(evt) {
+        if (evt.key == "Enter") {
+            evt.preventDefault();
+            let expressionRecherche = this.#elExpression.value;
+            if (expressionRecherche != "") {
+                this.#requete["recherche"] = expressionRecherche;
+                this.faireRequeteRecherche();
+            }
+        }
     }
 
     ajouterFiltrePays(evt) {
@@ -78,12 +92,34 @@ export default class Recherche {
         // Faire la requête de recherche
         this.#requete[nomFiltre].push(valeurFiltre);
         console.log(this.#requete);
+        this.faireRequeteRecherche();
+    }
+
+    faireRequeteRecherche() {
         const oFetch = new Fetch();
-        //oFetch.filtrerBouteilles(this.#requete, this.afficherResultats.bind(this));
+        oFetch.filtrerBouteilles(this.#requete, this.afficherResultats.bind(this));
     }
 
     afficherResultats(resultats) {
+        resultats = resultats.slice(0, 25);
+        const domParent = document.querySelector(".resultats");
+        const gabaritResultats = document.querySelector("#tmpl_resultats").innerHTML;
 
+        resultats.forEach(resultat => {
+            if (resultat.idtype == "Rouge") {
+                resultat.bouteille_classe = "bouteille_rouge"
+            } else if (resultat.idtype == "Rosé") {
+                resultat.bouteille_classe = "bouteille_rose";
+            } else if (resultat.type == "Blanc") {
+                resultat.bouteille_classe = "bouteille_blanche";
+            }
+
+            if (!resultat.image_url) {
+                resultat.image_url = "assets/img/default-bottle-img.png";
+            }
+        });
+
+        Affichage.afficher(resultats, gabaritResultats, domParent);
     }
 
     enleverFiltre(evt) {

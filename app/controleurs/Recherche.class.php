@@ -34,7 +34,7 @@ class Recherche extends Routeur {
             $body = json_decode(file_get_contents('php://input'));
 
         if(!empty($body)){
-            $resultats = $this->filtrer($body);
+            $resultats = $this->filtrer($body, $utilisateur_id);
             echo json_encode($resultats);
         }
         else { // Affichage de la page de recherche
@@ -57,7 +57,27 @@ class Recherche extends Routeur {
      * 
      * @param Array - Tableau avec les paramètres de la recherche et filtre.
      */
-    private function filtrer($parametres) {
-        $parametres
+    private function filtrer($parametres, $utilisateur_id) {
+
+        if (empty($parametres->recherche)) {
+            if ($parametres->donnees == "catalogue") {
+                $donnees = $this->oRequetesSQL->obtenirListeBouteillesCatalogue($utilisateur_id);
+            } else if ($parametres->donnees == "celliers") {
+                $donnees = $this->oRequetesSQL->obtenirListeBouteillesCelliers($utilisateur_id);
+            } else {
+                throw new Exception ("Type de données inconnu");
+            }
+        } else {
+            if ($parametres->donnees == "catalogue") {
+                $donnees = $this->oRequetesSQL->obtenirRechercheBouteillesCatalogue($utilisateur_id, $parametres->recherche);
+            } else if ($parametres->donnees == "celliers") {
+                $donnees = $this->oRequetesSQL->obtenirRechercheBouteillesCelliers($utilisateur_id, $parametres->recherche);
+            } else {
+                throw new Exception ("Type de données inconnu");
+            }
+        }
+
+
+        return $donnees;
     }
 }
