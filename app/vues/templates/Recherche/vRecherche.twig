@@ -21,6 +21,7 @@
         <label for="couleur">Couleur</label>
 
         <select name="couleur" id="couleur">
+         <option value="" disabled selected>Filtrer par couleur</option>
           {% for unType in types %}
           <option value="{{ unType.type }}">{{ unType.type }}</option>
           {% endfor %}
@@ -35,6 +36,7 @@
         <label for="pays">Pays</label>
 
         <select name="pays" id="pays">
+        <option value="" disabled selected>Filtrer par pays</option>
           {% for unPays in pays %}
           <option value="{{ unPays.id_pays }}">{{ unPays.nom }}</option>
           {% endfor %}

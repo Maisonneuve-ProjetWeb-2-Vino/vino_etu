@@ -7,6 +7,8 @@ export default class Recherche {
     #elCouleur;
     #requete;
     #elExpression;
+    #elCatalogue;
+    #elCelliers;
 
     /**
      * Constructeur de la classe Recherche
@@ -17,6 +19,8 @@ export default class Recherche {
         this.#elPays = document.querySelector("#pays");
         this.#elCouleur = document.querySelector("#couleur");
         this.#elExpression = document.querySelector("#recherche_termes");
+        this.#elCatalogue = document.querySelector("#catalogue");
+        this.#elCelliers = document.querySelector("#celliers");
 
         this.initialiser();
     }
@@ -26,14 +30,24 @@ export default class Recherche {
             this.#elPays.addEventListener('change', this.ajouterFiltrePays.bind(this));
             this.#elCouleur.addEventListener('change', this.ajouterFiltreCouleur.bind(this));
             this.#elExpression.addEventListener('keypress', this.entrerRechercheClavier.bind(this))
+            this.#elCatalogue.addEventListener('change', this.changerSourceDonnees.bind(this));
+            this.#elCelliers.addEventListener('change', this.changerSourceDonnees.bind(this));
         }
 
         this.#requete = {
             "donnees":"catalogue",
             "recherche":"",
-            "couleur":[],
-            "pays":[]
+            "filtre": {
+                "couleur":[],
+                "pays":[]
+            }
+
          }
+    }
+
+    changerSourceDonnees(evt) {
+        this.#requete["donnees"] = evt.target.value;
+        this.faireRequeteRecherche();
     }
 
     entrerRechercheClavier(evt) {
@@ -90,7 +104,7 @@ export default class Recherche {
         Affichage.afficher(valeurs, gabaritDetails, noeudEnfant);
 
         // Faire la requête de recherche
-        this.#requete[nomFiltre].push(valeurFiltre);
+        this.#requete['filtre'][nomFiltre].push(valeurFiltre);
         console.log(this.#requete);
         this.faireRequeteRecherche();
     }
@@ -101,6 +115,9 @@ export default class Recherche {
     }
 
     afficherResultats(resultats) {
+        if (typeof resultats === 'object' && resultats !== null) {
+            resultats = Object.values(resultats);
+        }
         resultats = resultats.slice(0, 25);
         const domParent = document.querySelector(".resultats");
         const gabaritResultats = document.querySelector("#tmpl_resultats").innerHTML;

@@ -77,7 +77,50 @@ class Recherche extends Routeur {
             }
         }
 
+        $resultats = $this->filtrerResultats($donnees, $parametres->filtre);
 
-        return $donnees;
+        return $resultats;
+    }
+
+    private function filtrerResultats($donnees, $parametres) {
+
+        $resultats = [];
+
+        // Filtre de couleur
+        if (count($parametres->couleur) != 0) {
+
+            foreach($parametres->couleur as $couleur) {
+
+                $resultatsIntermediaires = array_filter($donnees, function($resultat) use($couleur) {
+                    return ($resultat['idtype'] == $couleur) ? true : false;
+                });
+
+                $resultats = $resultats + $resultatsIntermediaires;
+            }
+
+        } else {
+            $resultats = $donnees;
+        }
+
+        // Filtre de pays
+        if (count($parametres->pays) != 0) {
+
+            $resultatsIntermediaires = [];
+            foreach($parametres->pays as $unPays) {
+                $resultatsBoucle = array_filter($resultats, function($resultat) use($unPays) {
+                    return ($resultat['idpays'] == $unPays) ? true : false;
+                });
+
+                $resultatsIntermediaires = $resultatsIntermediaires + $resultatsBoucle;
+            }
+
+            $resultats = $resultatsIntermediaires;
+
+        } else {
+            $resultats = $resultats;
+        } 
+
+        return $resultats;
+
     }
 }
