@@ -61,10 +61,8 @@ export default class Recherche {
         if (evt.key == "Enter") {
             evt.preventDefault();
             let expressionRecherche = this.#elExpression.value;
-            if (expressionRecherche != "") {
-                this.#requete["recherche"] = expressionRecherche;
-                this.faireRequeteRecherche();
-            }
+            this.#requete["recherche"] = expressionRecherche;
+            this.faireRequeteRecherche();
         }
     }
 
@@ -72,7 +70,7 @@ export default class Recherche {
         const nomFiltre = "pays";
         const elSelectPays = document.querySelector("#pays");
         const elDomPays = document.querySelector(".pays_actifs");
-        const cssPays = ["bulle_filtre"];
+        const cssPays = ["bulle_filtre_neutre", "bulle_filtre_blanche"];
 
         this.ajouterFiltre(nomFiltre, elSelectPays, elDomPays, cssPays);
     }
@@ -81,7 +79,21 @@ export default class Recherche {
         const nomFiltre = "couleur";
         const elSelectCouleur = document.querySelector("#couleur");
         const elDomCouleur = document.querySelector(".couleurs_actives");
-        const cssCouleur = ["bulle_filtre"];
+
+        // Cas spécial pour les bulles de couleur
+        const valeurFiltre = elSelectCouleur.value;
+        let cssCouleur = ["bulle_filtre_neutre"];
+        switch(valeurFiltre) {
+            case 'Blanc': 
+                cssCouleur.push("bulle_filtre_vin_blanc");
+                break;
+            case 'Rosé': 
+                cssCouleur.push("bulle_filtre_vin_rose");
+                break;
+            case 'Rouge': 
+                cssCouleur.push("bulle_filtre_vin_rouge");
+                break;
+        }
 
         this.ajouterFiltre(nomFiltre, elSelectCouleur, elDomCouleur, cssCouleur);
     }
@@ -115,7 +127,12 @@ export default class Recherche {
 
         // Faire la requête de recherche
         this.#requete['filtre'][nomFiltre].push(valeurFiltre);
-        console.log(this.#requete);
+        
+        // Obtenir termes de recherche
+        let expressionRecherche = this.#elExpression.value;
+        this.#requete["recherche"] = expressionRecherche;
+        console.log(expressionRecherche);
+        
         this.faireRequeteRecherche();
     }
 
@@ -162,6 +179,12 @@ export default class Recherche {
         } else {
             titre = `Résultats 1-${nombreResultatsAffiches} sur ${nombreTotalResultats}`;
         }
+
+        // Si aucun resultat
+        if (nombreResultatsAffiches == 0) {
+            titre = "Aucun résultat trouvé. Enlevez des filtres ou changez l'expression recherchée."
+        }
+
         document.querySelector(".titre_resultats").textContent = titre;
 
         Affichage.afficher(resultats, gabaritResultats, domParent);

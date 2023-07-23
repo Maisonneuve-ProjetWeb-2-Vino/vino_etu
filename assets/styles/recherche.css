@@ -4,19 +4,36 @@
     margin-right: 5px;
 }
 
-.bulle_filtre {
-    border: 1px solid white;
+.bulle_filtre_neutre {
     display:  flex;
     align-items: center;
     padding: 4px;
     margin-top: 10px;
     width: min-content;
     border-radius: 20px;
+}
+
+.bulle_filtre_blanche {
     background-color: white;
     color: black;
 }
 
-.bulle_filtre span {
+.bulle_filtre_vin_blanc {
+    background-color: var(--vin-blanc);
+    color: white;
+}
+
+.bulle_filtre_vin_rose {
+    background-color: var(--vin-rose);
+    color: white;
+}
+
+.bulle_filtre_vin_rouge {
+    background-color: var(--vin-rouge);
+    color: white;
+}
+
+.bulle_filtre_neutre span {
     font-size: 16px;
     white-space: pre;
 }
