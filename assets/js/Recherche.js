@@ -33,21 +33,22 @@ export default class Recherche {
             this.#elExpression.addEventListener('keypress', this.entrerRechercheClavier.bind(this))
             this.#elCatalogue.addEventListener('change', this.changerSourceDonnees.bind(this));
             this.#elCelliers.addEventListener('change', this.changerSourceDonnees.bind(this));
-        }
 
-        this.#requete = {
-            "donnees":"catalogue",
-            "recherche":"",
-            "filtre": {
-                "couleur":[],
-                "pays":[]
+            this.#requete = {
+                "donnees":"catalogue",
+                "recherche":"",
+                "filtre": {
+                    "couleur":[],
+                    "pays":[]
+                }
             }
 
-        }
+            this.#select = {
+                'couleur':this.#elCouleur,
+                'pays':this.#elPays
+            }
 
-        this.#select = {
-            'couleur':this.#elCouleur,
-            'pays':this.#elPays
+            this.faireRequeteRecherche();
         }
     }
 
@@ -71,7 +72,7 @@ export default class Recherche {
         const nomFiltre = "pays";
         const elSelectPays = document.querySelector("#pays");
         const elDomPays = document.querySelector(".pays_actifs");
-        const cssPays = ["filtre_pays"];
+        const cssPays = ["bulle_filtre"];
 
         this.ajouterFiltre(nomFiltre, elSelectPays, elDomPays, cssPays);
     }
@@ -80,7 +81,7 @@ export default class Recherche {
         const nomFiltre = "couleur";
         const elSelectCouleur = document.querySelector("#couleur");
         const elDomCouleur = document.querySelector(".couleurs_actives");
-        const cssCouleur = ["filtre_pays"];
+        const cssCouleur = ["bulle_filtre"];
 
         this.ajouterFiltre(nomFiltre, elSelectCouleur, elDomCouleur, cssCouleur);
     }
@@ -127,7 +128,10 @@ export default class Recherche {
         if (typeof resultats === 'object' && resultats !== null) {
             resultats = Object.values(resultats);
         }
-        resultats = resultats.slice(0, 25);
+
+        const nombreTotalResultats = resultats.length;
+
+        resultats = resultats.slice(0, 24);
         const domParent = document.querySelector(".resultats");
         const gabaritResultats = document.querySelector("#tmpl_resultats").innerHTML;
 
@@ -136,14 +140,29 @@ export default class Recherche {
                 resultat.bouteille_classe = "bouteille_rouge"
             } else if (resultat.idtype == "Rosé") {
                 resultat.bouteille_classe = "bouteille_rose";
-            } else if (resultat.type == "Blanc") {
+            } else if (resultat.idtype == "Blanc") {
                 resultat.bouteille_classe = "bouteille_blanche";
             }
 
             if (!resultat.image_url) {
                 resultat.image_url = "assets/img/default-bottle-img.png";
             }
+
+             if (!resultat.pays) {
+                resultat.pays = "";
+             }
         });
+
+
+        //Affichage du titre des résultats
+        const nombreResultatsAffiches = resultats.length;
+        let titre = "";
+        if (nombreResultatsAffiches >= 24) {
+            titre = `Résultats 1-24 sur ${nombreTotalResultats}`;
+        } else {
+            titre = `Résultats 1-${nombreResultatsAffiches} sur ${nombreTotalResultats}`;
+        }
+        document.querySelector(".titre_resultats").textContent = titre;
 
         Affichage.afficher(resultats, gabaritResultats, domParent);
     }

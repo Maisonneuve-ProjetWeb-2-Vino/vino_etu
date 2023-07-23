@@ -267,7 +267,6 @@ export default class Fetch{
               }
             })
             .then(response => {
-              console.log(response);
               cb(response);
             
             }).catch(error => {
