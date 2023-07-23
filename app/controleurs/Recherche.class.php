@@ -31,13 +31,33 @@ class Recherche extends Routeur {
             $utilisateur_id = $this->oUtilConn->id_membre;
         }
 
-        $pays =$this->oRequetesSQL->obtenirPaysCourantsCatalogue($utilisateur_id);
+            $body = json_decode(file_get_contents('php://input'));
 
-        new Vue("/Recherche/vRecherche",
-        array(
-            'titre'       => "Recherche",
-            'pays'        => $pays
-        ),
-        "/Frontend/gabarit-frontend");
+        if(!empty($body)){
+            $resultats = $this->filtrer($body);
+            echo json_encode($resultats);
+        }
+        else { // Affichage de la page de recherche
+            $pays = $this->oRequetesSQL->obtenirPaysCourantsCatalogue($utilisateur_id);
+            $types = $this->oRequetesSQL->obtenirTypesCourantsCatalogue($utilisateur_id);
+
+            new Vue("/Recherche/vRecherche",
+            array(
+                'titre'       => "Recherche",
+                'pays'        => $pays,
+                'types'       => $types
+            ),
+            "/Frontend/gabarit-frontend");
+        }
+
+    }
+
+    /**
+     * Effectue les opérations de recherche et filtrage des résultats
+     * 
+     * @param Array - Tableau avec les paramètres de la recherche et filtre.
+     */
+    private function filtrer($parametres) {
+        $parametres
     }
 }

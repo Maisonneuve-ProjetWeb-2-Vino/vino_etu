@@ -1,3 +1,12 @@
+.recherche {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    background-color: var(--vin-blanc);
+    padding: 20px;
+    border-radius: 25px;
+}
+
 .filtre_svg  {
     width: 20px;
 }
@@ -9,4 +18,8 @@
     margin: 0;
     width: min-content;
     border-radius: 25%;
+}
+
+.pays_actifs {
+    display: flex;
 }

@@ -601,4 +601,20 @@ class RequetesSQL extends RequetesPDO {
 
     return $this->obtenirLignes(['id_utilisateur' => $id_utilisateur]);
   }
+
+  /**
+  * Retourne la liste des types de vin dont les bouteilles sont dans le catalogue.
+  *
+  * @param int id_utilisateur L'id de l'utilisateur
+   */
+  public function obtenirTypesCourantsCatalogue($id_utilisateur) {
+    $this->sql = "
+      SELECT DISTINCT(idtype) AS type
+      FROM bouteilles_catalogue
+      WHERE (idmembre is NULL OR idmembre = :id_utilisateur)
+      ORDER BY type ASC
+      ";
+
+    return $this->obtenirLignes(['id_utilisateur' => $id_utilisateur]);
+  }
 }

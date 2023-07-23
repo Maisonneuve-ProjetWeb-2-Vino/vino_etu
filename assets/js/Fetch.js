@@ -255,4 +255,23 @@ export default class Fetch{
               console.error(error);
             });
     }
+
+    filtrerBouteilles(param, cb) {
+      let requete = new Request("recherche", {method: 'POST', body: JSON.stringify(param)});
+        fetch(requete)
+          .then(response => {
+              if (response.status === 200) {
+                return response.json();
+              } else {
+                throw new Error('Erreur');
+              }
+            })
+            .then(response => {
+              console.log(response);
+              cb(response);
+            
+            }).catch(error => {
+              console.error(error);
+            });
+    }
 }
