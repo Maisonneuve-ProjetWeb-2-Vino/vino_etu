@@ -197,6 +197,7 @@ public function connexion() {
      */
     public function modifierMembre()
   {
+    
     if (count($_POST) !== 0) {
        
       $membre =  [
@@ -206,7 +207,14 @@ public function connexion() {
                 'id_membre'  => $_POST['id_membre']
             ];
       $oMembre = new Membres($membre);
+      
       $erreurs = $oMembre->erreurs;
+      if($_POST['courriel'] != $this->oUtilConn->courriel){
+      $courrielendouble= $this->oRequetesSQL->controleMail(['courriel' => $oMembre->courriel]);
+                if($courrielendouble == true){
+                    $erreurs['courriel'] = "Ce courriel est déjà utilisé";
+                }
+            }
       if (count($erreurs) === 0) {
                   
         if ($this->oRequetesSQL->modifiermembre([
@@ -216,7 +224,7 @@ public function connexion() {
                     'id_membre' => $oMembre->id_membre
         ]))
 
-                    var_dump($oMembre);     
+                       
                 header(
                     "Location: profil"
                 ); // retour sur la page du profil
@@ -235,6 +243,60 @@ public function connexion() {
       array(
         'oUtilConn' => $this->oUtilConn,
         'titre'     => "Modifier un membre",
+        'membre'    => $membre,
+        'erreurs'   => $erreurs
+      ),
+      'Frontend/gabarit-frontend'
+    );
+  }
+
+
+      /**
+     * Modifier les coordonnees du membre
+     */
+    public function modifierMotDePasse()
+  {
+    if (count($_POST) !== 0) {
+       
+      $membre =  [
+                'courriel'  => $_POST['courriel'],
+                'courriel'  => $_POST['nouveauCourriel']
+            ];
+      $oMembre = new Membres($membre);
+      
+      $erreurs = $oMembre->erreurs;
+      $courrielendouble= $this->oRequetesSQL->controleMail(['courriel' => $oMembre->courriel]);
+                if($courrielendouble == true){
+                    $erreurs['courriel'] = "Ce courriel est déjà utilisé";
+                }
+      if (count($erreurs) === 0) {
+                  
+        if ($this->oRequetesSQL->modifiermembre([
+                    'nom'    => $oMembre->nom,
+                    'prenom' => $oMembre->prenom,
+                    'courriel' => $oMembre->courriel,
+                    'id_membre' => $oMembre->id_membre
+        ]))
+
+                       
+                header(
+                    "Location: profil"
+                ); // retour sur la page du profil
+                exit;
+      }
+    } else {
+    // chargement initial du formulaire  
+    // initialisation des champs dans la vue formulaire avec les données SQL de cet utilisateur  
+         $membre  = $this->oRequetesSQL->infoMembre($this->oUtilConn->id_membre);
+            
+      $erreurs = [];
+    }
+           
+    new Vue(
+      'Frontend/vModifierMotDePasse',
+      array(
+        'oUtilConn' => $this->oUtilConn,
+        'titre'     => "Modifier le mot de passe",
         'membre'    => $membre,
         'erreurs'   => $erreurs
       ),
