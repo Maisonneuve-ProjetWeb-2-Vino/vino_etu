@@ -10,6 +10,7 @@ class BouteilleCellier
     private $id_bouteille_cellier;
     private $id_cellier;
     private $quantite;
+    private $note;
 
 
     private $erreurs = array();
@@ -42,6 +43,7 @@ class BouteilleCellier
     public function getId_bouteille_cellier()       { return $this->id_bouteille_cellier; }
     public function getId_cellier()       { return $this->id_cellier; }
     public function getQuantite()       { return $this->quantite; }
+    public function getNote()       { return $this->note; }
 
 
     /**
@@ -118,6 +120,23 @@ class BouteilleCellier
             }
         }
         $this->quantite = $quantite;
+        return $this;
+    }
+    /**
+     * Mutateur de la propriété note
+     * 
+     * @param int $note
+     * @return $this
+     */    
+    public function setNote($note) {
+        unset($this->erreurs['note']);
+        $regExp = '/^[0-5]+$/';
+        if (!empty($note)) {
+            if (!preg_match($regExp, $note)) {
+                $this->erreurs['note'] = "La note doit être comprise entre 0 et 5";
+            }
+        }
+        $this->note = $note;
         return $this;
     }
 

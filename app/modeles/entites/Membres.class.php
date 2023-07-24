@@ -11,6 +11,7 @@ class Membres
   private $prenom;
   private $courriel;
   private $mdp;
+  private $mdpProvisoire;
   private $date_creation;
   private $idprofil;
  
@@ -173,6 +174,25 @@ class Membres
       $this->erreurs['mdp'] = "Saisissez au moins 10 caracteres et un caractere parmi %!:= ainsi qu'un chiffre";
     }
     $this->mdp = $mdp;
+    return $this;
+  }
+
+  
+  /**
+   * Mutateur de la propriété mdpprovisoire
+   * @param string $mdpprovisoire
+   * @return $this
+   */
+  public function setmdpProvisoire($mdpProvisoire)
+  {
+    $this->mdpProvisoire = $mdpProvisoire;
+    unset($this->erreurs['mdpProvisoire']);
+    $mdpProvisoire = trim($mdpProvisoire);
+    $regExp = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[%!\:=])([A-Za-z0-9%!\:=]{10,})$/i';
+    if (!preg_match($regExp, $mdpProvisoire)) {
+      $this->erreurs['mdp'] = "Saisissez au moins 10 caracteres et un caractere parmi %!:= ainsi qu'un chiffre";
+    }
+    $this->mdpProvisoire = $mdpProvisoire;
     return $this;
   }
 
