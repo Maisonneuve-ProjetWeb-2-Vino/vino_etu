@@ -21,6 +21,7 @@ class BouteilleCatalogue
     private $producteur;
     private $region;
     private $tauxSucre;
+    private $note;
 
     private $erreurs = array();
 
@@ -64,6 +65,7 @@ class BouteilleCatalogue
     public function getPrix()       { return $this->prix; }
     public function getRegion()       { return $this->region; }
     public function getTauxSucre()       { return $this->tauxSucre; }
+    public function getNote()       { return $this->note; }
 
     /**
      * Mutateur magique qui exécute le mutateur de la propriété en paramètre 
@@ -276,4 +278,5 @@ class BouteilleCatalogue
         $this->tauxSucre = $tauxSucre;
         return $this;
     }
+    
 }
