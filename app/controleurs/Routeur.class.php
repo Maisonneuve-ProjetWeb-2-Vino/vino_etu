@@ -21,6 +21,7 @@ class Routeur {
     ['validationInscription', 'Membre', 'validationInscription'],
     ['profil',                'Membre', 'profil'],
     ['modifierMembre',        'Membre', 'modifierMembre'],
+    ['recherche',             'Recherche', 'rechercher']
     ['modifierMotDePasse',    'Membre', 'modifierMotDePasse'],
   ];
 
