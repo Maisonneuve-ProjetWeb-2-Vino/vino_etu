@@ -579,4 +579,128 @@ class RequetesSQL extends RequetesPDO {
     return $this->obtenirLignes(['idmembre' => $id_membre], RequetesPDO::UNE_SEULE_LIGNE);
 
 }  */
+
+
+  /* RECHERCHE
+     ======================== */
+
+  /**
+  * Retourne la liste des pays dont les bouteilles sont dans le catalogue.
+  *
+  * @param int id_utilisateur L'id de l'utilisateur
+  */
+  public function obtenirPaysCourantsCatalogue($id_utilisateur) {
+
+    $this->sql = "
+      SELECT DISTINCT(pays) AS nom, id_pays
+      FROM bouteilles_catalogue
+      INNER JOIN pays ON bouteilles_catalogue.idpays = pays.id_pays
+      WHERE (idmembre is NULL OR idmembre = :id_utilisateur)
+      ORDER BY nom ASC
+      ";
+
+    return $this->obtenirLignes(['id_utilisateur' => $id_utilisateur]);
+  }
+
+  /**
+  * Retourne la liste des types de vin dont les bouteilles sont dans le catalogue.
+  *
+  * @param int id_utilisateur L'id de l'utilisateur
+   */
+  public function obtenirTypesCourantsCatalogue($id_utilisateur) {
+    
+    $this->sql = "
+      SELECT DISTINCT(idtype) AS type
+      FROM bouteilles_catalogue
+      WHERE (idmembre is NULL OR idmembre = :id_utilisateur)
+      ORDER BY type ASC
+      ";
+
+    return $this->obtenirLignes(['id_utilisateur' => $id_utilisateur]);
+  }
+
+  /**
+   * Retourne toutes les bouteilles dans le catalogue pour un utlisateur donné (incluant 
+   * vins personnalisés)
+   * 
+   * @param int id_utilisateur L'id de l'utilisateur
+   */
+  public function obtenirListeBouteillesCatalogue($id_utilisateur) {
+
+    $this->sql = "
+      SELECT *
+      FROM bouteilles_catalogue
+      LEFT JOIN pays ON bouteilles_catalogue.idpays = pays.id_pays
+      WHERE (idmembre is NULL OR idmembre = :id_utilisateur)
+    ";
+
+    return $this->obtenirLignes(['id_utilisateur' => $id_utilisateur]);
+  }
+
+  /**
+   * Retourne les détails du catalogue pour toutes les bouteilles dans les 
+   * celliers d'un utlisateur donné.
+   * 
+   * @param int id_utilisateur L'id de l'utilisateur
+   */
+  public function obtenirListeBouteillesCelliers($id_utilisateur) {
+
+    $this->sql = "
+      SELECT *
+      FROM celliers
+      INNER JOIN bouteilles_cellier ON celliers.id_cellier = bouteilles_cellier.idcellier
+      INNER JOIN bouteilles_catalogue ON bouteilles_cellier.idbouteillecatalogue = bouteilles_catalogue.id_bouteille
+      LEFT JOIN pays ON bouteilles_catalogue.idpays = pays.id_pays
+      WHERE celliers.idmembre = :id_utilisateur
+    ";
+
+    return $this->obtenirLignes(['id_utilisateur' => $id_utilisateur]);
+  }
+
+  /**
+   * Retourne toutes les bouteilles trouvées dans le catalogue pour un utlisateur donné (incluant 
+   * vins personnalisés) en comparant le terme de recherche au champ nom.
+   * 
+   * @param int id_utilisateur L'id de l'utilisateur
+   * @param string $motsCles Le terme de recherche
+   */
+  public function obtenirRechercheBouteillesCatalogue($id_utilisateur, $motsCles) {
+
+    $this->sql = "
+      SELECT *
+      FROM bouteilles_catalogue
+      LEFT JOIN pays ON bouteilles_catalogue.idpays = pays.id_pays
+      WHERE (idmembre is NULL OR idmembre = :id_utilisateur) AND
+      nom LIKE :motsCles
+    ";
+
+    $motsCles = '%'. $motsCles .'%';
+
+    return $this->obtenirLignes(['motsCles' => $motsCles, 'id_utilisateur' => $id_utilisateur]);
+  }
+
+
+  /**
+   * Retourne les détails du catalogue pour toutes les bouteilles trouvées dans les 
+   * celliers d'un utlisateur donné en comparant le terme de recherche au champ nom.
+   * 
+   * @param int id_utilisateur L'id de l'utilisateur
+   * @param string $motsCles Le terme de recherche
+   */
+  public function obtenirRechercheBouteillesCelliers($id_utilisateur, $motsCles) {
+
+    $this->sql = "
+      SELECT *
+      FROM celliers
+      INNER JOIN bouteilles_cellier ON celliers.id_cellier = bouteilles_cellier.idcellier
+      INNER JOIN bouteilles_catalogue ON bouteilles_cellier.idbouteillecatalogue = bouteilles_catalogue.id_bouteille
+      LEFT JOIN pays ON bouteilles_catalogue.idpays = pays.id_pays
+      WHERE celliers.idmembre = :id_utilisateur AND
+      bouteilles_catalogue.nom LIKE :motsCles
+    ";
+
+    $motsCles = '%'. $motsCles .'%';
+
+    return $this->obtenirLignes(['motsCles' => $motsCles, 'id_utilisateur' => $id_utilisateur]);
+  }
 }
