@@ -29,7 +29,7 @@
 
 .vin_rating {
     width: 100%;
-    margin: 10px 0;
+    margin: 25px 0;
     display: flex;
     justify-content: space-between;
 }
@@ -137,7 +137,6 @@ label[for="accordion"] {
 }
 
 .commentaires_titre {
-    font-family: var(--police-secondaire);
     font-size: 18px;
     color: var(--blanc);
     font-weight: 400;
@@ -146,10 +145,9 @@ label[for="accordion"] {
 }
 
 .commentaires_contenu {
-    background-color: var(--gris-medium);
+    background-color: var(--brun_pale);
     padding: 15px;
     border-radius: 25px;
-    margin-bottom: 20px;
 }
 
 .date {
