@@ -10,6 +10,7 @@ class BouteilleCellier
     private $id_bouteille_cellier;
     private $id_cellier;
     private $quantite;
+    
 
 
     private $erreurs = array();

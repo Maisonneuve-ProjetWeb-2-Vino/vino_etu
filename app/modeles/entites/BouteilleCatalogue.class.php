@@ -278,5 +278,22 @@ class BouteilleCatalogue
         $this->tauxSucre = $tauxSucre;
         return $this;
     }
+    /**
+     * Mutateur de la propriété note
+     * 
+     * @param int $note
+     * @return $this
+     */    
+    public function setNote($note) {
+        unset($this->erreurs['note']);
+        $regExp = '/^[0-5]+$/';
+        if (!empty($note)) {
+            if (!preg_match($regExp, $note)) {
+                $this->erreurs['note'] = "La note doit être comprise entre 0 et 5";
+            }
+        }
+        $this->note = $note;
+        return $this;
+    }
     
 }
