@@ -46,7 +46,7 @@ class RequetesSQL extends RequetesPDO {
 
     $this->sql = "
       INSERT INTO bouteilles_cellier SET idbouteillecatalogue = :id_bouteille,
-      idcellier = :id_cellier, quantite = :quantite
+      idcellier = :id_cellier, quantite = :quantite, date_creation = Now()
       ";
         
     return $this->CUDLigne($champs);
@@ -207,7 +207,7 @@ class RequetesSQL extends RequetesPDO {
 	{
 
     $this->sql = "
-      INSERT INTO celliers SET nom = :nom, idmembre = :idmembre
+      INSERT INTO celliers SET nom = :nom, idmembre = :idmembre, date_creation = Now()
       ";
         
     return $this->CUDLigne($champs); 
