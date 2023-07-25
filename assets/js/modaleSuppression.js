@@ -1,4 +1,7 @@
-document.querySelectorAll('.confirmer').forEach(e => e.onclick = afficherFenetreModale);
+
+let touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
+
+document.querySelectorAll('.confirmer').forEach(e => e.addEventListener(touchEvent, afficherFenetreModale));
 
 /**
  * Affichage d'une fenêtre modale
