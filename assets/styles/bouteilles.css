@@ -1,24 +1,48 @@
+.conteneur_gros_texte{
+    display:flex;
+}
+
+.texte_nom{
+    flex:5;
+}
+.symbole_quebec{
+    flex:1;
+}
+
+.symbole_quebec>svg{
+    fill: var(--fonce);
+}
 .carte_bouteille {
     display: flex;
-    flex-direction: column;
-    padding: 10px;
+    padding: 20px;
     border-radius: 25px;
 }
 
-.texte_bouteille{
-    display:flex;
-    flex-direction:column;
-    align-items:right;
-    justify-content:center;
+.texte_bouteille {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    word-break: break-word;
+    margin-left: 10px;
 }
-.image_bouteille{
-    display:flex;
-    align-items:center;
-    justify-content:center;
+
+.image_bouteille {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* min-height: 150px; */
+    flex: 2;
 }
+
+.conteneur_droite {
+    flex: 4;
+    display: flex;
+    flex-direction: column;
+}
+
 .image_bouteille>img {
-    height: 125px;
-    width: 65px;
+    height: 100%;
+    width: 100px;
     object-fit: cover;
 }
 
@@ -27,58 +51,78 @@
 }
 
 .carte_bouteille_bottom {
+    margin-top: auto;
     display: flex;
 }
 
 .bouteille_gros_texte {
     font-size: 14pt;
     color: #ffffff;
+    margin: 0px;
+    padding: 0px;
 }
 
 .bouteille_petit_texte {
     font-size: 12pt;
     color: #ffffff;
+    height: 100%;
+    align-items: center;
+    display: flex;
+}
+
+.espacement {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .icones_gauche {
-    padding: 5px;
+    /* padding: 5px; */
     display: flex;
     flex: 1;
-    align-items: center;    
+    align-items: end;
+    margin-left: 10px;
 }
 
 .icones_gauche>svg {
-    
-    margin: 10px;
+
+    /* margin: 10px; */
     fill: var(--fonce);
     opacity: 60%;
 }
 
+.btnAjouter {
+    margin-right: 10px;
+}
+
+.btnBoire {
+    margin-left: 10px;
+}
+
 .icones_droite>svg {
-    padding: 5px;   
+    /* padding: 5px; */
 }
 
 .icone_droite {
-    padding: 10px;
+    /* padding: 10px; */
     display: flex;
     flex: 4;
-    align-items: center;
+    align-items: end;
     justify-content: flex-end;
 }
 
 .disabled-svg {
     pointer-events: none;
-    opacity: 0.5; 
+    opacity: 0.5;
 }
 
 .bouteille_rouge {
     background-color: var(--vin-rouge);
 }
 
-.bouteille_blanche{
+.bouteille_blanche {
     background-color: var(--vin-blanc);
 }
 
-.bouteille_rose{
+.bouteille_rose {
     background-color: var(--vin-rose);
 }

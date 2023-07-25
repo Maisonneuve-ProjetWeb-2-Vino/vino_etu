@@ -18,10 +18,7 @@ textarea {
     color: #222;
 }
 
-html {
-    font-size: 1em;
-    line-height: 1.4;
-}
+html {}
 
 /*
  * Remove text-shadow in selection highlight: h5bp.com/i
@@ -177,8 +174,10 @@ textarea {
 
 .clearfix:before,
 .clearfix:after {
-    content: " "; /* 1 */
-    display: table; /* 2 */
+    content: " ";
+    /* 1 */
+    display: table;
+    /* 2 */
 }
 
 .clearfix:after {
@@ -196,9 +195,9 @@ textarea {
 }
 
 @media print,
-       (-o-min-device-pixel-ratio: 5/4),
-       (-webkit-min-device-pixel-ratio: 1.25),
-       (min-resolution: 120dpi) {
+(-o-min-device-pixel-ratio: 5/4),
+(-webkit-min-device-pixel-ratio: 1.25),
+(min-resolution: 120dpi) {
     /* Style adjustments for high resolution devices */
 }
 
@@ -210,7 +209,8 @@ textarea {
 @media print {
     * {
         background: transparent !important;
-        color: #000 !important; /* Black prints faster: h5bp.com/s */
+        color: #000 !important;
+        /* Black prints faster: h5bp.com/s */
         box-shadow: none !important;
         text-shadow: none !important;
     }
@@ -245,7 +245,8 @@ textarea {
     }
 
     thead {
-        display: table-header-group; /* h5bp.com/t */
+        display: table-header-group;
+        /* h5bp.com/t */
     }
 
     tr,
