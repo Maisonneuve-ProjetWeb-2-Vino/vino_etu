@@ -18,12 +18,12 @@
 			</div>
 
 			<div class="form_champ_modification">
-				<label for="nouveauMdp">Votre nouveau mot de passe :</label>
-				<input id="nouveauMdp" class="form_modification_membre_input" name="nouveauMdp" value="" type="password" placeholder="Votre nouveau mot de passe">
-				{% if erreurs.nouveauMdp != "" %}
+				<label for="mdp">Votre nouveau mot de passe :</label>
+				<input id="mdp" class="form_modification_membre_input" name="mdp" value="" type="password" placeholder="Votre nouveau mot de passe">
+				{% if erreurs.mdp != "" %}
 					
 						<div class="error">
-							<span>{{ erreurs.nouveauMdp }}</span>
+							<span>{{ erreurs.mdp }}</span>
 						</div>
 				{% endif %}
 			</div>
@@ -33,7 +33,6 @@
 				<label for="confNouveauMotDePasse">Confirmez votre nouveau mot de passe :</label>
 				<input id="confNouveauMotDePasse" class="form_modification_membre_input" name="confNouveauMotDePasse" type="password" value="" placeholder="Confirmez votre mot de passe">
 				{% if erreurs.confNouveauMotDePasse != "" %}
-					
 						<div class="error">
 							<span>{{ erreurs.confNouveauMotDePasse }}</span>
 						</div>

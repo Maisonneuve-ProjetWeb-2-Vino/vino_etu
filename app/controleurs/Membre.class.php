@@ -115,7 +115,7 @@ public function connexion() {
                
                 $oMembre = new Membres($membre); // création d'un objet membre pour contrôler la saisie
                 $erreurs = $oMembre->erreurs;
-                if($_POST['mdp'] !== $_POST['renouvelermdp']){
+                if($oMembre->mdp !== $_POST['renouvelermdp']){
                     $erreurs['renouvelermdp'] = "Votre mot de passe et la confirmation ne correspondent pas";
                 }
                 $courrielendouble= $this->oRequetesSQL->controleMail(['courriel' => $oMembre->courriel]);
@@ -128,7 +128,6 @@ public function connexion() {
                             'prenom' => $oMembre->prenom,
                             'courriel' => $oMembre->courriel,
                             'mdp' => $oMembre->mdp,
-                            'renouvelermdp' => $oMembre->mdp,
                             'idprofil' => $oMembre->idprofil
                         ]);
                         if ($id_membre > 0) {
@@ -197,7 +196,6 @@ public function connexion() {
      */
     public function modifierMembre()
   {
-    
     if (count($_POST) !== 0) {
        
       $membre =  [
@@ -252,29 +250,32 @@ public function connexion() {
 
 
       /**
-     * Modifier les coordonnees du membre
+     * Modifier le mot de passe du membre
      */
     public function modifierMotDePasse()
-  {
-    if (count($_POST) !== 0) {
-       
-      $membre =  [
-                'courriel'  => $_POST['courriel'],
-                'courriel'  => $_POST['nouveauCourriel']
+    {
+        if (count($_POST) !== 0) {
+        $mdpHache = hash('sha512', $_POST['mdp']);
+        var_dump('MDP HACHE', $mdpHache);
+        var_dump('oUtilConn',$this->oUtilConn->mdp);
+        exit;
+            if($mdpHache != $this->oUtilConn->mdp){
+                $erreurs['mdp'] = "Votre mot de passe n'est pas le bon";
+            }
+            $confMdp =  [     
+                'mdp' => $_POST['confNouveauMotDePasse']
             ];
-      $oMembre = new Membres($membre);
-      
-      $erreurs = $oMembre->erreurs;
-      $courrielendouble= $this->oRequetesSQL->controleMail(['courriel' => $oMembre->courriel]);
-                if($courrielendouble == true){
-                    $erreurs['courriel'] = "Ce courriel est déjà utilisé";
+            $oConfMdp = new Membres($confMdp);
+            $erreurs = $oConfMdp->erreurs;
+                if($_POST['confNouveauMotDePasse'] !== $_POST['nouveauMdp']){
+                    $erreurs['confNouveauMotDePasse'] = "Votre mot de passe et la confirmation ne correspondent pas";
                 }
+
+       
       if (count($erreurs) === 0) {
                   
-        if ($this->oRequetesSQL->modifiermembre([
-                    'nom'    => $oMembre->nom,
-                    'prenom' => $oMembre->prenom,
-                    'courriel' => $oMembre->courriel,
+        if ($this->oRequetesSQL->modifierMotDePasse([
+                    'mdp'    => $oConfMdp->nouveauMdp,
                     'id_membre' => $oMembre->id_membre
         ]))
 
