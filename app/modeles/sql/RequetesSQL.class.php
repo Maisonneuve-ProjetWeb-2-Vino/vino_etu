@@ -497,7 +497,7 @@ class RequetesSQL extends RequetesPDO {
   public function inscriptionMembre($champs)
   {
     $this->sql = '
-      INSERT INTO membres SET nom = :nom, prenom = :prenom, courriel = :courriel, mdp = SHA2(:mdp, 512), renouvelermdp = SHA2(:renouvelermdp, 512),idprofil = :idprofil, date_creation = NOW()';
+      INSERT INTO membres SET nom = :nom, prenom = :prenom, courriel = :courriel, mdp = SHA2(:mdp, 512), idprofil = :idprofil, date_creation = NOW()';
     return $this->CUDLigne($champs);
   }
 
@@ -561,6 +561,22 @@ class RequetesSQL extends RequetesPDO {
     //var_dump($champs);
     $this->sql = '
       UPDATE membres SET nom = :nom, prenom = :prenom, courriel = :courriel
+      WHERE id_membre = :id_membre';
+    return $this->CUDLigne($champs);
+  } 
+
+   /**
+   * Modifier un membre
+   * @param array $champs tableau avec les champs à modifier et la clé id_membre
+   * @return boolean true si modification effectuée, false sinon
+   */
+  public function modifierMotDePasse($champs)
+  
+  {
+    
+    //var_dump($champs);
+    $this->sql = '
+      UPDATE membres SET mdp = SHA2(:mdp, 512)
       WHERE id_membre = :id_membre';
     return $this->CUDLigne($champs);
   } 
