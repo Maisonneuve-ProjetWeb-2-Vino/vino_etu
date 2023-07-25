@@ -150,6 +150,11 @@
                             <span>{{ bouteille.tauxSucre }}</span>
                         </li>
                         {% endif %}
+                         {% if bouteille.produitQuebec is not empty %}
+                        <li>Produit du Québec :
+                            <span>{{ bouteille.produitQuebec }}</span>
+                        </li>
+                        {% endif %}
                     </div>
                 </div>
                 {% endif %}

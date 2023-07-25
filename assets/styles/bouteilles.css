@@ -1,3 +1,17 @@
+.conteneur_gros_texte{
+    display:flex;
+}
+
+.texte_nom{
+    flex:5;
+}
+.symbole_quebec{
+    flex:1;
+}
+
+.symbole_quebec>svg{
+    fill: var(--fonce);
+}
 .carte_bouteille {
     display: flex;
     padding: 20px;
