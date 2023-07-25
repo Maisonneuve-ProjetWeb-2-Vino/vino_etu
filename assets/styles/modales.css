@@ -1,0 +1,110 @@
+.modale_suppression, .modale_ajout{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    font-size:16pt;
+    color:var(--fonce);
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: var(--blanc); 
+    padding: 20px;
+    border-radius: 20px;
+    border-style:none;
+  }
+
+ .flex_modale >  div > button {
+    height: 40px;
+    width: 100%;
+    border-radius: 20px;
+    font-size: 16px;
+    color: var(--blanc);
+    margin:15px;
+  }
+
+  .OK{
+    background-color:var(--bouton-formulaire-rouge);
+  }
+  .KO{
+    background-color:var(--bouton-formulaire-vert);
+  }
+  .flex_modale>p{
+    margin:15px;
+  }
+
+  .flex_modale{
+    display:flex;
+    flex-direction:column;
+  }
+
+  .flex_modale >div{
+    display:flex;
+  }
+
+  .titre_modale_ajout{
+    font-family:var(--police-secondaire);
+    padding-top:15px;
+    padding-bottom:15px;
+    font-size:18pt;
+  }
+
+  .modale_nom_bouteille{
+    font-size: 16pt;
+    padding-top:15px;
+    padding-bottom:15px;
+  }
+
+  .conteneur_cellier{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding: 15px 0px;
+  }
+
+  .texte_cellier_modale{
+    padding:0px;
+    margin:0px;
+    flex:1.2;
+  }
+
+  .dropdown_cellier_modale{
+    flex:3;
+  }
+
+  .btnAjouter_modale, .btnBoire_modale{
+    fill:var(--fonce);
+    opacity:60%;
+    margin-left:15px;
+    margin-right:15px;
+  }
+
+  .conteneur_quantite_modale{
+    display:flex;
+    align-items:center;
+    padding: 15px 0px;
+  }
+
+  .btn_ajouter_modale{
+    background-color:var(--bouton-formulaire-vert);
+  }
+
+  .fermer_modale_ajout{
+    background-color:var(--gris-pale);
+  }
+
+  .btn_ajouter_modale, .fermer_modale_ajout{
+    border-radius:25px;
+    color:var(--blanc);
+
+    height: 40px;
+    width: 100%;
+    border-radius: 20px;
+    font-size: 16px;
+    color: var(--blanc);
+    margin: 15px;
+  }
+
+  .conteneur_boutons_modale{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
