@@ -1,0 +1,65 @@
+<!-- Template Modification mot de passe -->
+{% if oUtilConn %}
+
+	<section>
+		<form class="form_modification_membre" method="POST" action="">
+
+			<div class="form_champ_modification">
+				<label for="mdp">Mot de passe actuel :</label>
+				<input id="mdp" type="password" class="form_modification_membre_input" name="mdp" value="" placeholder="Votre mot de passe actuel">
+
+				{% if erreurs.mdp != "" %}
+					
+						<div class="error">
+							<span>{{ erreurs.mdp }}</span>
+						</div>
+				{% endif %}
+
+			</div>
+
+			<div class="form_champ_modification">
+				<label for="mdp">Votre nouveau mot de passe :</label>
+				<input id="mdp" class="form_modification_membre_input" name="mdp" value="" type="password" placeholder="Votre nouveau mot de passe">
+				{% if erreurs.mdp != "" %}
+					
+						<div class="error">
+							<span>{{ erreurs.mdp }}</span>
+						</div>
+				{% endif %}
+			</div>
+
+
+			<div class="form_champ_modification">
+				<label for="confNouveauMotDePasse">Confirmez votre nouveau mot de passe :</label>
+				<input id="confNouveauMotDePasse" class="form_modification_membre_input" name="confNouveauMotDePasse" type="password" value="" placeholder="Confirmez votre mot de passe">
+				{% if erreurs.confNouveauMotDePasse != "" %}
+						<div class="error">
+							<span>{{ erreurs.confNouveauMotDePasse }}</span>
+						</div>
+				{% endif %}
+			</div>
+
+
+			
+			<input type="hidden" name="idprofil" value="membre">
+			<input type="hidden" name="id_membre" value="{{ membre.id_membre }}">
+
+			<input class="btn_action" type="submit" value="Envoyer">
+
+		</form>
+	</section>
+
+{% else %}
+	<br><br>
+	<br>
+	<br>
+
+	<p>Connectez-vous pour modifier votre profil</p>
+	<br>
+	<br>
+	<br>
+	<br>
+{% endif %}
+
+<!-- fin template Modification mot de passe -->
+

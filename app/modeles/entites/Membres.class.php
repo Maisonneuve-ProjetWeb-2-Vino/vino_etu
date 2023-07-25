@@ -171,7 +171,7 @@ class Membres
     $mdp = trim($mdp);
     $regExp = '/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[%!\:=])([A-Za-z0-9%!\:=]{10,})$/i';
     if (!preg_match($regExp, $mdp)) {
-      $this->erreurs['mdp'] = "Saisissez au moins 10 caracteres et un caractere parmi %!:= ainsi qu'un chiffre";
+      $this->erreurs['mdp'] = "Saisissez au moins 10 caractères et un caractère parmi %!:= ainsi qu'un chiffre";
     }
     $this->mdp = $mdp;
     return $this;
