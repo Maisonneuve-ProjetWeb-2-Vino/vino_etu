@@ -24,6 +24,7 @@ class RequetesSQL extends RequetesPDO {
         b.idtype AS type, 
         b.image_url,
         b.format,
+        b.produitQuebec,
         p.pays
       FROM bouteilles_cellier c 
       INNER JOIN bouteilles_catalogue b ON c.idbouteillecatalogue = b.id_bouteille
@@ -260,6 +261,7 @@ class RequetesSQL extends RequetesPDO {
         b.annee,
         b.origine,
         b.idpays,
+        b.produitQuebec,
         p.pays
       FROM bouteilles_cellier c 
       INNER JOIN bouteilles_catalogue b ON c.idbouteillecatalogue = b.id_bouteille
