@@ -1,5 +1,3 @@
-<div class="cellier">
-
     <!-- Attribution de la couleur du conteneur de vin en fonction du type de vin -->
 
     {% set vin_type = '' %}
@@ -45,28 +43,17 @@
     <!-- Fiche détaillée du vin -->
     <div class="card_wrapper {{vin_type}}">
 
-        <!-- Informations du vin -->
-        <div class="vin_contenu_wrapper">
-
             <!-- L'image et l'evaluation du vin -->
             <div class="vin_image_wrapper">
-                <div class="vin_image">                    
+       
                     <img src="{{ bouteille.image_url|default('assets/img/default-bottle-img.png')}}" alt="image d'une bouteille du vin">
-                </div>
-                <div class="vin_rating">
-                    <img src="assets/img/icon-star-full.png" alt="Première étoile, pleine">
-                    <img src="assets/img/icon-star-full.png" alt="Deuxième étoile, pleine">
-                    <img src="assets/img/icon-star-full.png" alt="Troisième étoile,  pleine">                    
-                    <img src="assets/img/icon-star-half-empty.png" alt="Quatrième étoile, à moitié pleine">     
-                    <img src="assets/img/icon-star-empty.png" alt="Cinquième étoile, vide">                 
-
-                </div>
+                
                 {% if bouteille.pastille is not empty %}
                 <div class="pastille {{pastille_couleur}}">
                     <p class="pastille_texte {{pastille_texte_couleur}}">{{ bouteille.pastille }}</p>
                 </div>
-            {% endif %}
-            </div>                    
+            {% endif %}   
+            </div>            
             
             <!-- Section d'informations détaillées du vin -->
             <div class="vin_info">   
@@ -101,15 +88,18 @@
                 %}
                 <div class="vin_info_detaillee">
                     
-                    <input type="checkbox" id="accordion" checked>                       
+                    {#<input type="checkbox" id="accordion" checked>#}                  
                         
-                    <label for="accordion">
+                    {#<label for="accordion">
                         <svg class="caret_up" aria-hidden="false" aria-label="Basculer les informations détaillées" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"/></svg>
                                 
                         Informations détaillées
                             
-                    </label>
+                    </label>#}
                          
+                    <p class="titre_info">
+                    Informations détaillées
+                    </p>
 
                     <div class="vin_info_detaillee_contenu">
 
@@ -160,6 +150,11 @@
                             <span>{{ bouteille.tauxSucre }}</span>
                         </li>
                         {% endif %}
+                         {% if bouteille.produitQuebec is not empty %}
+                        <li>Produit du Québec :
+                            <span>{{ bouteille.produitQuebec }}</span>
+                        </li>
+                        {% endif %}
                     </div>
                 </div>
                 {% endif %}
@@ -168,22 +163,33 @@
         </div>    
 
         <!-- La pastille et les contrôles -->
-        <div class="card_footer">
+        {#<div class="card_footer">
 
             <div class="controls">
-                {# <button class="btnModifier" data-id="{{ bouteille.id_bouteille_cellier }}">Modifier la bouteille</button>
+                <button class="btnModifier" data-id="{{ bouteille.id_bouteille_cellier }}">Modifier la bouteille</button>
     
-                <button class="confirmer" data-href="cellier?action=t&bouteille_id={{ bouteille.id_bouteille_cellier }}">Supprimer la bouteille</button> #}
+                <button class="confirmer" data-href="cellier?action=t&bouteille_id={{ bouteille.id_bouteille_cellier }}">Supprimer la bouteille</button> 
             </div>
-        </div>         
+        </div>#}         
 
     </div>
 
-    <!-- Commentaires -->
-    {# <h1 class="commentaires_titre">Commentaires</h1>
+
+
+   
+   
+
 
      <div class="commentaires_contenu">
+     <h1 class="commentaires_titre">Évaluation</h1>
+    <div class="vin_rating">
+                    <img src="assets/img/icon-star-full.png" alt="Première étoile, pleine">
+                    <img src="assets/img/icon-star-full.png" alt="Deuxième étoile, pleine">
+                    <img src="assets/img/icon-star-full.png" alt="Troisième étoile,  pleine">                    
+                    <img src="assets/img/icon-star-half-empty.png" alt="Quatrième étoile, à moitié pleine">     
+                    <img src="assets/img/icon-star-empty.png" alt="Cinquième étoile, vide">                 
 
+                </div>
          <div class="date">
              <span>Date: </span>
              <span>2023-07-07</span>
@@ -204,8 +210,6 @@
 
      </div>
 
-     <button class="btn btn_ajouter_commentaire">Ajouter un commentaire</button> #}
-    
-</div>
+     <button class="btn_action">Évaluer ce vin</button>
 
 {{ include("/Cellier/modaleSuppression.twig") }}

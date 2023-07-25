@@ -18,6 +18,7 @@
 
 .titre_header {
     flex: 9;
+    word-break: break-word;
 }
 
 .fleche_header {
