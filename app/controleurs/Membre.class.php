@@ -41,13 +41,16 @@ class Membre extends Routeur {
      * Connecter un membre
      */
 public function connexion() {
+   
+        $erreurs = [];
+    $membre = $this->oRequetesSQL->connecter($_POST['courriel']);
     
-    $membre = $this->oRequetesSQL->connecter($_POST);
-    if ($membre !== false) {
+    if ($membre !== false AND password_verify($_POST['mdp'], $membre['mdp'])) {
+        
         $_SESSION['oConnexion'] = new Membres($membre);
         
         // Rediriger l'utilisateur vers une page après la connexion réussie
-        header("Location: accueil"); // retour sur la page du profil
+        header("Location: profil"); // retour sur la page du profil
                             exit;
     }
     else{
@@ -111,10 +114,8 @@ public function connexion() {
                 'mdp'  => $_POST['mdp'],
                 'idprofil'  => $_POST['idprofil']
             ];
-                // retour de saisie du formulaire
-               
-                $oMembre = new Membres($membre); // création d'un objet membre pour contrôler la saisie
-                $erreurs = $oMembre->erreurs;
+            $oMembre = new Membres($membre);
+            $erreurs = $oMembre->erreurs;
                 if($oMembre->mdp !== $_POST['renouvelermdp']){
                     $erreurs['renouvelermdp'] = "Votre mot de passe et la confirmation ne correspondent pas";
                 }
@@ -127,39 +128,31 @@ public function connexion() {
                             'nom'    => $oMembre->nom,
                             'prenom' => $oMembre->prenom,
                             'courriel' => $oMembre->courriel,
-                            'mdp' => $oMembre->mdp,
+                            'mdp' => password_hash($oMembre->mdp, PASSWORD_BCRYPT),
                             'idprofil' => $oMembre->idprofil
                         ]);
                         if ($id_membre > 0) {
-                            
-                           $membre = $this->oRequetesSQL->connecter([
-                            
-                            'courriel' => $oMembre->courriel,
-                            'mdp' => $oMembre->mdp
-                            
-                        ]);
-    if ($membre !== false) {
-        $_SESSION['oConnexion'] = new Membres($membre);
-        
-        // Rediriger l'utilisateur vers une page après la connexion réussie
-        header("Location: accueil"); // retour sur la page du profil
+                            $membre = $this->oRequetesSQL->connecter($_POST['courriel']);
+                            if ($membre !== false AND password_verify($_POST['mdp'], $membre['mdp'])) {
+                            $_SESSION['oConnexion'] = new Membres($membre);
+                            header("Location: profil"); // retour sur la page du profil
                             exit;
-                        }}
+                            }
+                        }
                     }
-                
             
-            new Vue(
-                'Frontend/vInscription',
-                array(
-                    'titre'  => 'Inscription membre',
-                    'membre'   => $membre,
-                    'erreurs'  => $erreurs
-                ),
-                'Frontend/gabarit-vide'
-            );
-        }
+        new Vue(
+            'Frontend/vInscription',
+            array(
+                'titre'  => 'Inscription membre',
+                'membre'   => $membre,
+                'erreurs'  => $erreurs
+            ),
+            'Frontend/gabarit-vide'
+        );
     }
-
+    }
+    
 
     /**
      * Voir les informations d'un membre
@@ -254,45 +247,34 @@ public function connexion() {
      */
     public function modifierMotDePasse()
     {
+        $membre  = [];
+        $erreurs = [];
         if (count($_POST) !== 0) {
-        $mdpHache = hash('sha512', $_POST['mdp']);
-        var_dump('MDP HACHE', $mdpHache);
-        var_dump('oUtilConn',$this->oUtilConn->mdp);
-        exit;
-            if($mdpHache != $this->oUtilConn->mdp){
-                $erreurs['mdp'] = "Votre mot de passe n'est pas le bon";
-            }
-            $confMdp =  [     
-                'mdp' => $_POST['confNouveauMotDePasse']
+            $membre = [
+                'mdp'  => $_POST['mdp'],
+                'id_membre'  => $_POST['id_membre']
             ];
-            $oConfMdp = new Membres($confMdp);
-            $erreurs = $oConfMdp->erreurs;
-                if($_POST['confNouveauMotDePasse'] !== $_POST['nouveauMdp']){
-                    $erreurs['confNouveauMotDePasse'] = "Votre mot de passe et la confirmation ne correspondent pas";
-                }
-
-       
-      if (count($erreurs) === 0) {
-                  
-        if ($this->oRequetesSQL->modifierMotDePasse([
-                    'mdp'    => $oConfMdp->nouveauMdp,
+            $oMembre = new Membres($membre);
+            $erreurs = $oMembre->erreurs;
+            if (!password_verify($_POST['ancienmdp'], $this->oUtilConn->mdp)) {
+                $erreurs['ancienmdp'] = "Votre mot de passe n'est pas le bon";
+            }
+            if($oMembre->mdp !== $_POST['renouvelermdp']){
+                $erreurs['renouvelermdp'] = "Votre mot de passe et la confirmation ne correspondent pas";
+            }
+            if (count($erreurs) === 0) {
+                $id_membre = $this->oRequetesSQL->modifierMotDePasse([
+                    'mdp' => password_hash($oMembre->mdp, PASSWORD_BCRYPT),
                     'id_membre' => $oMembre->id_membre
-        ]))
-
-                       
-                header(
-                    "Location: profil"
-                ); // retour sur la page du profil
-                exit;
-      }
-    } else {
-    // chargement initial du formulaire  
-    // initialisation des champs dans la vue formulaire avec les données SQL de cet utilisateur  
-         $membre  = $this->oRequetesSQL->infoMembre($this->oUtilConn->id_membre);
-            
-      $erreurs = [];
-    }
-           
+                ]);
+                if ($id_membre > 0) {
+                    $_SESSION['oConnexion'] = new Membres($membre);
+                    header("Location: profil"); // retour sur la page du profil
+                    exit;
+                }
+            }
+        }
+        
     new Vue(
       'Frontend/vModifierMotDePasse',
       array(
@@ -304,6 +286,4 @@ public function connexion() {
       'Frontend/gabarit-frontend'
     );
   }
-
-
 }
