@@ -27,7 +27,9 @@ class ControleurCellier extends Routeur {
     's' => 'supprimerCellier',
     't' => 'supprimerBouteille',
     'u' => 'verifierNomCellier',
-    'v' => 'verifierBouteilleCellier'
+    'v' => 'verifierBouteilleCellier',
+    'w' => 'obtenirCelliers',
+    'x' => 'verifierBouteillePersonnalisee'
   ];
 
   /**
@@ -114,7 +116,7 @@ class ControleurCellier extends Routeur {
 
       new Vue("/Cellier/vAjoutBouteille",
         array(
-          'lien'          => $lien,
+          'lien'                  => $lien,
           'titre'                 => "Ajout de bouteille",
           'cellier_preferentiel'  => $cellier_preferentiel,
           'celliers'              => $celliers,
@@ -640,6 +642,7 @@ class ControleurCellier extends Routeur {
         'prix_saq'      => $body->prix_saq,
         'region'        => $body->region,
         'tauxSucre'     => $body->tauxSucre,
+        'produitQuebec' => $body->produitQuebec
       ]);
       
       if (count($oBouteilleCatalogue->erreurs) === 0) {
@@ -659,6 +662,7 @@ class ControleurCellier extends Routeur {
           'prix_saq'      => $oBouteilleCatalogue->prix_saq,
           'region'        => $oBouteilleCatalogue->region,
           'tauxSucre'     => $oBouteilleCatalogue->tauxSucre,
+          'produitQuebec' => $oBouteilleCatalogue->produitQuebec,
           'idmembre'      => $utilisateur_id
         ]);
 
@@ -690,8 +694,22 @@ class ControleurCellier extends Routeur {
 
     }
     else{
-      // requête REST seulement
-      throw new Exception(self::ERROR_BAD_REQUEST);
+      $cellier_preferentiel = $this->cellier_id ?? null;
+      $celliers = $this->oRequetesSQL->obtenirListeCelliers($utilisateur_id);
+      $pays = $this->oRequetesSQL->obtenirListePays();
+      $types = $this->oRequetesSQL->obtenirListeTypes();
+      $lien = "cellier?action=n&cellier_id=".$this->cellier_id;
+
+      new Vue("/Cellier/vAjoutBouteillePersonnalisee",
+        array(
+          'lien'                  => $lien,
+          'titre'                 => "Ajout de bouteille personnalisée",
+          'celliers'              => $celliers,
+          'cellier_preferentiel'  => $cellier_preferentiel,
+          'pays'                  => $pays,
+          'types'                 => $types
+      ),
+      "/Frontend/gabarit-frontend");
     }
   }
 
@@ -729,4 +747,33 @@ class ControleurCellier extends Routeur {
     echo json_encode($msgRetour);
   }
 
+  /**
+   * Obtient les noms des celliers de l'utilisateur et leurs ids.
+   * 
+   * @return void
+   */
+  public function obtenirCelliers() {
+
+    $utilisateur_id = $this->oUtilConn->id_membre;
+
+    $celliers = $this->oRequetesSQL->obtenirListeCelliers($utilisateur_id);
+
+    echo json_encode($celliers);
+  }
+
+  /**
+   * Vérifie si une bouteille personnalisée avec le même nom existe déjà pour un utilisateur.
+   * 
+   * @return void
+   */
+  public function verifierBouteillePersonnalisee() {
+
+    $utilisateur_id = $this->oUtilConn->id_membre;
+    $body = json_decode(file_get_contents('php://input'));
+
+    $resultat = $this->oRequetesSQL->verifierBouteillePersonnalisee($utilisateur_id, $body->nom);
+
+    $msgRetour = ['statut' =>  $resultat];
+    echo json_encode($msgRetour);
+  }
 }

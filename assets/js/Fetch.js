@@ -273,4 +273,40 @@ export default class Fetch{
               console.error(error);
             });
     }
+
+    obtenirCelliers(param, cb) {
+      let requete = new Request("cellier?action=w", {method: 'POST', body: JSON.stringify(param)});
+        fetch(requete)
+          .then(response => {
+              if (response.status === 200) {
+                return response.json();
+              } else {
+                throw new Error('Erreur');
+              }
+            })
+            .then(response => {
+              cb(response);
+            
+            }).catch(error => {
+              console.error(error);
+            });
+    }
+
+    verifierDuplicationBouteillePersonnalisee(param, cb) {
+      let requete = new Request("cellier?action=x", {method: 'POST', body: JSON.stringify(param)});
+        fetch(requete)
+          .then(response => {
+              if (response.status === 200) {
+                return response.json();
+              } else {
+                throw new Error('Erreur');
+              }
+            })
+            .then(response => {
+              cb(response);
+            
+            }).catch(error => {
+              console.error(error);
+            });
+    }
 }
