@@ -14,6 +14,7 @@ export default class Cellier {
     #bouteille;
     #cellier;
     #elNouvelleBouteille;
+    #elNouvelleBouteillePersonnalisee;
     #modificationBouteille;
     #elBtnModifier;
     #elBtnModifierPersonnalisee;
@@ -22,6 +23,7 @@ export default class Cellier {
     #cellierPreferentiel;
     #idBouteilleChoisie;
     #elModaleAjout;
+    #idCellier;
 
     /**
      * Constructeur de la classe Cellier
@@ -37,7 +39,8 @@ export default class Cellier {
         this.#elInputNomBouteille = document.querySelector("[name='nom_bouteille']");
         this.#listeResultats = document.querySelector('#liste_resultats');
         this.#elNouvelleBouteille = document.querySelector(".nouvelleBouteille");
-        this.#elBtnEntrerBouteillePersonnalisee = document.querySelector("[name='entrerBouteillePersonnalisee']");
+        this.#elNouvelleBouteillePersonnalisee = document.querySelector(".nouvelleBouteillePersonnalisee");
+        this.#elBtnEntrerBouteillePersonnalisee = document.querySelector("[name='ajouterBouteillePersonnalisee']");
         this.#elModaleAjout = document.getElementById('modaleAjout');
 
         // Sur la page de Modification de bouteille de la SAQ
@@ -78,7 +81,8 @@ export default class Cellier {
             producteur : document.querySelector("[name='producteur']"),
             prix : document.querySelector("[name='prix']"),
             region : document.querySelector("[name='region']"),
-            sucre : document.querySelector("[name='sucre']")
+            sucre : document.querySelector("[name='sucre']"),
+            produitQuebec: document.querySelector("[name='quebec']")
         };
 
         // Utilisé pour les requêtes de gestion de celliers
@@ -86,7 +90,7 @@ export default class Cellier {
             nom : document.querySelector(".nom_cellier")
         }
 
-        // Si on est sur la page d'ajout de bouteille
+        // Si on est sur la page d'ajout de bouteille de la SAQ
         if (this.#elNouvelleBouteille) {
 
             // Récupérer les noms des celliers et leurs ids
@@ -104,6 +108,12 @@ export default class Cellier {
             document.querySelector(".btn_ajouter_modale").addEventListener("click", this.verifierDuplicationBouteille.bind(this));
             document.querySelector(".btnAjouter_modale").addEventListener("click", this.augmenterQuantiteAjout.bind(this));
             document.querySelector(".btnBoire_modale").addEventListener("click", this.diminuerQuantiteAjout.bind(this));
+        }
+
+        // Si on est sur la page d'ajout de bouteille personnalisée
+        if (this.#elNouvelleBouteillePersonnalisee) {
+            this.#elBtnEntrerBouteillePersonnalisee.addEventListener("click", this.verifierNouvelleBouteille.bind(this));
+            document.querySelector("#nom").focus();
         }
 
         // Si on est sur la page de modification de bouteille
@@ -126,6 +136,8 @@ export default class Cellier {
 
     /**
      * Fonction de rappel pour obtenir la liste des celliers.
+     * 
+     * @param {Array} celliers La liste des celliers
      */
     enregistrerCelliers(celliers) {
         this.#celliers = celliers;
@@ -147,8 +159,8 @@ export default class Cellier {
             oFetch.validerNomCellier(param, this.modifierCellier.bind(this));
         }
     }
+
     /**
-     * 
      * Vérifier le statut de la requête de vérification du nom de cellier et 
      * faire la requête de modification.
      * @param {Object} reponse
@@ -218,20 +230,6 @@ export default class Cellier {
     }
 
     /**
-     * Active et vide les champs détaillés pour l'ajout d'un vin personnalisé.
-     * @param {Event} evt 
-     */
-    preparerChampsDetails(evt) {
-        this.changerStatutInterfaceAjout(false);
-        this.viderChampsAjout();
-        this.#bouteille.nom.dataset.id = "";
-        const erreur_nom = document.querySelector(".erreur_nom_bouteille");
-        erreur_nom.innerHTML = "";
-        this.montrerDetailsAjoutBouteille();
-        document.querySelector("#nom").focus();
-    }
-
-    /**
      * Valide les champs pour l'ajout d'une bouteille et vérifie si une bouteille existe 
      * déjà dans le cellier, puis fait la requête d'ajout s'il n'y a pas d'erreurs.
      * @param {Event} evt 
@@ -239,55 +237,13 @@ export default class Cellier {
     verifierNouvelleBouteille(evt) {
         let validation = this.validerChampsBouteille();
 
-        const erreur_nom = document.querySelector(".erreur_nom_bouteille");
+        if (validation) {
+            var param = {
+            "nom":this.#bouteille.nom.value
+            };
 
-        // Validation supplémentaire dans le cas de l'ajout de bouteille
-        if (!this.#bouteille.nom.value) {
-            erreur_nom.innerHTML = "Une bouteille doit être sélectionnée ou un nom entré.";
-            validation = false;
-        }
-        else {
-            erreur_nom.innerHTML = "";
-        }
-
-        if (validation) { // Si le vin provient du catalogue
-
-            if(this.#bouteille.nom.dataset.id) {
-
-              var param = {
-                "id_bouteille":this.#bouteille.nom.dataset.id,
-                "quantite":this.#bouteille.quantite.value,
-                "id_cellier":document.querySelector("#cellier_id").value
-              };
-
-              const oFetch = new Fetch();
-              oFetch.verifierDuplicationBouteille(param, this.ajouterNouvelleBouteille.bind(this));
-
-            } else { // Vin personnalisé
-             
-              var param = {
-                "nom":this.#bouteille.nom.value,
-                "quantite":this.#bouteille.quantite.value,
-                "id_cellier":document.querySelector("#cellier_id").value,
-                "pays":this.#bouteille.pays.value,
-                "type":this.#bouteille.type.value,
-                "annee":this.#bouteille.millesime.value,
-                "format":this.#bouteille.format.value,
-                "appellation":this.#bouteille.appellation.value,
-                "cepage":this.#bouteille.cepage.value,
-                "particularite":this.#bouteille.particularite.value,
-                "degreAlcool":this.#bouteille.degreAlcool.value,
-                "origine":this.#bouteille.origine.value,
-                "producteur":this.#bouteille.producteur.value,
-                "prix_saq":this.#bouteille.prix.value,
-                "region":this.#bouteille.region.value,
-                "tauxSucre":this.#bouteille.sucre.value,
-              };
-              
-              const oFetch = new Fetch();
-              oFetch.ajouterBouteillePersonnalisee(param, this.redirigerPageCellier.bind(this))
-            }
-
+            const oFetch = new Fetch();
+            oFetch.verifierDuplicationBouteillePersonnalisee(param, this.ajouterNouvelleBouteillePersonnalisee.bind(this));
         }
     }
     
@@ -306,8 +262,12 @@ export default class Cellier {
                 "id_cellier":document.querySelector("#celliers").value
             };
             
+            // Utilisé pour la redirection vers la liste des bouteilles
+            this.#idCellier = document.querySelector("#celliers").value;
+
+            // Requête d'ajout de bouteille
             const oFetch = new Fetch();
-            oFetch.ajouterNouvelleBouteille(param, this.redirigerPageCellier.bind(this))
+            oFetch.ajouterNouvelleBouteille(param, this.redirigerListeBouteilles.bind(this));
         } else 
         {
             const erreur_nom = document.querySelector(".erreur_nom_bouteille");
@@ -316,11 +276,54 @@ export default class Cellier {
 
     }
 
+    ajouterNouvelleBouteillePersonnalisee(reponse) {
+
+        // Si la bouteille ne se trouve pas déjà dans le cellier
+        if (!reponse.statut) {
+
+            let param = {
+                "nom":this.#bouteille.nom.value,
+                "quantite":this.#bouteille.quantite.value,
+                "id_cellier":document.querySelector("#cellier_id").value,
+                "pays":this.#bouteille.pays.value,
+                "type":this.#bouteille.type.value,
+                "annee":this.#bouteille.millesime.value,
+                "format":this.#bouteille.format.value,
+                "appellation":this.#bouteille.appellation.value,
+                "cepage":this.#bouteille.cepage.value,
+                "particularite":this.#bouteille.particularite.value,
+                "degreAlcool":this.#bouteille.degreAlcool.value,
+                "origine":this.#bouteille.origine.value,
+                "producteur":this.#bouteille.producteur.value,
+                "prix_saq":this.#bouteille.prix.value.replace(/,/g, '.'),
+                "region":this.#bouteille.region.value,
+                "tauxSucre":this.#bouteille.sucre.value,
+                "produitQuebec":this.#bouteille.produitQuebec.value
+              };
+              
+            // Utilisé pour la redirection vers la liste des bouteilles
+            this.#idCellier = document.querySelector("#cellier_id").value;
+
+            const oFetch = new Fetch();
+            oFetch.ajouterBouteillePersonnalisee(param, this.redirigerListeBouteilles.bind(this));
+
+        } else {
+            document.querySelector(".erreur_nom").innerHTML = "Une bouteille personnalisée existe déjà avec ce nom.";
+        }
+    }
+
     /**
      * Redirige vers la page des celliers.
      */
     redirigerPageCellier() {
         window.location.assign("cellier");
+    }
+
+    /**
+     * Redirige vers la liste des bouteilles d'un cellier donné dans this.#idCellier.
+     */
+    redirigerListeBouteilles() {
+        window.location.assign(`cellier?action=l&cellier_id=${this.#idCellier}`);
     }
 
     /**
@@ -547,8 +550,11 @@ export default class Cellier {
         oFetch.ajouterBouteille(param, this.augmenterQuantiteBouteille.bind(this));
     }
 
-
-    // Valide les champs nécessaires à la création ou modification des champs des bouteilles d'un cellier
+    /**
+     * Valide les champs nécessaires à la création ou modification des champs des 
+     * bouteilles d'un cellier.
+     * @returns {bool} Vrai s'il n'y a pas d'erreur, faux sinon
+     */
     validerChampsBouteille() {
 
         let validation = true;
@@ -557,6 +563,13 @@ export default class Cellier {
         document.querySelector(".erreur_quantite").innerHTML = "";
         document.querySelector(".erreur_prix").innerHTML = "";
         document.querySelector(".erreur_type").innerHTML = "";
+        document.querySelector(".erreur_nom").innerHTML = "";
+
+        // Validation du nom
+        if (!this.#bouteille.nom.value) {
+            document.querySelector(".erreur_nom").innerHTML = "Un nom de bouteille doit être entré.";
+            validation = false;
+        }
 
         // Validation de la quantité
         if (this.#bouteille.quantite) {
@@ -571,14 +584,15 @@ export default class Cellier {
         // Validation du prix
         if(this.#bouteille.prix) {
             if (this.#bouteille.prix.value) {
-                if(isNaN(this.#bouteille.prix.value) || (this.#bouteille.prix.value < 0)) {
+                const prix = this.#bouteille.prix.value.replace(/,/g, '.');
+                if(isNaN(prix) || (prix < 0)) {
                     document.querySelector(".erreur_prix").innerHTML = "Le prix doit être un nombre supérieur ou égal à 0.";
                     validation = false;
                 }
             }
         }
 
-        //Validation du type
+        // Validation du type
         if (this.#bouteille.type) {
             if (!this.#bouteille.type.value) {
                 document.querySelector(".erreur_type").innerHTML = "Veuillez choisir un type de vin.";
@@ -591,7 +605,7 @@ export default class Cellier {
     /**
      * Valide les champs lors de l'ajout ou modification de cellier.
      * @param {Object} cellier 
-     * @returns 
+     * @returns {bool} Vrai s'il n'y a pas d'erreur, faux sinon
      */
     validerChampsCellier(cellier) {
 

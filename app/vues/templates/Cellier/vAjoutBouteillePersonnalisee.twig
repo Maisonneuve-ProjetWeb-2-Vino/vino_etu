@@ -14,8 +14,19 @@
         
         <div class="form_champ_ajout">
             <label for="nom">Nom:</label>
-            <input id="nom" class="form_connexion_input nom_bouteille" name="nom" value="{{ bouteille.nom }}" placeholder="Cabernet Sauvignon élevé en fût de bourbon sélection privée" aria-label="Nom">
-            <p class="erreur_champ erreur_nom_bouteille">{{ erreurs.nom }}</p>
+            <input id="nom" class="form_connexion_input nom_bouteille" maxlength="100" name="nom" value="{{ bouteille.nom }}" placeholder="Cabernet Sauvignon élevé en fût de bourbon sélection privée" aria-label="Nom">
+            <p class="erreur_champ erreur_nom">{{ erreurs.nom }}</p>
+        </div>
+
+        <div class="form_champ_ajout">
+            <label for="type_id">Type:</label>
+            <select id="type_id" class="form_ajout_input" name="type" aria-label="Type">
+            <option value="" disabled selected>Choisissez un type de vin</option>
+                {% for type in types %}
+                <option value="{{ type.type }}">{{ type.type }}</option>
+                {% endfor %}
+            </select>
+                <p class="erreur_champ erreur_type">{{ erreurs.type }}</p>
         </div>
 
         <div class="form_champ_ajout">
@@ -35,17 +46,6 @@
         </div>
 
         <div class="form_champ_ajout">
-            <label for="type_id">Type:</label>
-            <select id="type_id" class="form_ajout_input" name="type" aria-label="Type">
-            <option value="" disabled selected>Choisissez un type de vin</option>
-                {% for type in types %}
-                <option value="{{ type.type }}">{{ type.type }}</option>
-                {% endfor %}
-            </select>
-                <p class="erreur_champ erreur_type">{{ erreurs.type }}</p>
-        </div>
-
-        <div class="form_champ_ajout">
             <label for="millesime">Millésime:</label>
             <input id="millesime" class="form_ajout_input" name="millesime" value="{{ bouteille.millesime }}" placeholder="2018" aria-label="Millésime">
         </div>
@@ -57,7 +57,7 @@
 
         <div class="form_champ_ajout">
             <label for="format">Format:</label>
-            <input id="format" class="form_ajout_input" name="format" value="{{ bouteille.format }}" placeholder="750ml" aria-label="Format">
+            <input id="format" class="form_ajout_input" name="format" value="{{ bouteille.format }}" placeholder="750 ml" aria-label="Format">
         </div>
 
         <div class="form_champ_ajout">
@@ -108,7 +108,7 @@
 
         <input id="cellier_id" type="hidden" value="{{ cellier_id }}">
 
-        <button class="btn_action"  name="ajouterBouteilleCellier">Ajouter la bouteille</button>
+        <button class="btn_action"  name="ajouterBouteillePersonnalisee">Ajouter la bouteille</button>
 
     </div>
 </div>

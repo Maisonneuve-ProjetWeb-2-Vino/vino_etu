@@ -68,3 +68,11 @@
     aspect-ratio: 1;
     background-color: var(--fonce);
 }
+
+.ajouter_bouteille a {
+  font-size: 16px;
+  color: var(--gris-pale);
+  font-weight: 500;
+  margin-left: auto;
+  margin-bottom: 10px;
+}

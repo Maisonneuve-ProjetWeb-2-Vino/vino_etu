@@ -28,7 +28,8 @@ class ControleurCellier extends Routeur {
     't' => 'supprimerBouteille',
     'u' => 'verifierNomCellier',
     'v' => 'verifierBouteilleCellier',
-    'w' => 'obtenirCelliers'
+    'w' => 'obtenirCelliers',
+    'x' => 'verifierBouteillePersonnalisee'
   ];
 
   /**
@@ -641,6 +642,7 @@ class ControleurCellier extends Routeur {
         'prix_saq'      => $body->prix_saq,
         'region'        => $body->region,
         'tauxSucre'     => $body->tauxSucre,
+        'produitQuebec' => $body->produitQuebec
       ]);
       
       if (count($oBouteilleCatalogue->erreurs) === 0) {
@@ -660,6 +662,7 @@ class ControleurCellier extends Routeur {
           'prix_saq'      => $oBouteilleCatalogue->prix_saq,
           'region'        => $oBouteilleCatalogue->region,
           'tauxSucre'     => $oBouteilleCatalogue->tauxSucre,
+          'produitQuebec' => $oBouteilleCatalogue->produitQuebec,
           'idmembre'      => $utilisateur_id
         ]);
 
@@ -756,5 +759,21 @@ class ControleurCellier extends Routeur {
     $celliers = $this->oRequetesSQL->obtenirListeCelliers($utilisateur_id);
 
     echo json_encode($celliers);
+  }
+
+  /**
+   * Vérifie si une bouteille personnalisée avec le même nom existe déjà pour un utilisateur.
+   * 
+   * @return void
+   */
+  public function verifierBouteillePersonnalisee() {
+
+    $utilisateur_id = $this->oUtilConn->id_membre;
+    $body = json_decode(file_get_contents('php://input'));
+
+    $resultat = $this->oRequetesSQL->verifierBouteillePersonnalisee($utilisateur_id, $body->nom);
+
+    $msgRetour = ['statut' =>  $resultat];
+    echo json_encode($msgRetour);
   }
 }
