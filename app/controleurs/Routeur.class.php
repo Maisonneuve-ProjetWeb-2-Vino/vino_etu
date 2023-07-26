@@ -22,7 +22,8 @@ class Routeur {
     ['profil',                'Membre', 'profil'],
     ['modifierMembre',        'Membre', 'modifierMembre'],
     ['recherche',             'Recherche', 'rechercher'],
-    ['modifierMotDePasse',    'Membre', 'modifierMotDePasse']
+    ['modifierMotDePasse',    'Membre', 'modifierMotDePasse'],
+    ['supprimerMembre',       'Membre', 'supprimerMembre']
   ];
 
   protected $oRequetesSQL; // objet RequetesSQL utilisé par tous les contrôleurs

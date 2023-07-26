@@ -290,4 +290,32 @@ public function connexion() {
       'Frontend/gabarit-frontend'
     );
   }
+
+/**
+   * Supprime un membre ainsi que ses celliers, bouteilles, commentaires, notes, liste achat.
+   * 
+   * @throws Exception Si la requête ne contient pas l'id du membre, ou s'il y a 
+   *                   une erreur lors de la suppression.
+   * @return void
+   */
+  public function supprimerMembre() {
+
+    $membre_id = $this->oUtilConn->id_membre;
+
+    if (!$this->oUtilConn->id_membre) {
+      throw new Exception(self::ERROR_BAD_REQUEST);
+    }
+
+    $suppression = $this->oRequetesSQL->supprimerMembre($membre_id);
+
+    if (!$suppression) {
+      throw new Exception("La suppression de votre compte n'a pas fonctionné");
+    }else{
+        $deconnexion = $this->deconnecter($membre_id);
+    }
+
+    // Redirection vers la connexion
+    header('Location: inscription');
+  }
+
 }
