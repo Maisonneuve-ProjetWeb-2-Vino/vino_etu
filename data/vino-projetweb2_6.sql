@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : sam. 15 juil. 2023 à 15:20
+-- Généré le : mar. 25 juil. 2023 à 12:14
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -8377,14 +8377,14 @@ CREATE TABLE IF NOT EXISTS `bouteilles_cellier` (
 --
 
 INSERT INTO `bouteilles_cellier` (`id_bouteille_cellier`, `quantite`, `idcellier`, `idbouteillecatalogue`, `date_creation`) VALUES
-(1, 4, 1, 500, '2023-07-15'),
-(2, 9, 1, 1500, '2023-07-15'),
-(3, 1, 1, 3456, '2023-07-15'),
-(4, 23, 1, 123, '2023-07-15'),
-(5, 14, 1, 987, '2023-07-15'),
-(6, 4, 2, 3200, '2023-07-15'),
-(7, 4, 2, 543, '2023-07-15'),
-(8, 9, 3, 23, '2023-07-15');
+(1, 4, 1, 500, '2023-07-25'),
+(2, 9, 1, 1500, '2023-07-25'),
+(3, 1, 1, 3456, '2023-07-25'),
+(4, 23, 1, 123, '2023-07-25'),
+(5, 14, 1, 987, '2023-07-25'),
+(6, 4, 2, 3200, '2023-07-25'),
+(7, 4, 2, 543, '2023-07-25'),
+(8, 9, 3, 23, '2023-07-25');
 
 -- --------------------------------------------------------
 
@@ -8407,29 +8407,38 @@ CREATE TABLE IF NOT EXISTS `celliers` (
 --
 
 INSERT INTO `celliers` (`id_cellier`, `nom`, `idmembre`, `date_creation`) VALUES
-(1, 'Cellier 1', 1, '2023-07-15'),
-(2, 'Cellier 2', 2, '2023-07-15'),
-(3, 'Cellier 3', 1, '2023-07-15'),
-(4, 'Cellier 4', 1, '2023-07-15'),
-(5, 'Cellier 5', 2, '2023-07-15'),
-(6, 'Cellier 6', 1, '2023-07-15');
+(1, 'Cellier 1', 1, '2023-07-25'),
+(2, 'Cellier 2', 2, '2023-07-25'),
+(3, 'Cellier 3', 1, '2023-07-25'),
+(4, 'Cellier 4', 1, '2023-07-25'),
+(5, 'Cellier 5', 2, '2023-07-25'),
+(6, 'Cellier 6', 1, '2023-07-25');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `commentairesnotes`
+-- Structure de la table `commentaires`
 --
 
-DROP TABLE IF EXISTS `commentairesnotes`;
-CREATE TABLE IF NOT EXISTS `commentairesnotes` (
-  `id_comnote` smallint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `note` smallint DEFAULT NULL,
+DROP TABLE IF EXISTS `commentaires`;
+CREATE TABLE IF NOT EXISTS `commentaires` (
+  `id_com` smallint UNSIGNED NOT NULL AUTO_INCREMENT,
   `commentaire` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_creation` date DEFAULT NULL,
-  `idbouteillecellier` smallint UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`id_comnote`),
-  KEY `idbouteillecellier` (`idbouteillecellier`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `idbouteilleCatalogue` mediumint UNSIGNED DEFAULT NULL,
+  `idmembre` smallint UNSIGNED DEFAULT NULL,
+  PRIMARY KEY (`id_com`),
+  KEY `idbouteilleCatalogue` (`idbouteilleCatalogue`),
+  KEY `idmembre` (`idmembre`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `commentaires`
+--
+
+INSERT INTO `commentaires` (`id_com`, `commentaire`, `date_creation`, `idbouteilleCatalogue`, `idmembre`) VALUES
+(1, 'Très bon vin.', '2023-07-25', 59, 2),
+(2, 'Je ne l\'aime plus...', '2023-07-27', 59, 2);
 
 -- --------------------------------------------------------
 
@@ -8460,7 +8469,7 @@ CREATE TABLE IF NOT EXISTS `membres` (
   `prenom` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `courriel` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mdp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `renouvelermdp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mdpProvisoire` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_creation` date DEFAULT NULL,
   `idprofil` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id_membre`),
@@ -8472,11 +8481,35 @@ CREATE TABLE IF NOT EXISTS `membres` (
 -- Déchargement des données de la table `membres`
 --
 
-INSERT INTO `membres` (`id_membre`, `nom`, `prenom`, `courriel`, `mdp`, `renouvelermdp`, `date_creation`, `idprofil`) VALUES
-(1, 'Crevoisier', 'Rachel', 'rachelcrevoisier@gmail.com', '8dcfd8b09e5b4bb18198e3de22d47f2edd3c4fc4b351584dc61638357b596a4042d0a9580ce0b98661a28c64861ddf9976dde8fc4b8e4c46ca12961fd0c2e003', '8dcfd8b09e5b4bb18198e3de22d47f2edd3c4fc4b351584dc61638357b596a4042d0a9580ce0b98661a28c64861ddf9976dde8fc4b8e4c46ca12961fd0c2e003', '2023-07-15', 'administrateur'),
-(2, 'Roux', 'Valentin', 'valentinroux@gmail.com', '8dcfd8b09e5b4bb18198e3de22d47f2edd3c4fc4b351584dc61638357b596a4042d0a9580ce0b98661a28c64861ddf9976dde8fc4b8e4c46ca12961fd0c2e003', '8dcfd8b09e5b4bb18198e3de22d47f2edd3c4fc4b351584dc61638357b596a4042d0a9580ce0b98661a28c64861ddf9976dde8fc4b8e4c46ca12961fd0c2e003', '2023-07-15', 'administrateur'),
-(3, 'Moucheux', 'David', 'davidmoucheux@gmail.com', '8dcfd8b09e5b4bb18198e3de22d47f2edd3c4fc4b351584dc61638357b596a4042d0a9580ce0b98661a28c64861ddf9976dde8fc4b8e4c46ca12961fd0c2e003', '8dcfd8b09e5b4bb18198e3de22d47f2edd3c4fc4b351584dc61638357b596a4042d0a9580ce0b98661a28c64861ddf9976dde8fc4b8e4c46ca12961fd0c2e003', '2023-07-15', 'membre'),
-(4, 'Antonini', 'Pierre', 'pierreantonini@gmail.com', '8dcfd8b09e5b4bb18198e3de22d47f2edd3c4fc4b351584dc61638357b596a4042d0a9580ce0b98661a28c64861ddf9976dde8fc4b8e4c46ca12961fd0c2e003', '8dcfd8b09e5b4bb18198e3de22d47f2edd3c4fc4b351584dc61638357b596a4042d0a9580ce0b98661a28c64861ddf9976dde8fc4b8e4c46ca12961fd0c2e003', '2023-07-15', 'membre');
+INSERT INTO `membres` (`id_membre`, `nom`, `prenom`, `courriel`, `mdp`, `mdpProvisoire`, `date_creation`, `idprofil`) VALUES
+(1, 'Crevoisier', 'Rachel', 'rachelcrevoisier@gmail.com', '8dcfd8b09e5b4bb18198e3de22d47f2edd3c4fc4b351584dc61638357b596a4042d0a9580ce0b98661a28c64861ddf9976dde8fc4b8e4c46ca12961fd0c2e003', '', '2023-07-25', 'administrateur'),
+(2, 'Roux', 'Valentin', 'valentinroux@gmail.com', '8dcfd8b09e5b4bb18198e3de22d47f2edd3c4fc4b351584dc61638357b596a4042d0a9580ce0b98661a28c64861ddf9976dde8fc4b8e4c46ca12961fd0c2e003', '', '2023-07-25', 'administrateur'),
+(3, 'Moucheux', 'David', 'davidmoucheux@gmail.com', '8dcfd8b09e5b4bb18198e3de22d47f2edd3c4fc4b351584dc61638357b596a4042d0a9580ce0b98661a28c64861ddf9976dde8fc4b8e4c46ca12961fd0c2e003', '', '2023-07-25', 'membre'),
+(4, 'Antonini', 'Pierre', 'pierreantonini@gmail.com', '8dcfd8b09e5b4bb18198e3de22d47f2edd3c4fc4b351584dc61638357b596a4042d0a9580ce0b98661a28c64861ddf9976dde8fc4b8e4c46ca12961fd0c2e003', '', '2023-07-25', 'membre');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `notes`
+--
+
+DROP TABLE IF EXISTS `notes`;
+CREATE TABLE IF NOT EXISTS `notes` (
+  `note` smallint DEFAULT NULL,
+  `date_creation` date DEFAULT NULL,
+  `idbouteilleCatalogue` mediumint UNSIGNED NOT NULL,
+  `idmembre` smallint UNSIGNED NOT NULL,
+  PRIMARY KEY (`idbouteilleCatalogue`,`idmembre`),
+  KEY `idmembre` (`idmembre`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `notes`
+--
+
+INSERT INTO `notes` (`note`, `date_creation`, `idbouteilleCatalogue`, `idmembre`) VALUES
+(5, '2023-07-27', 59, 1),
+(5, '2023-07-25', 59, 2);
 
 -- --------------------------------------------------------
 
@@ -8761,10 +8794,11 @@ ALTER TABLE `celliers`
   ADD CONSTRAINT `celliers_ibfk_1` FOREIGN KEY (`idmembre`) REFERENCES `membres` (`id_membre`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `commentairesnotes`
+-- Contraintes pour la table `commentaires`
 --
-ALTER TABLE `commentairesnotes`
-  ADD CONSTRAINT `commentairesnotes_ibfk_1` FOREIGN KEY (`idbouteillecellier`) REFERENCES `bouteilles_cellier` (`id_bouteille_cellier`) ON DELETE CASCADE;
+ALTER TABLE `commentaires`
+  ADD CONSTRAINT `commentaires_ibfk_1` FOREIGN KEY (`idbouteilleCatalogue`) REFERENCES `bouteilles_catalogue` (`id_bouteille`),
+  ADD CONSTRAINT `commentaires_ibfk_2` FOREIGN KEY (`idmembre`) REFERENCES `membres` (`id_membre`);
 
 --
 -- Contraintes pour la table `listesachats`
@@ -8778,6 +8812,13 @@ ALTER TABLE `listesachats`
 --
 ALTER TABLE `membres`
   ADD CONSTRAINT `membres_ibfk_1` FOREIGN KEY (`idprofil`) REFERENCES `profils` (`profils`);
+
+--
+-- Contraintes pour la table `notes`
+--
+ALTER TABLE `notes`
+  ADD CONSTRAINT `notes_ibfk_1` FOREIGN KEY (`idbouteilleCatalogue`) REFERENCES `bouteilles_catalogue` (`id_bouteille`),
+  ADD CONSTRAINT `notes_ibfk_2` FOREIGN KEY (`idmembre`) REFERENCES `membres` (`id_membre`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
