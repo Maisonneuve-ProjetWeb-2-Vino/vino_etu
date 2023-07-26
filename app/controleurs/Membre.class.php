@@ -164,6 +164,8 @@ public function connexion() {
             $membre = $this->oRequetesSQL->infoMembre($this->oUtilConn->id_membre);
             //$nombreCellier = $this->oRequetesSQL->nombreCellierParMembre($this->oUtilConn->id_membre);
             //$nombreBouteille = $this->oRequetesSQL->nombreBouteilleParMembre($this->oUtilConn->id_membre);
+            $lien = "membre";
+            $message = "Voulez-vous vraiment supprimer votre compte ainsi que tout son contenu ?";
             
             new Vue(
                 'Frontend/vProfil',
@@ -172,6 +174,8 @@ public function connexion() {
                     'oUtilConn' => $this->oUtilConn,
                     'titre' => 'Profil',
                     'membre' => $membre,
+                    'message' => $message,
+                    'lien' => $lien
                     //'nombreCellier' => $nombreCellier
                 ),
                 'Frontend/gabarit-frontend'
