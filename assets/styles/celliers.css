@@ -68,11 +68,3 @@
     aspect-ratio: 1;
     background-color: var(--fonce);
 }
-
-.conteneur_details_cache {
-    display: none;
-}
-
-.conteneur_details_affiche {
-    display: block;
-}
