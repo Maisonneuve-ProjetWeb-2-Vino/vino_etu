@@ -555,12 +555,26 @@ class RequetesSQL extends RequetesPDO {
   
   {
     
-    //var_dump($champs);
     $this->sql = '
       UPDATE membres SET mdp = :mdp
       WHERE id_membre = :id_membre';
     return $this->CUDLigne($champs);
   } 
+
+  /**
+   * Supprime un membre ainsi que toutes ses informations
+   * 
+   * @param int $id_membre à supprimer
+   * @return string|boolean clé primaire de la ligne modifiée, false sinon
+   */
+  public function supprimerMembre($id_membre) {
+
+    $this->sql = "
+      DELETE FROM membres WHERE id_membre = :id_membre
+      ";
+
+    return $this->CUDLigne(['id_membre' => $id_membre]);
+  }
 
  /*  /**
    * Récupération du nombre de cellier

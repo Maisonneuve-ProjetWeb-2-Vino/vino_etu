@@ -79,10 +79,14 @@
         <div class="bouton_deconnexion">
         <a class="btn_action couleur_gris" href="deconnecter" style="color:white">Me déconnecter</a>
         </div>
-        <div class="bouton_suppression">
+        {# <div class="bouton_suppression">
         <a class="btn_action couleur_rouge" href="" style="color:white">Supprimer mon compte</a>
-        </div>
-        {# <p><a href="supprimerCompte" style="color:white">Supprimer mon compte</a></p> #}
+        </div> #}
+<button class="confirmer btn_action couleur_rouge" data-href="supprimerMembre">Supprimer mon compte
+
+	{{ membre.id_membre }}</button>
+
+
     
 		{# <h2>Statistiques</h2>
         <p>Nombre de celliers : </p>
@@ -94,5 +98,6 @@
 
 
 {% endif %}</section>
+{{ include("/Cellier/modaleSuppression.twig") }}
 
 <!-- fin template Profil -->
