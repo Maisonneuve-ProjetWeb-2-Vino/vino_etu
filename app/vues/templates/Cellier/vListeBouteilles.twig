@@ -3,7 +3,7 @@
     <a class="btn_action" href="cellier?action=n&cellier_id={{ cellier.id }}">Ajouter une bouteille</a>
     <a class="btn_action" href="cellier?action=q&cellier_id={{ cellier.id }}">Modifier le cellier</a>
     <button class="confirmer btn_action" data-href="cellier?action=s&cellier_id={{ cellier.id }}">Supprimer le cellier</button>
-    <button class="btn_ajout_modale btn_action">Ouvrir modale</button>
+
     {% for bouteille in bouteilles %}
 
     <section class="bouteille carte_bouteille {% if bouteille.type == "Rouge" %} bouteille_rouge {% elseif bouteille.type ==  "Rosé"%} bouteille_rose {% elseif bouteille.type == "Blanc"%} bouteille_blanche {% endif %}" data-quantite="">
@@ -59,4 +59,3 @@
     </div></section>{% else %}<p">Aucune bouteille dans ce cellier</p>{% endfor %}
 
 {{ include("/Cellier/modaleSuppression.twig") }}
-{{ include("/Cellier/modaleAjout.twig") }}

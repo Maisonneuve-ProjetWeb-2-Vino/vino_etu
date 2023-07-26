@@ -27,7 +27,8 @@ class ControleurCellier extends Routeur {
     's' => 'supprimerCellier',
     't' => 'supprimerBouteille',
     'u' => 'verifierNomCellier',
-    'v' => 'verifierBouteilleCellier'
+    'v' => 'verifierBouteilleCellier',
+    'w' => 'obtenirCelliers'
   ];
 
   /**
@@ -729,4 +730,17 @@ class ControleurCellier extends Routeur {
     echo json_encode($msgRetour);
   }
 
+  /**
+   * Obtient les noms des celliers de l'utilisateur et leurs ids.
+   * 
+   * @return void
+   */
+  public function obtenirCelliers() {
+
+    $utilisateur_id = $this->oUtilConn->id_membre;
+
+    $celliers = $this->oRequetesSQL->obtenirListeCelliers($utilisateur_id);
+
+    echo json_encode($celliers);
+  }
 }

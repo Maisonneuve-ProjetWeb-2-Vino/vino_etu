@@ -68,7 +68,9 @@ class RequetesSQL extends RequetesPDO {
 		$keywords = '%'. $nom .'%';
 
 		$this->sql = "
-      SELECT id_bouteille AS id, nom FROM bouteilles_catalogue
+      SELECT id_bouteille AS id, nom, image_url, format, idtype, pays.pays  
+      FROM bouteilles_catalogue
+      LEFT JOIN pays ON bouteilles_catalogue.idpays = pays.id_pays
       WHERE LOWER(nom) LIKE LOWER(:keywords) 
       AND (idmembre is NULL OR idmembre = :utilisateur_id)
       LIMIT 0, :nb_resultat

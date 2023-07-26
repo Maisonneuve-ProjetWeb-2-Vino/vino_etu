@@ -1,3 +1,4 @@
+import Affichage from "./Affichage.js";
 import Fetch from "./Fetch.js";
 
 export default class Cellier {
@@ -7,7 +8,7 @@ export default class Cellier {
     #elModifierBouteille;
     #elInputNomBouteille;
     #elBtnEntrerBouteillePersonnalisee;
-    #liste;
+    #listeResultats;
     #elCible;
     #elParent;
     #bouteille;
@@ -19,6 +20,9 @@ export default class Cellier {
     #elBtnModifierCellier;
     #elBtnAjouter;
     #elConteneurDetails;
+    #celliers;
+    #cellierPreferentiel;
+    #idBouteilleChoisie;
 
     /**
      * Constructeur de la classe Cellier
@@ -32,7 +36,7 @@ export default class Cellier {
 
         // Sur la page d'Ajout de bouteille
         this.#elInputNomBouteille = document.querySelector("[name='nom_bouteille']");
-        this.#liste = document.querySelector('.listeAutoComplete');
+        this.#listeResultats = document.querySelector('#liste_resultats');
         this.#elNouvelleBouteille = document.querySelector(".nouvelleBouteille");
         this.#elBtnAjouter = document.querySelector("[name='ajouterBouteilleCellier']");
         this.#elBtnEntrerBouteillePersonnalisee = document.querySelector("[name='entrerBouteillePersonnalisee']");
@@ -88,19 +92,26 @@ export default class Cellier {
         if (this.#elNouvelleBouteille) {
 
             // Bloquer les champs des détails
-            this.changerStatutInterfaceAjout(true);
+            //this.changerStatutInterfaceAjout(true);
+
+            // Récupérer les noms des celliers et leurs ids
+            const oFetch = new Fetch();
+            oFetch.obtenirCelliers([], this.enregistrerCelliers.bind(this));
+
+            // Enregistrer le cellier préférentiel
+            this.#cellierPreferentiel = document.querySelector("#cellier_id").value;
 
             // Ajout des écouteurs sur les boutons
             this.#elInputNomBouteille.addEventListener("keyup", this.rechercherBouteille.bind(this));
-            this.#liste.addEventListener("click", this.selectionnerBouteilleAjout.bind(this));
-            this.#elBtnAjouter.addEventListener("click", this.verifierNouvelleBouteille.bind(this));
-            this.#elBtnEntrerBouteillePersonnalisee.addEventListener("click", this.preparerChampsDetails.bind(this));
+            //this.#listeResultats.addEventListener("click", this.selectionnerBouteilleAjout.bind(this));
+            //this.#elBtnAjouter.addEventListener("click", this.verifierNouvelleBouteille.bind(this));
+            //this.#elBtnEntrerBouteillePersonnalisee.addEventListener("click", this.preparerChampsDetails.bind(this));
         }
 
         // Si on est sur la page de modification de bouteille
         if (this.#modificationBouteille) {
             this.#elInputNomBouteille.addEventListener("keyup", this.rechercherBouteille.bind(this));
-            this.#liste.addEventListener("click", this.selectionnerBouteilleModification.bind(this));
+            //this.#liste.addEventListener("click", this.selectionnerBouteilleModification.bind(this));
             this.#elBtnModifier.addEventListener("click", this.modifierBouteille.bind(this));
         }
 
@@ -113,6 +124,13 @@ export default class Cellier {
         if (this.#elBtnModifierCellier) {
             this.#elBtnModifierCellier.addEventListener("click", this.validerCellier.bind(this));
         }
+    }
+
+    /**
+     * Fonction de rappel pour obtenir la liste des celliers.
+     */
+    enregistrerCelliers(celliers) {
+        this.#celliers = celliers;
     }
 
     /**
@@ -285,9 +303,9 @@ export default class Cellier {
         // Si la bouteille ne se trouve pas déjà dans le cellier
         if (!reponse.statut) {
             const param = {
-                "id_bouteille":this.#bouteille.nom.dataset.id,
-                "quantite":this.#bouteille.quantite.value,
-                "id_cellier":document.querySelector("#cellier_id").value
+                "id_bouteille":this.#idBouteilleChoisie,
+                "quantite":document.querySelector("#quantite_modale").innerText,
+                "id_cellier":document.querySelector("#celliers").value
             };
             
             const oFetch = new Fetch();
@@ -295,7 +313,7 @@ export default class Cellier {
         } else 
         {
             const erreur_nom = document.querySelector(".erreur_nom_bouteille");
-            erreur_nom.innerHTML = "La bouteille se trouve déjà dans le cellier. Veuillez ajuster la quantité dans le cellier.";
+            erreur_nom.innerHTML = "La bouteille se trouve déjà dans le cellier.";
         }
 
     }
@@ -312,18 +330,106 @@ export default class Cellier {
      * @param {Event} evt 
      */
     selectionnerBouteilleAjout(evt) {
-        if(evt.target.tagName == "LI") {
-            this.changerStatutInterfaceAjout(true);
-            this.selectionnerBouteille(evt);
-
-            const param = {
-                "id_bouteille": this.#bouteille.nom.dataset.id,
-            }
-            const oFetch = new Fetch();
-            oFetch.obtenirDetailsBouteille(param, this.remplirChampsAjout.bind(this));
+                
+        // Enregistre l'id de la bouteille pour utilisation dans la modale
+        this.#idBouteilleChoisie = evt.target.dataset.id;
+         
+        const param = {
+            "id_bouteille": this.#idBouteilleChoisie
         }
+
+        const oFetch = new Fetch();
+        oFetch.obtenirDetailsBouteille(param, this.ouvrirModaleAjout.bind(this));
     }
 
+    /**
+     * Rempli la modale avec les noms de la bouteille et des celliers, et ouvre la modale.
+     * @param {Object} details 
+     */
+    ouvrirModaleAjout(details) {
+
+        // Réinitialiser les champs de la modale
+        document.querySelector(".modale_nom_bouteille").innerHTML = details.nom;
+        document.querySelector(".erreur_nom_bouteille").innerText = "";
+        document.querySelector("#quantite_modale").innerText = 1;
+
+        // Afficher tous les celliers de l'utilisateur
+        const gabaritCelliers = document.querySelector("#tmpl_celliers").innerHTML;
+        const domParent = document.querySelector("#celliers");
+        Affichage.afficher(this.#celliers, gabaritCelliers, domParent);
+
+        // Sélectionne le cellier préférentiel
+        document.querySelector("#celliers").value = this.#cellierPreferentiel;
+
+        // Attache les écouteurs sur les boutons de la modale
+        const elModaleAjout = document.getElementById('modaleAjout');
+        document.querySelector(".fermer_modale_ajout").addEventListener("click", () => {elModaleAjout.close()});
+        document.querySelector(".btn_ajouter_modale").addEventListener("click", this.verifierDuplicationBouteille.bind(this));
+        document.querySelector(".btnAjouter_modale").addEventListener("click", this.augmenterQuantiteAjout.bind(this));
+        document.querySelector(".btnBoire_modale").addEventListener("click", this.diminuerQuantiteAjout.bind(this));
+
+        elModaleAjout.showModal();
+    }
+
+    /**
+     * Augmente la quantité de 1 avant d'ajouter une bouteille au cellier.
+     * @param {Event} evt 
+     */
+    augmenterQuantiteAjout(evt) {
+        
+        let elQuantite = document.querySelector("#quantite_modale");
+        const elBtnBoire = document.querySelector(".btnBoire_modale");
+
+        let quantiteBouteille = parseInt(elQuantite.innerHTML);
+        quantiteBouteille += 1;
+ 
+        if (quantiteBouteille > 0){
+            elBtnBoire.disabled = false;
+            if (elBtnBoire.classList.contains("disabled-svg")) {
+                elBtnBoire.classList.remove("disabled-svg");
+            }
+        }
+
+        elQuantite.innerText = quantiteBouteille;
+    }
+
+    /**
+     * Diminue la quantité de 1 avant d'ajouter une bouteille au cellier.
+     * @param {Event} evt 
+     */
+    diminuerQuantiteAjout(evt) {
+
+        const elQuantite = document.querySelector("#quantite_modale");
+        const elBtnBoire = document.querySelector(".btnBoire_modale");
+
+        let quantiteBouteille = elQuantite.innerHTML;
+        
+        if (quantiteBouteille > 0) {
+            quantiteBouteille -= 1;
+        }
+                
+        if (quantiteBouteille == 0){
+            elBtnBoire.disabled = true;
+            elBtnBoire.classList.add("disabled-svg");
+        }
+
+        elQuantite.innerHTML = quantiteBouteille;
+    }
+
+
+    /**
+     * Vérifie qu'une bouteille n'est pas déjà présente dans un cellier.
+     */
+    verifierDuplicationBouteille() {
+
+        var param = {
+            "id_bouteille": this.#idBouteilleChoisie,
+            "id_cellier": document.querySelector("#celliers").value
+        };
+        const oFetch = new Fetch();
+        oFetch.verifierDuplicationBouteille(param, this.ajouterNouvelleBouteille.bind(this));
+    }
+    
     /**
      * Sélectionne une bouteille avec ses détails lors de l'opération de modification de bouteille.
      * @param {Event} evt 
@@ -356,7 +462,7 @@ export default class Cellier {
         this.#bouteille.nom.dataset.id = evt.target.dataset.id;
         this.#bouteille.nom.value = evt.target.innerHTML;
         
-        this.#liste.innerHTML = "";
+        //this.#liste.innerHTML = "";
         this.#elInputNomBouteille.value = "";
 
         const erreur_nom = document.querySelector(".erreur_nom_bouteille");
@@ -386,11 +492,34 @@ export default class Cellier {
      * Insère les résultats de recherche dans la liste des résultats proposés à l'usager pour la sélection.
      * @param {Array} listeResultats 
      */
-    afficherResultatsRecherche(listeResultats) {
-        this.#liste.innerHTML = "";
-        listeResultats.forEach(function(element){
-            this.#liste.innerHTML += "<li data-id='"+element.id +"'>"+element.nom+"</li>";
-        }, this);
+    afficherResultatsRecherche(resultats) {
+        //this.#liste.innerHTML = "";
+        // listeResultats.forEach(function(element){
+        //     this.#liste.innerHTML += "<li data-id='"+element.id +"'>"+element.nom+"</li>";
+        // }, this);
+        resultats.forEach(resultat => {
+            if (resultat.idtype == "Rouge") {
+                resultat.bouteille_classe = "bouteille_rouge"
+            } else if (resultat.idtype == "Rosé") {
+                resultat.bouteille_classe = "bouteille_rose";
+            } else if (resultat.idtype == "Blanc") {
+                resultat.bouteille_classe = "bouteille_blanche";
+            }
+
+            if (!resultat.image_url) {
+                resultat.image_url = "assets/img/default-bottle-img.png";
+            }
+
+             if (!resultat.pays) {
+                resultat.pays = "";
+             }
+        });
+
+        const domParent = this.#listeResultats;
+        const gabaritResultats = document.querySelector("#tmpl_resultats").innerHTML;
+        Affichage.afficher(resultats, gabaritResultats, domParent);
+
+        document.querySelectorAll(".ajouter_cellier").forEach(function(element){element.addEventListener("click",this.selectionnerBouteilleAjout.bind(this))}, this);
     }
 
     /**
