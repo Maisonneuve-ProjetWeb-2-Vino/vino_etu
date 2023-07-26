@@ -115,7 +115,7 @@ class ControleurCellier extends Routeur {
 
       new Vue("/Cellier/vAjoutBouteille",
         array(
-          'lien'          => $lien,
+          'lien'                  => $lien,
           'titre'                 => "Ajout de bouteille",
           'cellier_preferentiel'  => $cellier_preferentiel,
           'celliers'              => $celliers,
@@ -691,8 +691,22 @@ class ControleurCellier extends Routeur {
 
     }
     else{
-      // requête REST seulement
-      throw new Exception(self::ERROR_BAD_REQUEST);
+      $cellier_preferentiel = $this->cellier_id ?? null;
+      $celliers = $this->oRequetesSQL->obtenirListeCelliers($utilisateur_id);
+      $pays = $this->oRequetesSQL->obtenirListePays();
+      $types = $this->oRequetesSQL->obtenirListeTypes();
+      $lien = "cellier?action=n&cellier_id=".$this->cellier_id;
+
+      new Vue("/Cellier/vAjoutBouteillePersonnalisee",
+        array(
+          'lien'                  => $lien,
+          'titre'                 => "Ajout de bouteille personnalisée",
+          'celliers'              => $celliers,
+          'cellier_preferentiel'  => $cellier_preferentiel,
+          'pays'                  => $pays,
+          'types'                 => $types
+      ),
+      "/Frontend/gabarit-frontend");
     }
   }
 
