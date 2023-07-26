@@ -17,6 +17,7 @@ class ControleurCellier extends Routeur {
     'c' => 'autocompleteBouteille',
     'd' => 'afficherFicheBouteille',
     'e' => 'ajouterBouteillePersonnaliseeCellier',
+    'f' => 'evaluationBouteilleCellier',
     'l' => 'listeBouteille',
     'm' => 'modifierBouteilleCellier',
     'n' => 'ajouterNouvelleBouteilleCellier',
@@ -409,6 +410,26 @@ class ControleurCellier extends Routeur {
       ),
       "/Frontend/gabarit-frontend");
   }
+
+  
+  public function evaluationBouteilleCellier(){
+
+    $utilisateur_id = $this->oUtilConn->id_membre;
+
+    $oCellier = [];
+    $erreursCellier = [];
+
+    $lien = "cellier?action=d&bouteille_id=$this->bouteille_id";
+    
+    new Vue("/Cellier/vEvaluation",
+    array(
+      'titre'       => "Evaluation",
+      'lien'        => $lien,
+      'bouteille_id' => $this->bouteille_id,
+    ),
+    "/Frontend/gabarit-frontend");
+  }
+
 
   /**
    * Ajoute un cellier pour l'utilisateur authentifié.
