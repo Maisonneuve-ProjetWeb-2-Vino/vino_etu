@@ -5,13 +5,12 @@
 		<form class="form_modification_membre" method="POST" action="">
 
 			<div class="form_champ_modification">
-				<label for="mdp">Mot de passe actuel :</label>
-				<input id="mdp" type="password" class="form_modification_membre_input" name="mdp" value="" placeholder="Votre mot de passe actuel">
+				<label for="ancienmdp">Mot de passe actuel :</label>
+				<input id="ancienmdp" type="password" class="form_modification_membre_input" name="ancienmdp" value="" placeholder="Votre mot de passe actuel">
 
-				{% if erreurs.mdp != "" %}
-					
+				{% if erreurs.ancienmdp != "" %}
 						<div class="error">
-							<span>{{ erreurs.mdp }}</span>
+							<span>{{ erreurs.ancienmdp }}</span>
 						</div>
 				{% endif %}
 
@@ -30,11 +29,11 @@
 
 
 			<div class="form_champ_modification">
-				<label for="confNouveauMotDePasse">Confirmez votre nouveau mot de passe :</label>
-				<input id="confNouveauMotDePasse" class="form_modification_membre_input" name="confNouveauMotDePasse" type="password" value="" placeholder="Confirmez votre mot de passe">
-				{% if erreurs.confNouveauMotDePasse != "" %}
+				<label for="renouvelermdp">Confirmez votre nouveau mot de passe :</label>
+				<input id="renouvelermdp" class="form_modification_membre_input" name="renouvelermdp" type="password" value="" placeholder="Confirmez votre mot de passe">
+				{% if erreurs.renouvelermdp != "" %}
 						<div class="error">
-							<span>{{ erreurs.confNouveauMotDePasse }}</span>
+							<span>{{ erreurs.renouvelermdp }}</span>
 						</div>
 				{% endif %}
 			</div>
@@ -42,7 +41,7 @@
 
 			
 			<input type="hidden" name="idprofil" value="membre">
-			<input type="hidden" name="id_membre" value="{{ membre.id_membre }}">
+			<input type="hidden" name="id_membre" value="{{oUtilConn.id_membre }}">
 
 			<input class="btn_action" type="submit" value="Envoyer">
 

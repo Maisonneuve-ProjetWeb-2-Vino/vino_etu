@@ -479,14 +479,14 @@ class RequetesSQL extends RequetesPDO {
    * @param array $champs, tableau avec les champs courriel et mdp  
    * @return array|false ligne de la table, false sinon 
    */
-  public function connecter($champs) {
+  public function connecter($courriel) {
    
     $this->sql = "
       SELECT id_membre, nom, prenom, courriel, idprofil, date_creation, mdp
       FROM membres
-      WHERE courriel = :courriel AND mdp = SHA2(:mdp, 512)";
+      WHERE courriel = :courriel";
 
-    return $this->obtenirLignes($champs, RequetesPDO::UNE_SEULE_LIGNE);
+    return $this->obtenirLignes(['courriel' => $courriel], RequetesPDO::UNE_SEULE_LIGNE);
   }
 
 /**
@@ -497,7 +497,7 @@ class RequetesSQL extends RequetesPDO {
   public function inscriptionMembre($champs)
   {
     $this->sql = '
-      INSERT INTO membres SET nom = :nom, prenom = :prenom, courriel = :courriel, mdp = SHA2(:mdp, 512), idprofil = :idprofil, date_creation = NOW()';
+      INSERT INTO membres SET nom = :nom, prenom = :prenom, courriel = :courriel, mdp = :mdp, idprofil = :idprofil, date_creation = NOW()';
     return $this->CUDLigne($champs);
   }
 
@@ -516,25 +516,6 @@ class RequetesSQL extends RequetesPDO {
     return $this->obtenirLignes($champs, RequetesPDO::UNE_SEULE_LIGNE);
   }
 
-  /* GESTION DES USAGERS 
-     ======================== */
-
-  /**
-   * Connecter un membre
-   * @param array $champs, tableau avec les champs courriel et mdp  
-   * @return array|false ligne de la table, false sinon 
-   */
-  public function connexion($champs)
-
-  {
-    //var_dump($champs);
-    $this->sql = "
-      SELECT id_membre, nom, prenom, courriel, idprofil, date_creation
-      FROM membres
-      WHERE courriel = :courriel AND mdp = SHA2(:mdp, 512)";
-
-    return $this->obtenirLignes($champs, RequetesPDO::UNE_SEULE_LIGNE);
-  }
 
   /**
    * Récupération d'un membre de la table membres
@@ -576,7 +557,7 @@ class RequetesSQL extends RequetesPDO {
     
     //var_dump($champs);
     $this->sql = '
-      UPDATE membres SET mdp = SHA2(:mdp, 512)
+      UPDATE membres SET mdp = :mdp
       WHERE id_membre = :id_membre';
     return $this->CUDLigne($champs);
   } 
