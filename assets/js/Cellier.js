@@ -21,6 +21,7 @@ export default class Cellier {
     #celliers;
     #cellierPreferentiel;
     #idBouteilleChoisie;
+    #elModaleAjout;
 
     /**
      * Constructeur de la classe Cellier
@@ -37,6 +38,7 @@ export default class Cellier {
         this.#listeResultats = document.querySelector('#liste_resultats');
         this.#elNouvelleBouteille = document.querySelector(".nouvelleBouteille");
         this.#elBtnEntrerBouteillePersonnalisee = document.querySelector("[name='entrerBouteillePersonnalisee']");
+        this.#elModaleAjout = document.getElementById('modaleAjout');
 
         // Sur la page de Modification de bouteille de la SAQ
         this.#modificationBouteille = document.querySelector(".modificationBouteille");
@@ -96,6 +98,12 @@ export default class Cellier {
 
             // Ajout des écouteurs sur les boutons
             this.#elInputNomBouteille.addEventListener("keyup", this.rechercherBouteille.bind(this));
+
+            // Attache les écouteurs sur les boutons de la modale
+            document.querySelector(".fermer_modale_ajout").addEventListener("click", () => {this.#elModaleAjout.close()});
+            document.querySelector(".btn_ajouter_modale").addEventListener("click", this.verifierDuplicationBouteille.bind(this));
+            document.querySelector(".btnAjouter_modale").addEventListener("click", this.augmenterQuantiteAjout.bind(this));
+            document.querySelector(".btnBoire_modale").addEventListener("click", this.diminuerQuantiteAjout.bind(this));
         }
 
         // Si on est sur la page de modification de bouteille
@@ -351,14 +359,7 @@ export default class Cellier {
         // Sélectionne le cellier préférentiel
         document.querySelector("#celliers").value = this.#cellierPreferentiel;
 
-        // Attache les écouteurs sur les boutons de la modale
-        const elModaleAjout = document.getElementById('modaleAjout');
-        document.querySelector(".fermer_modale_ajout").addEventListener("click", () => {elModaleAjout.close()});
-        document.querySelector(".btn_ajouter_modale").addEventListener("click", this.verifierDuplicationBouteille.bind(this));
-        document.querySelector(".btnAjouter_modale").addEventListener("click", this.augmenterQuantiteAjout.bind(this));
-        document.querySelector(".btnBoire_modale").addEventListener("click", this.diminuerQuantiteAjout.bind(this));
-
-        elModaleAjout.showModal();
+        this.#elModaleAjout.showModal();
     }
 
     /**
