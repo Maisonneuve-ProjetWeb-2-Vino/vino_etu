@@ -68,7 +68,9 @@ class RequetesSQL extends RequetesPDO {
 		$keywords = '%'. $nom .'%';
 
 		$this->sql = "
-      SELECT id_bouteille AS id, nom FROM bouteilles_catalogue
+      SELECT id_bouteille AS id, nom, image_url, format, idtype, pays.pays  
+      FROM bouteilles_catalogue
+      LEFT JOIN pays ON bouteilles_catalogue.idpays = pays.id_pays
       WHERE LOWER(nom) LIKE LOWER(:keywords) 
       AND (idmembre is NULL OR idmembre = :utilisateur_id)
       LIMIT 0, :nb_resultat
@@ -399,7 +401,7 @@ class RequetesSQL extends RequetesPDO {
       idtype = :type, origine = :origine, region = :region, appellation = :appellation,
       cepage = :cepage, degreAlcool = :degreAlcool, particularite = :particularite,
       format = :format, producteur = :producteur, idpays = :pays, tauxSucre = :tauxSucre,
-      idmembre = :idmembre
+      produitQuebec = :produitQuebec, idmembre = :idmembre
       ";
 
     return $this->CUDLigne($champs);
@@ -715,5 +717,27 @@ class RequetesSQL extends RequetesPDO {
     $motsCles = '%'. $motsCles .'%';
 
     return $this->obtenirLignes(['motsCles' => $motsCles, 'id_utilisateur' => $id_utilisateur]);
+  }
+
+  /**
+   * Vérifie si une bouteille personnalisée avec le même nom existe déjà pour un utilisateur.
+   * 
+   * @param int $utilisateur_id L'id de l'utilisateur
+   * @param string $nom Le nom de la bouteille à vérifier
+   * @return bool Vrai si une bouteille personnalisée du même nom existe déjà pour un utilisateur, faux sinon
+   */
+  public function verifierBouteillePersonnalisee($utilisateur_id, $nom) {
+
+    $this->sql = "
+      SELECT COUNT(*) AS nombre FROM bouteilles_catalogue
+      WHERE idmembre = :utilisateur_id AND nom = :nom
+      ";
+
+    $resultat = $this->obtenirLignes([
+      'utilisateur_id' => $utilisateur_id,
+      'nom' => $nom
+    ], RequetesPDO::UNE_SEULE_LIGNE);
+    
+    return $resultat['nombre'] > 0 ? true : false;
   }
 }

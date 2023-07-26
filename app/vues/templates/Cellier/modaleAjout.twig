@@ -1,25 +1,28 @@
-<script type="module" src="./assets/js/modaleAjout.js"></script>
 <dialog id="modaleAjout" class="modale_ajout">
   <div class="flex_ajout">
   <p class="titre_modale_ajout">Confirmation d'ajout</p>
-  <p class="modale_nom_bouteille">19 Crimes Cabernet-Sauvignon Limestone Coast</p>
+  <p class="modale_nom_bouteille"></p>
   <div class="conteneur_cellier">
     <div class="texte_cellier_modale">
         <p>Cellier : </p>
     </div>
+
     <div class="dropdown_cellier_modale">
-     <select id="pays_id" class="form_ajout_input" name="pays" aria-label="Pays">
-        <option value="Cellier chalet">Cellier chalet</option>
-        </select>
+      <select id="celliers" class="form_ajout_input" name="celliers" aria-label="Celliers">
+      </select>
     </div>
+
   </div>
+
+  <p class="erreur_champ erreur_nom_bouteille"></p>
+
   <div class="conteneur_quantite_modale">
         <p>Quantité : </p>
         <svg  class='btnAjouter_modale' width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M17 0C26.3095 0 34 7.5369 34 16.958C34 26.2446 26.3095 33.916 17 33.916C7.55556 33.916 0 26.2446 0 16.958C0 7.5369 7.55556 0 17 0ZM19.5635 25.1679C19.5635 28.5325 14.4365 28.5325 14.4365 25.1679V19.5152H8.76984C5.39683 19.5152 5.39683 14.4009 8.76984 14.4009H14.4365V8.74819C14.4365 5.3835 19.5635 5.3835 19.5635 8.74819V14.4009H25.2302C28.6032 14.4009 28.6032 19.5152 25.2302 19.5152H19.5635V25.1679Z"/>
 </svg>
 
-            <div class="conteneur_chiffre_modale"><span>1</span></div>
+            <div class="conteneur_chiffre_modale"><span id="quantite_modale">1</span></div>
             <svg class='btnBoire_modale' width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M17 0C7.609 0 0 7.609 0 17C0 26.391 7.609 34 17 34C26.391 34 34 26.391 34 17C34 7.609 26.391 0 17 0ZM25.5052 18.5536H8.49481C7.63322 18.5536 6.94118 17.8581 6.94118 17C6.94118 16.1422 7.63322 15.4502 8.49481 15.4502H25.5052C26.3668 15.4502 27.0588 16.1422 27.0588 17C27.0588 17.8581 26.3633 18.5536 25.5052 18.5536Z"/>
 </svg>
@@ -32,3 +35,7 @@
   </div>
   </div>
 </dialog>
+
+    <script type="tmpl" id="tmpl_celliers">
+      <option value="[[[ id ]]]">[[[ nom ]]]</option>
+    </script>
