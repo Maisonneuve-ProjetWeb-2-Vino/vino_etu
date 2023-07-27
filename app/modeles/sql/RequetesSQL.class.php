@@ -517,7 +517,18 @@ class RequetesSQL extends RequetesPDO {
 
     return $this->obtenirLignes($champs, RequetesPDO::UNE_SEULE_LIGNE);
   }
-
+/**
+   * Insérer le mdp provisoire dans la table membre
+   * @param array $champs, tableau avec le champs courriel  
+   * @return array|false ligne de la table, false sinon 
+   */
+  public function insererMdpProvisoire($champs)
+  {
+    $this->sql = '
+      UPDATE membres SET mdpProvisoire = :mdpProvisoire
+      WHERE courriel = :courriel';
+    return $this->CUDLigne($champs);
+  }
 
   /**
    * Récupération d'un membre de la table membres

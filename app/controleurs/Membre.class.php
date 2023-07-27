@@ -24,8 +24,6 @@ class Membre extends Routeur {
    * @return void
    */  
   public function connecter() {
-    
-    
      new Vue(
             '/Frontend/vConnexion',
             array(
@@ -310,6 +308,106 @@ public function connexion() {
 
     // Redirection vers la connexion
     header('Location: inscription');
+  }
+
+
+/**
+   * Afficher page oubli mot de passe.
+   * @return void
+   */  
+  public function oubliMdp() {
+    $membre  = [];
+    $erreurs = [];
+    if (count($_POST) !== 0) {
+        $membre = [
+            'courriel'   => $_POST['courriel']
+        ];
+        
+        $oMembre = new Membres($membre);
+        $erreurs = $oMembre->erreurs;
+        $courrielDansLaBase= $this->oRequetesSQL->controleMail(['courriel' => $oMembre->courriel]);
+        if($courrielDansLaBase === false){
+            $erreurs['mauvaisMail'] = "Votre courriel n'existe pas";            
+        }
+        else{
+             $_SESSION['oConnexion'] = new Membres($membre);
+            header("Location: genererMdp"); // envoi sur la page mdp
+
+        }
+    }
+     new Vue(
+            '/Frontend/vOubliMotDePasse',
+            array(
+
+                'titre'  => 'Oubli du mot de passe',
+                'erreurs' => $erreurs
+            ),
+            'Frontend/gabarit-vide'
+        );
+    }
+
+
+
+/**
+   * Générer un mot de passe aléatoire et envoyer un mail pour modif mdp
+   * @return void
+   */  
+
+  function genererMdp() {
+    $message = '';
+    if ($this->oUtilConn->courriel) {
+        $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $mdpProvisoire = '';
+        $longueurCaracteres = strlen($caracteres);
+
+        // Generate random bytes
+        $randomBytes = random_bytes(25);
+
+        for ($i = 0; $i < 25; $i++) {
+            // Convert random byte to an index within the charset
+            $index = ord($randomBytes[$i]) % $longueurCaracteres;
+            $mdpProvisoire .= $caracteres[$index];
+        }
+        $champs = [
+            'mdpProvisoire' => $mdpProvisoire,
+            'courriel' => $this->oUtilConn->courriel
+        ];
+        
+        $insererMdpProvisoire = $this->oRequetesSQL->insererMdpProvisoire($champs);
+        //envoi du mail
+        
+        $to      = $this->oUtilConn->courriel;
+        $subject = 'Mot de passe oublié';
+        $messagemail = '<p>Bonjour,</p>';
+        $messagemail .='<p>Vous avez oublié votre mot de passe pour l\'application Cepacave.com. Pour pouvoir le modifier, copiez-collez ce code <strong>'.$mdpProvisoire.'</strong> en cliquant sur le lien ci-dessous :</p>
+        
+        <p><a href="http://localhost/ProjetWebDeux/PW2-Vino/genererMdp">Lien</a></p>
+
+        <p>Toute l\équipe de Cepacave.com vous remercie.</p>';
+        // Pour envoyer un mail HTML, l'en-tête Content-type doit être défini
+        $headers[] = 'MIME-Version: 1.0';
+        $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+
+        // En-têtes additionnels
+        
+        $headers[] = 'From: Cepacave.com <rachelcrevoisier@gmail.com>';
+
+        // Envoi
+        mail($to, $subject, $messagemail, implode("\r\n", $headers));
+	 
+        };
+        
+    
+    new Vue(
+      'Frontend/vGenererMdp',
+      array(
+        'oUtilConn' => $this->oUtilConn,
+        'titre'     => "Générer un nouveau mot de passe",
+        'mdpProvisoire' => $mdpProvisoire,
+        'message' => $message
+      ),
+      'Frontend/gabarit-vide'
+    );
   }
 
 }
