@@ -21,6 +21,7 @@ class BouteilleCatalogue
     private $producteur;
     private $region;
     private $tauxSucre;
+    private $produitQuebec;
     private $note;
 
     private $erreurs = array();
@@ -65,6 +66,7 @@ class BouteilleCatalogue
     public function getPrix()       { return $this->prix; }
     public function getRegion()       { return $this->region; }
     public function getTauxSucre()       { return $this->tauxSucre; }
+    public function getProduitQuebec()       { return $this->produitQuebec; }
     public function getNote()       { return $this->note; }
 
     /**
@@ -278,6 +280,18 @@ class BouteilleCatalogue
         $this->tauxSucre = $tauxSucre;
         return $this;
     }
+
+    /**
+     * Mutateur de la propriété produitQuebec
+     * @param int $produitQuebec
+     * @return $this
+     */    
+    public function setProduitQuebec($produitQuebec) {
+        unset($this->erreurs['produitQuebec']);
+        $this->produitQuebec = $produitQuebec;
+        return $this;
+    }
+
     /**
      * Mutateur de la propriété note
      * 
