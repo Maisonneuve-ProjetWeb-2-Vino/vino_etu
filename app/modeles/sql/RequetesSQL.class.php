@@ -54,6 +54,33 @@ class RequetesSQL extends RequetesPDO {
 	}
 
   /**
+	 * Ajoute un commentaire à la bouteille
+	 *
+	 */
+	public function ajouterCommentaire($champs)
+	{
+
+    $this->sql = "
+      INSERT INTO commentaires SET commentaire = :commentaire,
+      date_creation = NOW(), idmembre = :id_membre, idbouteilleCatalogue = :idbouteilleCatalogue
+      ";
+        
+    return $this->CUDLigne($champs);
+	}
+  /*
+  * Lister les commentaires d'une bouteille
+  *
+  */
+  public function listerCommentaires($bouteille_id, $id_membre)
+	{
+
+    $this->sql = "
+      SELECT * FROM commentaires WHERE idBouteilleCatalogue = :bouteille_id AND idmembre = :id_membre";
+        
+    return $this->obtenirLignes([ "bouteille_id"=> $bouteille_id, "id_membre" => $id_membre]);
+	}
+
+  /**
 	 * Cette méthode permet de retourner les résultats de recherche pour la fonction d'autocomplete
    * de l'ajout des bouteilles dans le cellier
 	 * 
