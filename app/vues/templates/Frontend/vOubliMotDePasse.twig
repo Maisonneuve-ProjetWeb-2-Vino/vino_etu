@@ -1,0 +1,29 @@
+<!-- Template Connexion -->
+
+
+<form class="form_connexion" name="frmConnexion" method="POST" action="">
+
+	{% if erreurs.mauvaisMail != "" %}
+		
+			<div class="error">
+				<span>{{ erreurs.mauvaisMail }}</span>
+			</div>
+	{% endif %}
+
+
+	<!-- Champ courriel -->
+
+	<div class="form_champ_connexion">
+		<label for="courriel">Courriel :</label>
+		<input class="form_connexion_input" aria-label="Courriel" type="email" id="courriel" placeholder="p. ex. JohnDoe@gmail.com" name="courriel" value="">
+	</div>
+
+	
+
+
+	<input class="btn_action" type="submit" value="Se connecter">
+
+	
+</form>
+
+<!-- fin template Connexion -->

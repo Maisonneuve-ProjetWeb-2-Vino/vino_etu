@@ -11,19 +11,21 @@ class Routeur {
   private $routes = [
     // uri, classe, méthode
     // --------------------
-    ['',                      'Frontend', 'voirAccueil'],
-    ['accueil',               'Frontend', 'voirAccueil'],
-    ['cellier',               'ControleurCellier', 'gererCellier'],
-    ['connecter',             'Membre', 'connecter'],
-    ['connexion',             'Membre', 'connexion'],
-    ['deconnecter',           'Membre', 'deconnecter'],
-    ['inscription',           'Membre', 'inscription'],
-    ['validationInscription', 'Membre', 'validationInscription'],
-    ['profil',                'Membre', 'profil'],
-    ['modifierMembre',        'Membre', 'modifierMembre'],
-    ['recherche',             'Recherche', 'rechercher'],
-    ['modifierMotDePasse',    'Membre', 'modifierMotDePasse'],
-    ['supprimerMembre',       'Membre', 'supprimerMembre']
+    ['',                      'Frontend',           'voirAccueil'],
+    ['accueil',               'Frontend',           'voirAccueil'],
+    ['cellier',               'ControleurCellier',  'gererCellier'],
+    ['connecter',             'Membre',             'connecter'],
+    ['connexion',             'Membre',             'connexion'],
+    ['deconnecter',           'Membre',             'deconnecter'],
+    ['inscription',           'Membre',             'inscription'],
+    ['validationInscription', 'Membre',             'validationInscription'],
+    ['profil',                'Membre',             'profil'],
+    ['modifierMembre',        'Membre',             'modifierMembre'],
+    ['recherche',             'Recherche',          'rechercher'],
+    ['modifierMotDePasse',    'Membre',             'modifierMotDePasse'],
+    ['supprimerMembre',       'Membre',             'supprimerMembre'],
+    ['oubliMdp',              'Membre',             'oubliMdp'],
+    ['genererMdp',            'Membre',             'genererMdp']
   ];
 
   protected $oRequetesSQL; // objet RequetesSQL utilisé par tous les contrôleurs
