@@ -484,7 +484,7 @@ class RequetesSQL extends RequetesPDO {
   public function connecter($courriel) {
    
     $this->sql = "
-      SELECT id_membre, nom, prenom, courriel, idprofil, date_creation, mdp
+      SELECT *
       FROM membres
       WHERE courriel = :courriel";
 
@@ -574,6 +574,34 @@ class RequetesSQL extends RequetesPDO {
     return $this->CUDLigne($champs);
   } 
 
+  /**
+   * Suppression d'un mot de passe provisoire
+   * @param array $champs tableau avec les champs à modifier et la clé id_membre
+   * @return boolean true si modification effectuée, false sinon
+   */
+  public function supMdpTemporaire($champs)
+  
+  {
+    
+    $this->sql = '
+      UPDATE membres SET mdpProvisoire = :mdpProvisoire
+      WHERE id_membre = :id_membre';
+    return $this->CUDLigne($champs);
+  } 
+/**
+   * controler le mdp provisoire dans la base
+   * @param array $champs, tableau avec les champs courriel et mdp  
+   * @return array|false ligne de la table, false sinon 
+   */
+  public function controleMdpProvisoire($mdpProvisoire) {
+   
+    $this->sql = "
+      SELECT *
+      FROM membres
+      WHERE mdpProvisoire = :mdpProvisoire";
+
+    return $this->obtenirLignes(['mdpProvisoire' => $mdpProvisoire], RequetesPDO::UNE_SEULE_LIGNE);
+  }
   /**
    * Supprime un membre ainsi que toutes ses informations
    * 

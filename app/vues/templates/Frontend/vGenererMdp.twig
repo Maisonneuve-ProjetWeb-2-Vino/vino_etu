@@ -10,7 +10,7 @@
 
 			<div class="form_champ_modification">
 				<label for="mdpProvisoire">Mot de passe provisoire :</label>
-				<input id="mdpProvisoire" type="text" class="form_modification_membre_input" name="mdpProvisoire" value={{mdpProvisoire}} placeholder="Votre mot de passe actuel">
+				<input id="mdpProvisoire" type="text" class="form_modification_membre_input" name="mdpProvisoire" value="" placeholder="Votre mot de passe actuel">
 
 				{% if erreurs.mdpProvisoire != "" %}
 					<div class="error">
@@ -44,7 +44,7 @@
 
 
 			<input type="hidden" name="idprofil" value="membre">
-			<input type="hidden" name="id_membre" value="{{oUtilConn.id_membre }}">
+			<input type="hidden" name="courriel" value="{{oUtilConn.courriel }}">
 
 			<input class="btn_action" type="submit" value="Envoyer">
 
