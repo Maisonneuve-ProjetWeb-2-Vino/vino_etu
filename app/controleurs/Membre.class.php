@@ -7,6 +7,7 @@
 class Membre extends Routeur {
   
   private $oUtilConn;
+  private $courriel;
 
   /**
    * Constructeur qui initialise la propriété oRequetesSQL déclarée dans la classe Routeur.
@@ -14,7 +15,7 @@ class Membre extends Routeur {
    */
   public function __construct() {
     $this->oUtilConn = $_SESSION['oConnexion'] ?? null;
-    
+    $this->courriel = $_GET['courriel'] ?? null;
     $this->oRequetesSQL = new RequetesSQL;
   }
 
@@ -24,8 +25,6 @@ class Membre extends Routeur {
    * @return void
    */  
   public function connecter() {
-    
-    
      new Vue(
             '/Frontend/vConnexion',
             array(
@@ -38,23 +37,18 @@ class Membre extends Routeur {
 
 
 /**
-     * Connecter un membre
-     */
+ * Connecter un membre
+ */
 public function connexion() {
-   
-        $erreurs = [];
-    $membre = $this->oRequetesSQL->connecter($_POST['courriel']);
-    
-    if ($membre !== false AND password_verify($_POST['mdp'], $membre['mdp'])) {
-        
+$erreurs = [];
+$membre = $this->oRequetesSQL->connecter($_POST['courriel']);
+    if ($membre !== false AND password_verify($_POST['mdp'], $membre['mdp'])) { 
         $_SESSION['oConnexion'] = new Membres($membre);
-        
-        // Rediriger l'utilisateur vers une page après la connexion réussie
         header("Location: profil"); // retour sur la page du profil
-                            exit;
+    exit;
     }
     else{
-         $erreurs['connexion'] = "Votre courriel ou votre mot de passe ne sont pas bons.";
+        $erreurs['connexion'] = "Votre courriel ou votre mot de passe ne sont pas bons.";
     }
     new Vue(
                 'Frontend/vConnexion',
@@ -257,6 +251,7 @@ public function connexion() {
             if (!password_verify($_POST['ancienmdp'], $this->oUtilConn->mdp)) {
                 $erreurs['ancienmdp'] = "Votre mot de passe n'est pas le bon";
             }
+
             if($oMembre->mdp !== $_POST['renouvelermdp']){
                 $erreurs['renouvelermdp'] = "Votre mot de passe et la confirmation ne correspondent pas";
             }
@@ -311,5 +306,139 @@ public function connexion() {
     // Redirection vers la connexion
     header('Location: inscription');
   }
+
+
+/**
+   * Afficher page oubli mot de passe.
+   * @return void
+   */  
+  public function oubliMdp() {
+    $membre  = [];
+    $erreurs = [];
+    if (count($_POST) !== 0) {
+        $membre = [
+            'courriel'   => $_POST['courriel']
+        ];
+        
+        $oMembre = new Membres($membre);
+        $erreurs = $oMembre->erreurs;
+        $courrielDansLaBase= $this->oRequetesSQL->controleMail(['courriel' => $oMembre->courriel]);
+        if($courrielDansLaBase === false){
+            $erreurs['mauvaisMail'] = "Votre courriel n'existe pas";            
+        }
+        else{
+            
+            $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            $mdpProvisoire = '';
+            $longueurCaracteres = strlen($caracteres);
+            // Generer mdp à 25 caracteres
+            $randomBytes = random_bytes(25);
+            for ($i = 0; $i < 25; $i++) {
+                $index = ord($randomBytes[$i]) % $longueurCaracteres;
+                $mdpProvisoire .= $caracteres[$index];
+            }
+            $champs = [
+                'mdpProvisoire' => $mdpProvisoire,
+                'courriel' => $courrielDansLaBase['courriel']
+            ];
+            $insererMdpProvisoire = $this->oRequetesSQL->insererMdpProvisoire($champs);
+            //envoi du mail
+            $to      = $courrielDansLaBase['courriel'] ;
+            $subject = 'Oubli de votre mot de passe';
+            $messagemail = '<p>Bonjour '. $this->oUtilConn->prenom. ',</p>';
+            $messagemail .='<p>Vous avez oublié votre mot de passe pour l\'application Cepacave.com. </p>
+            <p>Pour pouvoir le réinitialiser, copiez-collez ce code <strong>'.$mdpProvisoire.'</strong>.</p>
+            <p>Toute l\'équipe de Cepacave.com vous remercie et vous souhaite une belle journée.</p>';
+            // Pour envoyer un mail HTML, l'en-tête Content-type doit être définie
+            $headers[] = 'MIME-Version: 1.0';
+            $headers[] = 'Content-type: text/html; charset="UTF-8';
+            // En-têtes additionnels
+            $headers[] = 'From: Cepacave.com <rachelcrevoisier@gmail.com>';
+            // Envoi
+            mail($to, $subject, $messagemail, implode("\r\n", $headers));
+            header("Location: genererMdp"); // envoi sur la page mdp
+            exit;
+        
+    };
+            
+        }
+    
+     new Vue(
+            '/Frontend/vOubliMotDePasse',
+            array(
+
+                'titre'  => 'Oubli du mot de passe',
+                'erreurs' => $erreurs
+            ),
+            'Frontend/gabarit-vide'
+        );
+    }
+
+/**
+ * Générer un mot de passe aléatoire et envoyer un mail pour modif mdp
+ * @return void
+ */  
+
+function genererMdp() {
+    $message = '';
+    $membre  = [];
+    $erreurs = [];
+    if (count($_POST) !== 0) {
+        $membre = [
+            'mdp'  => $_POST['mdp'],
+        ];
+       
+        $oMembre = new Membres($membre);
+        $erreurs = $oMembre->erreurs;
+        //verifier si le mdp provisoire est bien dans la base avec ce mail
+        $validMdpProvisoire = $this->oRequetesSQL->controleMdpProvisoire($_POST['mdpProvisoire']);
+         
+        if ($validMdpProvisoire === false) { 
+          $erreurs['mdpProvisoire'] = "Ce mot de passe provisoire n'est pas le bon.";
+        }
+    
+        if($oMembre->mdp !== $_POST['renouvelermdp']){
+            $erreurs['renouvelermdp'] = "Votre mot de passe et la confirmation ne correspondent pas";
+        }
+        
+        if (count($erreurs) === 0) {
+            $membreValide = $this->oRequetesSQL->modifierMotDePasse([
+                'mdp' => password_hash($oMembre->mdp, PASSWORD_BCRYPT),
+                'id_membre' => $validMdpProvisoire['id_membre']
+            ]);
+             
+            if ($membreValide !== false) { 
+                $membre = [
+                'id_membre'  => $validMdpProvisoire['id_membre'],
+                'nom'  => $validMdpProvisoire['nom'],
+                'prenom'  => $validMdpProvisoire['prenom'],
+                'mdp'  => $validMdpProvisoire['mdp'],
+                'date_creation'  => $validMdpProvisoire['date_creation'],
+                'courriel'  => $validMdpProvisoire['courriel'],
+                'idprofil'  => $validMdpProvisoire['idprofil']
+                ];
+       
+            $oMembre = new Membres($membre);
+            $_SESSION['oConnexion'] = new Membres($membre);
+            $supMdpTemporaire = $this->oRequetesSQL->supMdpTemporaire([
+                'mdpProvisoire' => '',
+                'id_membre' => $validMdpProvisoire['id_membre']
+            ]);
+            header("Location: profil"); // retour sur la page du profil
+        exit;
+        
+    }  
+        }}
+    new Vue(
+      'Frontend/vGenererMdp',
+      array(
+        'oUtilConn' => $this->oUtilConn,
+        'titre'     => "Générer un nouveau mot de passe",
+        'message' => $message,
+        'erreurs' => $erreurs
+      ),
+      'Frontend/gabarit-vide'
+    );
+}
 
 }
