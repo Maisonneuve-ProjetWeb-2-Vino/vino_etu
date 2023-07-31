@@ -190,26 +190,19 @@
                     <img src="assets/img/icon-star-empty.png" alt="Cinquième étoile, vide">                 
 
                 </div>
+        {% for commentaire in commentaires %}
          <div class="date">
              <span>Date: </span>
-             <span>2023-07-07</span>
+             <span>{{commentaire.date_creation}}</span>
          </div>
          <div class="commentaire_wrapper">
              <span>Commentaire: </span>
-             <span>Excellent vin, très doux, peu sucré</span>
+             <span>{{commentaire.commentaire}}</span>
          </div>
 
-         <div class="date">
-             <span>Date: </span>
-             <span>2022-05-08</span>
-         </div>
-         <div class="commentaire_wrapper">
-             <span>Commentaire: </span>
-             <span>Très bon pour un vin abordable </span>
-         </div>
-
+         {% endfor %}
      </div>
 
-     <button class="btn_action">Évaluer ce vin</button>
+     <a class="btn_action" href="cellier?action=f&bouteille_id={{ bouteille.id_bouteille_cellier }}">Évaluer ce vin</a>
 
 {{ include("/Cellier/modaleSuppression.twig") }}

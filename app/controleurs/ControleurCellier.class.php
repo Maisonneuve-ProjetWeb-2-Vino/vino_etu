@@ -17,6 +17,7 @@ class ControleurCellier extends Routeur {
     'c' => 'autocompleteBouteille',
     'd' => 'afficherFicheBouteille',
     'e' => 'ajouterBouteillePersonnaliseeCellier',
+    'f' => 'evaluationBouteilleCellier',
     'l' => 'listeBouteille',
     'm' => 'modifierBouteilleCellier',
     'n' => 'ajouterNouvelleBouteilleCellier',
@@ -412,6 +413,48 @@ class ControleurCellier extends Routeur {
       "/Frontend/gabarit-frontend");
   }
 
+  
+  public function evaluationBouteilleCellier(){
+
+    $utilisateur_id = $this->oUtilConn->id_membre;
+
+    if (count($_POST) !== 0) {
+
+      // Retour de saisie du formulaire
+      $oCommentaire = new Commentaire([
+        'commentaire'       => $_POST['commentaire']
+      ]);
+
+      if (count($oCommentaire->erreurs) === 0) {
+        $resultat = $this->oRequetesSQL->ajouterCommentaire([
+          'idbouteilleCatalogue'       =>  $this->bouteille_id,
+          'id_membre'  =>  $utilisateur_id,
+          'commentaire' => $oCommentaire->commentaire,
+        ]);
+
+        if (!$resultat) {
+          throw new Exception("Une erreur est survenue lors de l'insertion du cellier");
+        }
+
+        header("Location: cellier?action=d&bouteille_id=$this->bouteille_id");
+        // $this->listeCellier();
+        exit;
+      }
+    }
+
+
+    $lien = "cellier?action=d&bouteille_id=$this->bouteille_id";
+    
+    new Vue("/Cellier/vEvaluation",
+    array(
+      'titre'       => "Evaluation",
+      'lien'        => $lien,
+      'bouteille_id' => $this->bouteille_id,
+    ),
+    "/Frontend/gabarit-frontend");
+  }
+
+
   /**
    * Ajoute un cellier pour l'utilisateur authentifié.
    * 
@@ -478,7 +521,8 @@ class ControleurCellier extends Routeur {
   public function afficherFicheBouteille() {
 
     $bouteille = $this->oRequetesSQL->obtenirDetailsBouteilleCellier($this->bouteille_id);
-    
+    $commentaires = $this->oRequetesSQL->listerCommentaires($this->bouteille_id, $this->oUtilConn->id_membre);
+
     $id_cellier = $bouteille["id_cellier"];
 
     $lien = "cellier?action=l&cellier_id=".$id_cellier;
@@ -493,7 +537,8 @@ class ControleurCellier extends Routeur {
         'lien'      => $lien,
         'titre'     => 'Fiche détaillée',
         'bouteille' => $bouteille,
-        'message'   => $message
+        'message'   => $message,
+        'commentaires' =>$commentaires,
       ),
       "/Frontend/gabarit-frontend");
   }
